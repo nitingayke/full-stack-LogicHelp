@@ -1,0 +1,32 @@
+.product-card{
+    border: 1px solid rgba(128, 128, 128, 0.484);
+}
+.h-fit-content{
+    height: fit-content;
+}
+.product-card:hover{
+    background-color: rgba(72, 72, 72, 0.251);
+}
+.card-about-prodcut{
+    display: flex;
+    flex: 1;
+    border-top-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 0.3rem;
+    border: 1px solid rgba(65, 64, 65, 0.4);
+}
+.product-card-button{
+    background-color: rgb(40, 39, 39);
+    padding: 0.2rem 0.5rem;
+    color: white;
+    border-radius: 0.2rem;
+    border: 1px solid rgba(62, 61, 61, 0.338);
+}
+.product-card-button:hover{
+    background-color: #131313;
+    border: 1px solid rgba(128, 128, 128, 0.434);
+    color: gray;
+}
+.flex-1{
+    flex: 1;
+}

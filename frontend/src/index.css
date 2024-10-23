@@ -1,0 +1,71 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    overflow: hidden;
+}
+#root{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #131313;
+    color: rgb(255, 255, 255);
+    overflow: auto;
+}
+#root::-webkit-scrollbar{
+    width: 0.4rem;
+    background-color: rgba(124, 123, 123, 0.664);
+}
+#root::-webkit-scrollbar-thumb{
+    background-color: white;
+}
+.dashboard-components{
+    display: flex;
+    flex: 1;
+}
+.fs-10{
+    font-size: 10px !important;
+}
+.fs-12{
+    font-size: 12px !important;
+}
+.fs-14{
+    font-size: 14px !important;
+}
+.fs-16{
+    font-size: 16px !important;
+}
+.color-gold{
+    color: gold;
+}
+.color-orange{
+    color: #ff6730;
+}
+.redirect-link{
+    color: rgba(252, 252, 252, 0.854);
+    border-radius: 5px;
+}
+.redirect-link:hover a{
+    color: white;
+}
+.selected-link{
+    background-color: #131313;
+    transition: left 1s ease;
+}
+.selected-link a{
+    color: white !important;
+}
+
+
+@media (max-width: 440px) {
+    #root::-webkit-scrollbar{
+        display: none;
+    }
+}

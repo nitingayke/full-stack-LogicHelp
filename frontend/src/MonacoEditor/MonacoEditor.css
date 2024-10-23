@@ -1,0 +1,28 @@
+.header-buttom {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.header-button-bg {
+    background-color: #84848499 !important;
+}
+.bg-green{
+    background-color: #36bb36 !important;
+}
+.landingpage-program-output{
+    height: 70vh;
+    background-color: rgb(40, 40, 40);
+}
+
+.output-hide{
+    display: none;
+}
+
+.printing-result{
+    overflow: auto;
+    flex: 1;
+}
+.printing-result::-webkit-scrollbar{
+    display: none;
+}
+
