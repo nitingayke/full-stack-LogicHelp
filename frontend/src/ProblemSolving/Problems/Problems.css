@@ -1,0 +1,13 @@
+.question-search-option button{
+    color: white;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    padding: 0.4rem 0.8rem;
+    display: flex;
+    justify-content: start ;
+
+}
+.question-search-option button:hover{
+    background-color: #242424;
+}

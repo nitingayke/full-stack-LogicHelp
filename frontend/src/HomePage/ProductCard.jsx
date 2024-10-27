@@ -4,7 +4,7 @@ import CardHeader from './CardHeader';
 
 export default function ProductCard() {
     return (
-        <div className='col-md-5'>
+        <div className='col-lg-5'>
             <div className='col-12 rounded p-2'>
                 <div className='rounded p-2 product-card'>
 
@@ -13,7 +13,7 @@ export default function ProductCard() {
                     <p className='m-0 fs-16 card-about-prodcut'>An intelligent bug detection tool that uses AI algorithms to identify and suggest fixes for common coding issues, improving code quality and reducing debugging time.</p>
 
                     <div className='col-12 d-flex justify-content-end'>
-                        <Link to={"/ai-bug-detection"}>
+                        <Link to={"/career-resources/ai-bug-detection"}>
                             <button className='product-card-button mt-3'>Try for Free</button>
                         </Link>
                     </div>
@@ -34,7 +34,7 @@ export default function ProductCard() {
                     </div>
 
                     <div className='col-12 d-flex justify-content-end'>
-                        <Link to={"/courses"}>
+                        <Link to={"/career-resources/courses"}>
                             <button className='product-card-button mt-3'>Explore Courses</button>
                         </Link>
                     </div>
@@ -55,7 +55,7 @@ export default function ProductCard() {
                     </div>
 
                     <div className='col-12 d-flex justify-content-end'>
-                        <Link to={"/projects"}>
+                        <Link to={"/career-resources/projects"}>
                             <button className='product-card-button mt-3'>Explore Project</button>
                         </Link>
                     </div>
@@ -76,7 +76,7 @@ export default function ProductCard() {
                         </div>
                     </div>
                     <div className='col-12 d-flex justify-content-end'>
-                        <Link to={"/interview-questions"}>
+                        <Link to={"/career-resources/interview-questions"}>
                             <button className='product-card-button mt-3'>Explore Questions</button>
                         </Link>
                     </div>
@@ -97,7 +97,7 @@ export default function ProductCard() {
                         </div>
                     </div>
                     <div className='col-12 d-flex justify-content-end'>
-                        <Link to={"/interview-questions"}>
+                        <Link to={"/career-resources/mock-interview"}>
                             <button className='product-card-button mt-3'>Start Practicing</button>
                         </Link>
                     </div>
@@ -112,7 +112,7 @@ export default function ProductCard() {
                     <p className='m-0 fs-16 card-about-prodcut'>An intelligent bug detection tool that uses AI algorithms to identify and suggest fixes for common coding issues, improving code quality and reducing debugging time.</p>
 
                     <div className='col-12 d-flex justify-content-end'>
-                        <Link to={"/career-opportunities"}>
+                        <Link to={"/career-resources/opportunities"}>
                             <button className='product-card-button mt-3'>View Opportunities</button>
                         </Link>
                     </div>

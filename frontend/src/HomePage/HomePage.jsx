@@ -9,7 +9,7 @@ export default function HomePage() {
 
             <div className='d-flex flex-wrap'>
                 <ProductCard />
-                <div className='col-12 col-md-7'>
+                <div className='col-12 col-lg-7'>
                     <UserProfile />
                 </div>
             </div>

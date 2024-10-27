@@ -8,7 +8,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 export default function Footer() {
     return (
         <footer className='mb-0 dashboard-footer'>
-            <div className='col-md-10 mx-auto d-flex flex-wrap justify-content-between'>
+            <div className='col-md-10 mx-auto d-flex flex-wrap justify-content-between p-2'>
                 <p className='mb-0 py-3'>&copy; 2024 LogicHelp. All rights reserved.</p>
 
                 <div className='d-flex'>

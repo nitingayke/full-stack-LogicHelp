@@ -11,14 +11,32 @@ import PeopleIcon from '@mui/icons-material/People';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FeatureComponent from './FeatureComponent';
 import MonacoEditor from '../MonacoEditor/MonacoEditor';
+import { feedbacks } from './TempFeedback';
+import Rating from '@mui/material/Rating';
+
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 
 export default function LandingComponent() {
+    const settings = {
+        dots: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        speed: 2000,
+        autoplaySpeed: 2000,
+        cssEase: "linear"
+    };
+
     return (
         <div className='col-12 col-md-10 px-2 mx-auto'>
             <div className='py-5 text-center border-bottom border-secondary'>
-                <h3 className='fs-3 fw-semibold text-light'>
-                    <span className='landing-brand'>LOGICHELP</span> application is designed to empower users, simplifying their tasks and enhancing their experiences.
+                <h3 className='fw-semibold text-light responsive-heading'>
+                    LOGICHELP application is designed to empower users, simplifying their tasks and enhancing their experiences.
                     With each line of code, we're building a tool that transforms <span className='text-danger'>challenges</span> into <span className='text-success'>solutions!</span>
                 </h3>
             </div>
@@ -98,9 +116,38 @@ export default function LandingComponent() {
                 </ol>
             </section>
 
-            <section className='pt-5 border-bottom border-secondary pb-4'>
-                <h3 className="landingpage-section-header fw-semibold m-0">About Us</h3>
-                <p>Your company background and why customers should trust you.</p>
+            <section className='pt-5 pb-4 col-12'>
+                <h3><span className="landingpage-section-header fw-semibold m-0">Feedback: </span><span className='fs-5 fw-normal text-secondary'>What Our Users Are Saying</span></h3>
+
+                <div className='users-feedback align-items-center d-md-none'>
+                    {feedbacks.map((feedback, index) =>
+                        <div key={index} className='col-md-6 col-lg-5 col-12 py-3'>
+                            <div className='m-3 feedback-box'>
+                                <h5 className='fw-semibold p-3 pb-0'>{feedback.name} - <span>{feedback.branch}</span></h5 >
+                                <p className='px-3 mb-0'><Rating name="read-only" className='feedback-rating px-2' value={feedback.star} readOnly /></p>
+                                <p className='m-0 fs-16 px-3 pt-2 feedback-description'>{feedback.description}</p>
+                                <p className='p-3 pt-2 m-0 col-12 d-flex justify-content-end text-secondary fst-italic'>{feedback.company}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="slider-container d-none d-md-block">
+                    <Slider {...settings}>
+                        {feedbacks.map((feedback, index) =>
+                            <div key={index} className='col-md-6 col-lg-5 col-12 py-3'>
+                                <div className='m-3 feedback-box'>
+                                    <h5 className='fw-semibold p-3 pb-0'>{feedback.name} - <span>{feedback.branch}</span></h5 >
+                                    <p className='px-3 mb-0'><Rating name="read-only" className='feedback-rating px-2' value={feedback.star} readOnly /></p>
+                                    <p className='m-0 fs-16 px-3 pt-2 feedback-description'>{feedback.description}</p>
+                                    <p className='p-3 pt-2 m-0 col-12 d-flex justify-content-end text-secondary fst-italic'>{feedback.company}</p>
+                                </div>
+                            </div>
+                        )}
+                    </Slider>
+                </div>
+
+
             </section>
         </div>
     )

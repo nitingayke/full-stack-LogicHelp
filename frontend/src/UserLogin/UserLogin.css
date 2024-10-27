@@ -1,0 +1,18 @@
+.login-box{
+    width: 20rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.2rem;
+}
+.user-icon{
+    font-size: 4rem !important;
+    margin: 1rem 0;
+    color: #13131379;
+}
+.account-open-btn{
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 1.2rem;
+}
+.account-open-btn:hover{
+    background-color: rgba(0, 0, 0, 0.452);
+}

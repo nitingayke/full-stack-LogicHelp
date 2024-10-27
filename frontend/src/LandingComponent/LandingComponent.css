@@ -21,6 +21,41 @@
 .feature p{
     line-height: 2rem;
 }
-.landing-brand{
-    font-size: 1.7rem;
+
+.feedback-box{
+    border-radius: 0.5rem;
+}
+.feedback-rating{
+    background-color: rgba(64, 64, 64, 0.856);
+}
+.users-feedback{
+    display: flex;
+    width: 100%;
+    overflow: scroll;
+}
+.users-feedback::-webkit-scrollbar{
+    display: none;
+}
+.feedback-description{
+    -webkit-line-clamp: 5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.feedback-box:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+
+.responsive-heading {
+    font-size: 1.7rem; 
+}
+
+@media (max-width: 700px) {
+    .responsive-heading {
+        font-size: 1rem; 
+        font-weight: 400 !important;
+    }
 }

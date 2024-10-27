@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import LanguageSelector from './LanguageSelector';
-import { CODE_SNIPPETS, LANGUAGE_VERSIONS } from './EditorConstants';
+import { CODE_SNIPPETS } from './EditorConstants';
 import "./MonacoEditor.css";
 import OutputBox from './OutputBox';
-import axios from 'axios';
-import { executeCode } from './ExecuteCode';
+import axios from "axios";
 
 
 export default function MonacoEditor() {
@@ -38,20 +37,30 @@ export default function MonacoEditor() {
         if (document.querySelector(".landingpage-program-output").classList.contains("output-hide")) {
             document.querySelector(".landingpage-program-output").classList.remove("output-hide");
         }
-        let sourseCode = editorRef.current.getValue();
-        if (!sourseCode) return;
+        let sourceCode = editorRef.current.getValue();
+        if (!sourceCode) return;
+
+        setOutputResult();
 
         try {
             setIsLoading(true);
-            const { run: result } = await executeCode(selectedLanguage, sourseCode);
-            if(!result.stderr){
-                setOutputResult({ output: result.output.split("\n"), error: "" });
-            }else{
+
+            const response = await axios.post("http://localhost:9658/api/execute-code", {
+                language: selectedLanguage,
+                sourceCode: sourceCode
+            });
+            const { run: result } = response.data.run;
+
+            if (result && result.stdout) {
+                setOutputResult({ output: result.stdout.split("\n"), error: "" });
+            } else if (result && result.stderr) {
                 setOutputResult({ output: "", error: result.stderr });
+            } else {
+                setOutputResult({ output: "", error: "No output or error from code execution." });
             }
-            
+
         } catch (error) {
-            setOutputResult({ output: "", error: (error && error.message) ? error.message : "Unable to run code"});
+            setOutputResult({ output: "", error: (error && error.message) ? error.message : "Unable to run code" });
         } finally {
             setIsLoading(false);
         }
@@ -63,7 +72,7 @@ export default function MonacoEditor() {
             <div className='d-flex flex-wrap position-relative'>
                 <div className='col-12'>
                     <Editor
-                        height="70vh"
+                        height="60vh"
                         theme={backgroundColor}
                         value={value}
                         onChange={(newValue) => setValue(newValue)}

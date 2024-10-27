@@ -43,10 +43,13 @@ body {
     font-size: 16px !important;
 }
 .color-gold{
-    color: gold;
+    color: gold !important;
 }
 .color-orange{
-    color: #ff6730;
+    color: #ff6730 !important;
+}
+.color-green{
+   color: #4CAF50 !important;
 }
 .redirect-link{
     color: rgba(252, 252, 252, 0.854);
@@ -63,6 +66,33 @@ body {
     color: white !important;
 }
 
+.text-red{
+    color: rgba(255, 0, 0, 0.79);
+}
+.text-gold{
+    color: gold;
+}
+.text-aqua{
+    color: aqua;
+}
+
+.question-title {
+    display: inline-block; 
+    flex: 1; 
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+input:focus{
+    box-shadow: 0 !important;
+    outline: none;
+}
+.bg-dark-gray{
+    background-color: #313131 !important;
+}
 
 @media (max-width: 440px) {
     #root::-webkit-scrollbar{

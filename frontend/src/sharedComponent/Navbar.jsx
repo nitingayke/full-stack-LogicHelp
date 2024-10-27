@@ -18,14 +18,14 @@ export default function Navbar({ loginUser }) {
         if (section) {
             document.getElementById(section).classList.remove("selected-link");
         }
-        if (currId != '' && loginUser) {
+        if (currId != '') {
             currEle.classList.add("selected-link");
             setSection(currId);
         }
     }
     return (
         <div className='sticky-top dashboard-navbar'>
-            <nav className="navbar navbar-expand-md col-12 col-md-10 mx-auto">
+            <nav className="navbar navbar-expand-md col-12 col-lg-10 mx-auto px-3">
                 <div className="container-fluid  px-2 px-md-0">
 
                     <span onClick={handleSection} id=''>
@@ -42,38 +42,38 @@ export default function Navbar({ loginUser }) {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
 
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-link redirect-link" onClick={handleSection} id='navlink1'>
-                                <Link to={"/problems"}>Problems</Link>
+                            <li className="nav-link redirect-link mt-3 mt-md-0" onClick={handleSection} id='navlink1'>
+                                <Link to={"/problem-solving/problems"}>Problems</Link>
                             </li>
 
                             <li className="nav-link redirect-link" onClick={handleSection} id='navlink2'>
-                                <Link to={"/contest"}>Contest</Link>
+                                <Link to={"/problem-solving/contest"}>Contest</Link>
                             </li>
 
                             <li className="nav-link redirect-link" onClick={handleSection} id='navlink3'>
-                                <Link to={"/doubts"}>Doubts</Link>
+                                <Link to={"/problem-solving/doubts"}>Doubts</Link>
                             </li>
 
-                            <li className="nav-link redirect-link me-1 position-relative" onClick={handleSection} id='navlink4'>
-                                <Link to={"/live-challenge"}>Live Challenge</Link>
+                            <li className="nav-link redirect-link me-1 position-relative  mb-4 mb-md-0" onClick={handleSection} id='navlink4'>
+                                <Link to={"/problem-solving/live-challenge"}>Live Challenge</Link>
                                 <span className="position-absolute translate-middle red rounded-circle live"></span>
                             </li>
                         </ul>
 
                     </div>
-                    <ul className='d-flex align-items-center list-unstyled d-flex m-0 border-start'>
+                    <ul className='d-flex align-items-center list-unstyled d-flex border-start mb-3 mt-3 m-md-0'>
 
                         <li onClick={handleSection} id=''>
                             <Link to={"/coins"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
                                 <MonetizationOnIcon className='fs-5 color-gold' />
-                                <span className='color-gold mx-1 fs-6'>20</span>
+                                <span className='color-gold mx-1 fs-6'>0</span>
                             </Link>
                         </li>
 
                         <li onClick={handleSection} id=''>
                             <Link to={"/daily-problem"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
                                 {
-                                    (!loginUser) ? <span className='d-flex text-secondary fs-6'><StarBorderIcon className='fs-5' /><span className=' mx-1 fs-6'>50</span> </span>
+                                    (!loginUser) ? <span className='d-flex text-secondary fs-6'><StarBorderIcon className='fs-5' /><span className=' mx-1 fs-6'>0</span> </span>
                                         : <span><StarIcon className='fs-5 color-orange' /><span className='color-orange mx-1 fs-6'>50</span> </span>
                                 }
                             </Link>
