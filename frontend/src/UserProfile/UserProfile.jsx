@@ -10,9 +10,7 @@ export default function UserProfile() {
     return (
         <div className="p-2 mt-4 mt-lg-0">
             <UserData />
-
             <Consistency />
-            
         </div>
     )
 }

@@ -3,6 +3,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
+import Avatar from '@mui/material/Avatar';
+import { deepOrange } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 
 import "./SharedComponent.css";
@@ -25,10 +27,10 @@ export default function Navbar({ loginUser }) {
     }
     return (
         <div className='sticky-top dashboard-navbar'>
-            <nav className="navbar navbar-expand-md col-12 col-lg-10 mx-auto px-3">
+            <nav className="navbar navbar-expand-md col-12 col-lg-10 mx-auto px-3 px-lg-0">
                 <div className="container-fluid  px-2 px-md-0">
 
-                    <span onClick={handleSection} id=''>
+                    <span onClick={handleSection} >
                         <Link to={"/"} className="navbar-brand" >
                             <img src="/assets/Logo.png" alt="" />
                         </Link>
@@ -63,14 +65,14 @@ export default function Navbar({ loginUser }) {
                     </div>
                     <ul className='d-flex align-items-center list-unstyled d-flex border-start mb-3 mt-3 m-md-0'>
 
-                        <li onClick={handleSection} id=''>
+                        <li onClick={handleSection} >
                             <Link to={"/coins"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
                                 <MonetizationOnIcon className='fs-5 color-gold' />
                                 <span className='color-gold mx-1 fs-6'>0</span>
                             </Link>
                         </li>
 
-                        <li onClick={handleSection} id=''>
+                        <li onClick={handleSection} >
                             <Link to={"/daily-problem"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
                                 {
                                     (!loginUser) ? <span className='d-flex text-secondary fs-6'><StarBorderIcon className='fs-5' /><span className=' mx-1 fs-6'>0</span> </span>
@@ -86,7 +88,7 @@ export default function Navbar({ loginUser }) {
                                         <Link to={'/login'} className='user-login'>Login</Link>
                                     </p> :
                                     <a href="/" className='nav-link d-flex navbar-user-profile p-0'>
-                                        <img src="https://assets.leetcode.com/users/Nitin_Gayke/avatar_1729062514.png" alt="" />
+                                        <Avatar sx={{ bgcolor: deepOrange[500] }} alt={'NitinGayke'} src='https://assets.leetcode.com/users/Nitin_Gayke/avatar_1729062514.png'>N</Avatar>
                                     </a>
                             }
                         </li>

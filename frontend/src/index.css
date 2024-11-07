@@ -11,7 +11,8 @@ body {
     font-weight: 400;
     overflow: hidden;
 }
-#root{
+
+#root {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -19,66 +20,100 @@ body {
     color: rgb(255, 255, 255);
     overflow: auto;
 }
-#root::-webkit-scrollbar{
+
+#root::-webkit-scrollbar {
     width: 0.4rem;
     background-color: rgba(124, 123, 123, 0.664);
 }
-#root::-webkit-scrollbar-thumb{
+
+#root::-webkit-scrollbar-thumb {
     background-color: white;
 }
-.dashboard-components{
+
+.dashboard-components {
     display: flex;
     flex: 1;
 }
-.fs-10{
+
+.fs-10 {
     font-size: 10px !important;
 }
-.fs-12{
+
+.fs-12 {
     font-size: 12px !important;
 }
-.fs-14{
+
+.fs-14 {
     font-size: 14px !important;
 }
-.fs-16{
+
+.fs-16 {
     font-size: 16px !important;
 }
-.color-gold{
+
+.color-gold {
     color: gold !important;
 }
-.color-orange{
+
+.color-orange {
     color: #ff6730 !important;
 }
-.color-green{
-   color: #4CAF50 !important;
+
+.color-green {
+    color: #4CAF50 !important;
 }
-.redirect-link{
+
+.redirect-link {
     color: rgba(252, 252, 252, 0.854);
     border-radius: 5px;
 }
-.redirect-link:hover a{
+
+.redirect-link:hover a {
     color: white;
 }
-.selected-link{
+
+.selected-link {
     background-color: #131313;
     transition: left 1s ease;
 }
-.selected-link a{
+
+.selected-link a {
     color: white !important;
 }
 
-.text-red{
-    color: rgba(255, 0, 0, 0.79);
+.text-red {
+    color: rgba(247, 47, 47, 0.79) !important;
 }
-.text-gold{
-    color: gold;
+
+.text-gold {
+    color: rgba(255, 217, 0, 0.648) !important;
 }
-.text-aqua{
-    color: aqua;
+
+.text-aqua {
+    color: rgba(0, 255, 255, 0.648) !important;
+}
+
+.bg-light-red {
+    background-color: rgba(255, 0, 25, 0.094);
+}
+
+.bg-light-aqua {
+    background-color: rgba(0, 255, 255, 0.096);
+}
+
+.bg-light-gold {
+    background-color: rgba(255, 217, 0, 0.096);
+}
+.bg-light-green{
+    background-color: rgba(0, 255, 0, 0.068);
+}
+.cursor-pointer{
+    cursor: pointer !important;
 }
 
 .question-title {
-    display: inline-block; 
-    flex: 1; 
+    display: inline-block;
+    flex: 1;
     max-width: 300px;
     white-space: nowrap;
     overflow: hidden;
@@ -86,16 +121,37 @@ body {
     vertical-align: middle;
 }
 
-input:focus{
+input:focus {
     box-shadow: 0 !important;
     outline: none;
 }
-.bg-dark-gray{
+
+.bg-dark-gray {
     background-color: #313131 !important;
 }
 
+.bg-light-black {
+    background-color: #202020a3 !important;
+}
+
+.w-fit-content {
+    width: fit-content !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hover-component:hover{
+    opacity: 0.9 !important;
+    background-color: #41404086 !important;
+}
 @media (max-width: 440px) {
-    #root::-webkit-scrollbar{
+    #root::-webkit-scrollbar {
         display: none;
     }
 }

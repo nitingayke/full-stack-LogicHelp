@@ -1,0 +1,55 @@
+.box-shadow-none {
+    box-shadow: none !important;
+}
+
+.user-problem-component {
+    overflow: auto;
+}
+
+.user-problem-component::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 900px) {
+    .user-problem-component{
+        height: 80vh;
+    }
+}
+
+.problem-output-box {
+    overflow: auto;
+    height: 2.6rem;
+    background-color: #131313;
+}
+.increase-output-box-height{
+    height: 50vh !important;
+}
+
+.past-contests-list tr{
+    border-bottom: 1px solid gray;
+    
+}
+
+.cursor-pointer{
+    cursor: pointer !important;
+}
+
+.doubts-text-message:focus{
+    outline: none;
+}
+.rotate-5 {
+    transform: rotate(-5deg);
+}
+.border-with-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.border-with-text::before,
+.border-with-text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc; /* Adjust color as needed */
+}
+

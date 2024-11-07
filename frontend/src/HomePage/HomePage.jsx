@@ -5,7 +5,7 @@ import UserProfile from '../UserProfile/UserProfile';
 
 export default function HomePage() {
     return (
-        <div className='col-12 col-md-10 mx-auto px-2 px-md-0'>
+        <div className='col-12 col-md-10 mx-auto px-2 px-md-0 py-4'>
 
             <div className='d-flex flex-wrap'>
                 <ProductCard />

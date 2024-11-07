@@ -6,7 +6,6 @@ import "./MonacoEditor.css";
 import OutputBox from './OutputBox';
 import axios from "axios";
 
-
 export default function MonacoEditor() {
     const editorRef = useRef("");
     const [value, setValue] = useState(CODE_SNIPPETS['java']);
@@ -14,7 +13,7 @@ export default function MonacoEditor() {
     const [backgroundColor, setBackgroundColor] = useState('vs-light');
     const [outputResult, setOutputResult] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
+    
     function handleEditorMount(editor) {
         editorRef.current = editor;
         editor.focus();

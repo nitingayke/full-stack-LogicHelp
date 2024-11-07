@@ -33,7 +33,7 @@ export default function LandingComponent() {
     };
 
     return (
-        <div className='col-12 col-md-10 px-2 mx-auto'>
+        <div className='col-12 col-md-10 px-2 mx-auto py-4'>
             <div className='py-5 text-center border-bottom border-secondary'>
                 <h3 className='fw-semibold text-light responsive-heading'>
                     LOGICHELP application is designed to empower users, simplifying their tasks and enhancing their experiences.

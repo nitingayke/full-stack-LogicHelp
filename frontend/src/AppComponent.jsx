@@ -16,9 +16,9 @@ export default function AppComponent() {
     return (
         <BrowserRouter>
             <Navbar loginUser={loginUser} />
-            <div className='dashboard-components py-4'>
+            <div className='dashboard-components'>
                 <Routes>
-                    <Route path='/' element={<HomePage />} />
+                    <Route path='/' element={<HomePage />}/>
 
                     <Route path='/login' element={<Loginin />} />
                     <Route path='/signup' element={<Signup />} />

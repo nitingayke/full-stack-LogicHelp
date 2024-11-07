@@ -18,7 +18,7 @@ export default function Signup() {
         
     }
     return (
-        <div className='col-12 d-flex justify-content-center align-items-center'>
+        <div className='col-12 d-flex justify-content-center align-items-center py-5'>
             <div className='login-box text-center'>
 
                 <h2 className='text-secondary py-4 fw-semibold'>SignUp</h2>

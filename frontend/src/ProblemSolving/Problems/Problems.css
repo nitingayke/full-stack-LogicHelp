@@ -1,13 +1,59 @@
-.question-search-option button{
+.question-search-option button {
     color: white;
     background-color: transparent;
     border: none;
     width: 100%;
     padding: 0.4rem 0.8rem;
     display: flex;
-    justify-content: start ;
+    justify-content: start;
 
 }
-.question-search-option button:hover{
+
+.question-search-option button:hover {
     background-color: #242424;
+}
+
+.bg-dark-black {
+    background-color: #131313;
+}
+
+.total-questions tr:nth-child(even) {
+    background-color: #31313168;
+}
+
+.button-hover:hover {
+    background-color: rgba(118, 117, 118, 0.425) !important;
+}
+.question-link:hover{
+    color: blue !important;
+}
+
+
+
+/* Problems.css */
+
+/* Set the overall text color to white */
+.react-calendar {
+    color: white;
+    background-color: #333; /* Dark background */
+    border: none;
+    border-radius: 8px;
+}
+
+/* react calender */
+.react-calendar__navigation__label {
+    color: white; /* Set the month and year label to white */
+}
+.react-calendar__tile {
+    color: white; /* White color for tiles */
+    border-radius: 50%;
+}
+.react-calendar__tile:hover {
+    color: rgb(0, 0, 0); /* White color for tiles */
+}
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button,
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next-button {
+    display: none; /* Hide the specific navigation buttons */
 }

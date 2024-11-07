@@ -51,12 +51,13 @@ export default function Consistency() {
         hard: 0
     };
 
-    for (let i = 0; i < UserProgress.questions.length; i++) {
-        const category = UserProgress.questions[i].category;
+    for (const question of UserProgress.questions) {
+        const category = question.category;
         if (categoryCounts[category] !== undefined) {
             categoryCounts[category]++;
         }
     }
+    
 
     const handleSeletedOption = (e) => {
         if (!(e.currentTarget.classList.contains("selected-option"))) {
@@ -147,11 +148,21 @@ export default function Consistency() {
                 </div>
 
                 <ul className='list-unstyled d-flex sort-questions fs-16'>
-                    <li className='px-2 selected-option' id='option-1' onClick={handleSeletedOption}>All</li>
-                    <li className='px-2' id='option-2' onClick={handleSeletedOption}>Easy</li>
-                    <li className='px-2' id='option-3' onClick={handleSeletedOption}>Medium</li>
-                    <li className='px-2' id='option-4' onClick={handleSeletedOption}>Hard</li>
-                    <li className='px-2' id='option-5' onClick={handleSeletedOption}>Favorite</li>
+                    <li className='px-2'>
+                        <button className='bg-transparent text-light selected-option' id='option-1' onClick={handleSeletedOption}>All</button>
+                    </li>
+                    <li className='px-2'>
+                        <button className='bg-transparent text-light' id='option-2' onClick={handleSeletedOption}>Easy</button>
+                    </li>
+                    <li className='px-2'>
+                        <button className='bg-transparent text-light' id='option-3' onClick={handleSeletedOption}>Medium</button>
+                    </li>
+                    <li className='px-2'>
+                        <button className='bg-transparent text-light' id='option-4' onClick={handleSeletedOption}>Hard</button>
+                    </li>
+                    <li className='px-2'>
+                        <button className='bg-transparent text-light' id='option-5' onClick={handleSeletedOption}>Favorite</button>
+                    </li>
                 </ul>
 
                 <PrintQuestions questions={filteredQuestions} />

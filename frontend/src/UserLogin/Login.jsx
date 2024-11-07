@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 export default function Login() {
     return (
-        <div className='col-12 d-flex justify-content-center align-items-center'>
+        <div className='col-12 d-flex justify-content-center align-items-center py-5'>
             <div className='login-box text-center'>
 
                 <div className='col-12'>

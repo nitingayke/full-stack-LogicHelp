@@ -31,12 +31,11 @@
 .solve-question-list li:nth-child(odd){
     background-color: #131313;
 }
-.sort-questions li{
-    color: gray;
-    cursor: pointer;
+.sort-questions li button{
+    border: none;
 }
 .selected-option{
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid white !important;
     color: white !important;
 }
 
