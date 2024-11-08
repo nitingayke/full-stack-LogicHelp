@@ -150,6 +150,22 @@ input:focus {
     opacity: 0.9 !important;
     background-color: #41404086 !important;
 }
+
+.box-height-60{
+    height: 50vh;
+}
+
+.bg-131313{
+    background-color: #131313;
+}
+.near-black{
+    background-color: #131313;
+    color: #ffffff;
+}
+
+.flex-1{
+    flex: 1;
+}
 @media (max-width: 440px) {
     #root::-webkit-scrollbar {
         display: none;

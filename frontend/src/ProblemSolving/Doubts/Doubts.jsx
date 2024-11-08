@@ -7,8 +7,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import SolveDoubtsBox from './SolveDoubtsBox';
-import { timeSlince } from '../../functions';
-import { userDoubts } from '../../functions';
+import { timeSlince, userDoubts} from '../../functions';
 
 export default function Doubts() {
     const [doubts, setDoubts] = useState(null);
@@ -33,15 +32,15 @@ export default function Doubts() {
                         </div>
                         <List>
                             {userDoubts.map((doubtData, index) => (
-                                <ListItemButton key={index} onClick={()=>handleDoubtClick(doubtData)}>
+                                <ListItemButton key={index} onClick={()=>handleDoubtClick(doubtData)}  alignItems="flex-start">
                                     <ListItemAvatar>
                                         <Avatar alt={doubtData.username} sx={{ bgcolor: deepOrange[500] }} src={doubtData.image} />
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={
                                             <div className='d-flex align-items-center justify-content-between'>
-                                                <h4 className='m-0'>{doubtData.username}</h4>
-                                                <span className='ps-2 m-0 fs-14 text-light-secondary'>{timeSlince(doubtData.createdAt)}</span>
+                                                <h4 className='m-0 text-break'>{doubtData.username}</h4>
+                                                <span className='ps-2 m-0 fs-14 text-light-secondary text-break'>{timeSlince(doubtData.createdAt)}</span>
                                             </div>
                                         }
                                         secondary={

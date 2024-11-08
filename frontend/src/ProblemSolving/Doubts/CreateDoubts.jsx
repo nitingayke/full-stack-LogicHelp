@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function CreateDoubts() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -23,6 +24,14 @@ export default function CreateDoubts() {
     const handleTagButton = ( currTag ) => {
         setTag(currTag);
         handleClose();
+    }
+
+    const handleDoubleEvent = () => {
+        if(!title || !textMessage){
+            toast.error("Title and message are required.");
+            return ;
+        }
+        toast.success("Your doubt has been successfully submitted!");
     }
 
     return (
@@ -71,13 +80,14 @@ export default function CreateDoubts() {
                         </Menu>
                     </div>
 
-                    <Button variant="contained" color="secondary" startIcon={<QuestionAnswerIcon />}>
+                    <Button variant="contained" color="secondary" startIcon={<QuestionAnswerIcon />} onClick={handleDoubleEvent}>
                         Post a Doubt
                     </Button>
 
                 </div>
             </div>
-
+            
+            <ToastContainer position='bottom-right' theme='colored'/>
         </div>
     )
 }

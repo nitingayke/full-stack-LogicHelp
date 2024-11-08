@@ -1394,6 +1394,206 @@ export const userDoubts = [
 ];
 
 
+export const challenges = [
+    {
+        title: "DSA Challenge: Largest Combination with Bitwise AND > 0",
+        textMessage: `You are given an array of positive integers 'candidates'. Evaluate the bitwise AND of every combination of numbers in 'candidates', where each number may only be used once in each combination.
+        
+        Return the size of the largest combination of 'candidates' with a bitwise AND greater than 0.
+        
+        Example 1:
+        Input: candidates = [16,17,71,62,12,24,14]
+        Output: 4
+        Explanation: The combination [16,17,62,24] has a bitwise AND of 16 & 17 & 62 & 24 = 16 > 0.
+        The size of this combination is 4. It can be shown that no combination with a size greater than 4 has a bitwise AND greater than 0.`,
+        tag: "DSA",
+        user: {
+            username: "Coder123",
+            userImage: "url-to-user-image1",
+        },
+        result: [
+            {
+                username: "DSA_Warrior",
+                image: "url-to-user-image5",
+                message: `Completed it! Got the maximum combination size of 4. Used bitwise AND operations. Solution code:\n
+                \`\`\`python
+                def largest_combination(candidates):
+                    max_size = 0
+                    for i in range(len(candidates)):
+                        for j in range(i+1, len(candidates)):
+                            if (candidates[i] & candidates[j]) > 0:
+                                max_size = max(max_size, 2)
+                    return max_size
+                \`\`\`
+                This solution leverages bitwise AND to check combinations. The size of the largest combination where the AND is greater than 0 is calculated by iterating over pairs of elements.`
+            },
+            {
+                username: "AlgoAce",
+                image: "url-to-user-image6",
+                message: `Solved it with a bitwise manipulation technique. Technologies used: C++, Python. Solution code:\n
+                \`\`\`python
+                from collections import defaultdict
+                
+                def largest_combination(candidates):
+                    bit_count = defaultdict(int)
+                    for num in candidates:
+                        for i in range(32):  # Check bitwise for each number
+                            if num & (1 << i):
+                                bit_count[i] += 1
+                    return max(bit_count.values())
+                \`\`\`
+                In this approach, we use a bit count to store how many numbers have each bit set. The largest count gives us the maximum combination size with a bitwise AND greater than 0.`
+            },
+            {
+                username: "CodeNinja",
+                image: "url-to-user-image7",
+                message: `Great problem for practicing bitwise operations. Technologies used: Python, Java. Solution code:\n
+                \`\`\`python
+                def largest_combination(candidates):
+                    bitwise_combinations = [0] * 32
+                    for num in candidates:
+                        for i in range(32):
+                            if num & (1 << i):
+                                bitwise_combinations[i] += 1
+                    return max(bitwise_combinations)
+                \`\`\`
+                This solution uses an efficient bitwise manipulation approach to determine the largest possible combination size where the AND operation results in a non-zero value.`
+            }
+        ]
+    },
+    {
+        title: "Web Development Challenge: Build a Modern Login Page",
+        textMessage: `Design and build a modern login page with fields for username, password, and a submit button. Ensure the following:
+        
+        - The design is responsive for both desktop and mobile.
+        - Implement input validation to prevent empty submissions.
+        - Use a clean and modern UI, with CSS animations for input focus and button hover effects.`,
+        image: "https://img.freepik.com/free-vector/website-user-login-page-template-design_1017-30786.jpg?w=360",
+        tag: "Web Development",
+        user: {
+            username: "WebDevMaster",
+            userImage: "url-to-user-image2",
+        },
+        result: [
+            {
+                username: "UX_Designer",
+                image: "url-to-user-image8",
+                message: "Loved building this! Added animations and made it responsive. Technologies used: HTML, CSS, JavaScript, React.",
+                deployLink: "https://myloginpage.com"
+            },
+            {
+                username: "ResponsiveDev",
+                image: "url-to-user-image9",
+                message: "Form validation and animations added! Looks great on mobile. Technologies used: HTML, CSS, Vue.js.",
+                deployLink: "https://responsive-loginpage.com"
+            },
+            {
+                username: "FrontEndGuru",
+                image: "url-to-user-image10",
+                message: "Completed with a sleek design! Technologies used: HTML, CSS, JavaScript, Bootstrap. Description: Design and build a modern login page with fields for username, password, and a submit button. Ensure the following: - The design is responsive for both desktop and mobile. - Implement input validation to prevent empty submissions. - Use a clean and modern UI, with CSS animations for input focus and button hover effects.",
+                deployLink: "https://frontendguru-loginpage.com"
+            }
+        ]
+    },
+    {
+        title: "AI Challenge: House Price Prediction Model",
+        textMessage: `Using machine learning, create a model that predicts house prices based on input features such as area, number of rooms, and location. Requirements:
+        
+        - Use a dataset of housing data for training.
+        - Evaluate the model using Mean Absolute Error (MAE).
+        - Provide documentation of each step, from data pre-processing to model evaluation.`,
+        tag: "AI",
+        user: {
+            username: "AIGuru",
+            userImage: "url-to-user-image4",
+        },
+        result: [
+            {
+                username: "ML_Novice",
+                image: "url-to-user-image11",
+                message: "Model trained with an MAE of 12000. Technologies used: Python, scikit-learn, Pandas.",
+                solutionExplanation: "Used linear regression with feature engineering to improve model accuracy."
+            },
+            {
+                username: "DataSciencePro",
+                image: "url-to-user-image12",
+                message: "Achieved a solid MAE of 8000! Technologies used: Python, TensorFlow, Numpy.",
+                solutionExplanation: "Applied a neural network with regularization techniques to avoid overfitting."
+            },
+            {
+                username: "PredictorX",
+                image: "url-to-user-image13",
+                message: "Finished the challenge with a MAE of 9500. Technologies used: Python, scikit-learn, Matplotlib.",
+                solutionExplanation: "Employed a decision tree regressor and optimized hyperparameters using grid search."
+            }
+        ]
+    },
+    {
+        title: "Frontend Challenge: Responsive Navbar with Dropdown",
+        textMessage: `Design a responsive navbar using HTML, CSS, and JavaScript. The navbar should include:
+        
+        - A collapsible hamburger menu for mobile views.
+        - Dropdown menus on hover for each main item in the navbar.
+        - Smooth transitions for showing and hiding the dropdown menus.`,
+        tag: "Frontend",
+        user: {
+            username: "FrontendFanatic",
+            userImage: "url-to-user-image3",
+        },
+        result: [
+            {
+                username: "UI_Artist",
+                image: "url-to-user-image14",
+                message: "Completed with smooth transitions! Technologies used: HTML, CSS, JavaScript.",
+                deployLink: "https://uiproject-navbar.com"
+            },
+            {
+                username: "JSWhiz",
+                image: "url-to-user-image15",
+                message: "Cool animations added! Works well on mobile. Technologies used: HTML, CSS, React.",
+                deployLink: "https://jswhiz-navbar.com"
+            },
+            {
+                username: "CSSChampion",
+                image: "url-to-user-image16",
+                message: "Dropdowns are working perfectly. Technologies used: HTML, CSS, JavaScript, Bootstrap.",
+                deployLink: "https://csschampion-navbar.com"
+            }
+        ]
+    }
+];
+
+
+export const liveStreamData = [
+    {
+        username: "dev_guru",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        message: "Excited to take on today's coding challenge! Let's go!"
+    },
+    {
+        username: "code_queen",
+        image: "https://randomuser.me/api/portraits/women/22.jpg",
+        message: "If anyone needs help, I'm here! Good luck, everyone!"
+    },
+    {
+        username: "js_master",
+        image: "https://randomuser.me/api/portraits/men/45.jpg",
+        message: "Just finished the first part of the challenge. It's tough but fun!"
+    },
+    {
+        username: "design_diva",
+        image: "https://randomuser.me/api/portraits/women/65.jpg",
+        message: "Loving the UI challenge today! Can't wait to see everyone's designs!"
+    },
+    {
+        username: "data_cruncher",
+        image: "https://randomuser.me/api/portraits/men/58.jpg",
+        message: "Struggling with the logic, but I think I'm close to a solution."
+    }
+];
+
+
+
 
 
 
