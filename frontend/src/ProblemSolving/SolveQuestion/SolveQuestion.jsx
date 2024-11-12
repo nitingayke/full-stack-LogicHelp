@@ -17,6 +17,7 @@ import { CODE_SNIPPETS } from '../../MonacoEditor/EditorConstants';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
 import axios from "axios";
 import VisualSolution from './VisualSolution';
+import Box from '@mui/material/Box';
 
 export default function SolveQuestion() {
     const [seconds, setSeconds] = useState(0);
@@ -134,75 +135,111 @@ export default function SolveQuestion() {
             {(!problem) ? (<div className='col-12 text-center my-5 text-secondary'>
                 Sorry, we couldn't find the question you were looking for.
             </div>) :
-                (<div className='col-12 d-flex flex-wrap'>
-                    <div className='col-12 col-lg-5 p-1'>
-                        <div className='bg-dark-gray p-3 pt-0 rounded'>
-                            <ul className='d-flex m-0 py-2 list-unstyled border-bottom border-secondary fs-16 overflow-auto hide-scrollbar'>
-                                <li className='me-2'><button type='button' className='d-flex align-items-center bg-light-black border-0 py-1 px-2 rounded text-light-secondary' onClick={() => handleComponentButton("description-component")}><DescriptionOutlinedIcon className='fs-6 me-1 text-success' />Description</button></li>
-                                <li className='me-2'><button type='button' className='d-flex align-items-center bg-light-black border-0 py-1 px-2 rounded text-light-secondary' onClick={() => handleComponentButton("visual-solutions-component")}><MenuBookOutlinedIcon className='fs-6 me-1 text-info' />Visual Solutions</button></li>
-                            </ul>
+                (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100vh',
+                            zIndex: 5000,
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            backgroundColor: '#131313',
+                            overflow: 'auto'
+                        }}
 
-                            <div className='user-problem-component'>
-                                <div id='description-component'><ProblemDescription problem={problem} /></div>
-                                <div className='d-none' id='visual-solutions-component'><VisualSolution query={problem?.title} language={language} /></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-12 col-lg-7 p-1'>
-                        <div className='bg-dark-gray rounded px-2 pb-3'>
+                    >
+                        <div className='col-12 col-lg-5 h-100 overflow-auto hide-scrollbar bg-dark-gray'>
 
-                            <ul className='d-flex justify-content-between m-0 py-2 list-unstyled fs-16 overflow-auto hide-scrollbar'>
-                                <li className='me-3'>
-                                    <Button
-                                        id="fade-button"
-                                        className="text-light p-1"
-                                        onClick={handleClick}>
-                                        <CodeOutlinedIcon className='p-1 text-aqua' />{language}
-                                    </Button>
-                                    <Menu
-                                        id="fade-menu"
-                                        MenuListProps={{ 'aria-labelledby': 'fade-button' }}
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        TransitionComponent={Fade}
+                            <ul
+                                className='d-flex m-0 p-2 list-unstyled border-bottom border-secondary fs-16 overflow-auto hide-scrollbar bg-dark-gray'
+                                style={{ position: 'sticky', top: 0, zIndex: 1000 }} // Add sticky position
+                            >
+                                <li className='me-2'>
+                                    <button
+                                        type='button'
+                                        className='d-flex align-items-center bg-light-black border-0 py-1 px-2 rounded text-light-secondary'
+                                        onClick={() => handleComponentButton("description-component")}
                                     >
-                                        <MenuItem onClick={() => handleLanguageChange('c')}>C</MenuItem>
-                                        <MenuItem onClick={() => handleLanguageChange('cpp')}>C++</MenuItem>
-                                        <MenuItem onClick={() => handleLanguageChange('java')}>Java</MenuItem>
-                                        <MenuItem onClick={() => handleLanguageChange('javascript')}>JavaScript</MenuItem>
-                                        <MenuItem onClick={() => handleLanguageChange('php')}>PHP</MenuItem>
-                                        <MenuItem onClick={() => handleLanguageChange('python')}>Python</MenuItem>
-                                        <MenuItem onClick={() => handleLanguageChange('typescript')}>TypeScript</MenuItem>
-                                    </Menu>
-                                </li>
-                                <li className="btn-group btn-group-sm me-3" role="group" aria-label="Small button group">
-                                    <button type="button" className="btn bg-light-black text-light hover-component" onClick={handleRunButton}>
-                                        {isRun ? <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div> : <PlayArrowIcon className='pe-1 pb-1' />}Run
+                                        <DescriptionOutlinedIcon className='fs-6 me-1 text-success' />Description
                                     </button>
-                                    <button type="button" className="btn bg-light-black color-green hover-component" onClick={() => setIsSubmit(!isSubmit)}>{isSubmit ? <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div> : <BackupOutlinedIcon className='pe-1 pb-1' />}Submit</button>
                                 </li>
-                                <li className='me-3'>
-                                    <button type='button' className='text-light d-flex align-items-center bg-light-black border-0 p-1 hover-component' onClick={toggleStopwatch}><AlarmOnOutlinedIcon className='p-1' />{isActive && formatTime(seconds)}</button>
+                                <li className='me-2'>
+                                    <button
+                                        type='button'
+                                        className='d-flex align-items-center bg-light-black border-0 py-1 px-2 rounded text-light-secondary'
+                                        onClick={() => handleComponentButton("visual-solutions-component")}
+                                    >
+                                        <MenuBookOutlinedIcon className='fs-6 me-1 text-info' />Visual Solutions
+                                    </button>
                                 </li>
                             </ul>
 
-                            <div className='position-relative'>
 
-                                <CodeEditor sourceCode={sourceCode} language={language} handleSourceCode={handleSourceCode} handleEditorMount={handleEditorMount} />
-                                <div className='position-absolute bottom-0 problem-output-box col-12 border-top border-secondary overflow-hidden'>
-                                    <button type='button' onClick={handleOutputBox} className='col-12 bg-dark-gray py-2 fs-6 fw-bold border-0 text-white d-flex justify-content-center'><TouchAppIcon className='fs-5' />Output: </button>
-                                    <div className='p-2 fs-16 h-100 overflow-auto'>
-                                        {(outputResult?.output || []).map((line, index) => (<p key={index} className='m-0'>{line}</p>))}
-                                        {outputResult.error && <p className='text-danger'>{outputResult.error}</p>}
+                            <div id='description-component' className='p-2 pt-0'><ProblemDescription problem={problem} /></div>
+                            <div className='d-none p-2' id='visual-solutions-component'><VisualSolution query={problem?.title} language={language} /></div>
 
-                                        <br />
+
+                        </div>
+                        <div className='col-12 col-lg-7 ps-0 ps-lg-1'>
+                            <div className='bg-dark-gray px-2 pb-3 h-100'>
+
+                                <ul className='d-flex justify-content-between m-0 py-2 list-unstyled fs-16 overflow-auto hide-scrollbar'>
+                                    <li className='me-3'>
+                                        <Button
+                                            id="fade-button"
+                                            className="text-light p-1"
+                                            onClick={handleClick}>
+                                            <CodeOutlinedIcon className='p-1 text-aqua' />{language}
+                                        </Button>
+                                        <Menu
+                                            id="fade-menu"
+                                            MenuListProps={{ 'aria-labelledby': 'fade-button' }}
+                                            anchorEl={anchorEl}
+                                            open={open}
+                                            onClose={handleClose}
+                                            TransitionComponent={Fade}
+                                        >
+                                            <MenuItem onClick={() => handleLanguageChange('c')}>C</MenuItem>
+                                            <MenuItem onClick={() => handleLanguageChange('cpp')}>C++</MenuItem>
+                                            <MenuItem onClick={() => handleLanguageChange('java')}>Java</MenuItem>
+                                            <MenuItem onClick={() => handleLanguageChange('javascript')}>JavaScript</MenuItem>
+                                            <MenuItem onClick={() => handleLanguageChange('php')}>PHP</MenuItem>
+                                            <MenuItem onClick={() => handleLanguageChange('python')}>Python</MenuItem>
+                                            <MenuItem onClick={() => handleLanguageChange('typescript')}>TypeScript</MenuItem>
+                                        </Menu>
+                                    </li>
+                                    <li className="btn-group btn-group-sm me-3" aria-label="Small button group">
+                                        <button type="button" className="btn bg-light-black text-light hover-component" onClick={handleRunButton}>
+                                            {isRun ? <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div> : <PlayArrowIcon className='pe-1 pb-1' />}Run
+                                        </button>
+                                        <button type="button" className="btn bg-light-black color-green hover-component" onClick={() => setIsSubmit(!isSubmit)}>{isSubmit ? <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div> : <BackupOutlinedIcon className='pe-1 pb-1' />}Submit</button>
+                                    </li>
+                                    <li className='me-3'>
+                                        <button type='button' className='text-light d-flex align-items-center bg-light-black border-0 p-1 hover-component' onClick={toggleStopwatch}><AlarmOnOutlinedIcon className='p-1' />{isActive && formatTime(seconds)}</button>
+                                    </li>
+                                </ul>
+
+                                <div className='position-relative flex-1'>
+
+                                    <CodeEditor sourceCode={sourceCode} language={language} handleSourceCode={handleSourceCode} handleEditorMount={handleEditorMount} />
+                                    
+                                    <div className='position-absolute bottom-0 problem-output-box col-12 border-top border-secondary overflow-hidden'>
+                                        <button type='button' onClick={handleOutputBox} className='col-12 bg-dark-gray py-2 fs-6 fw-bold border-0 text-white d-flex justify-content-center'><TouchAppIcon className='fs-5' />Output: </button>
+                                        <div className='p-2 fs-16 h-100 overflow-auto'>
+                                            {(outputResult?.output || []).map((line, index) => (<p key={index} className='m-0'>{line}</p>))}
+                                            {outputResult.error && <p className='text-danger'>{outputResult.error}</p>}
+
+                                            <br />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>)
+                    </Box>
+                )
             }
         </>
     )

@@ -1,5 +1,3 @@
-const express = require("express");
-const router = express.Router();
 const axios = require("axios");
 
 const LANGUAGE_VERSIONS = {
@@ -29,43 +27,34 @@ const executeCode = async (language, sourceCode) => {
     }
 };
 
-router.post("/execute-code", async (req, res) => {
+module.exports.codeExecution = async (req, res, next) => {
     const { language, sourceCode } = req.body;
 
     if (!language || !sourceCode) {
         return res.status(400).json({ error: "Missing required fields: language or sourceCode" });
     }
 
-    try {
-        const result = await executeCode(language, sourceCode);
-        res.json({ run: result });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+    const result = await executeCode(language, sourceCode);
+    return res.json({ run: result });
+}
 
-router.post("/youtube-video", async (req, res) => {
+module.exports.youtubeVideo = async (req, res, next) => {
 
-    const query = `DSA Question Solution ${ req.body.searchQuery } code-with-mike`;
+    const query = `DSA Question Solution ${req.body.searchQuery} code-with-mike`;
     const API_KEY = process.env.YOUTUBE_DATA_API_KEY;
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${API_KEY}&maxResults=1&order=viewCount`;
-    
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
 
-        const data = await response.json();
-        
-        if (data.items.length > 0) {
-            res.json(data.items);
-        } else {
-            res.status(204).json({ message: "No videos found matching the query." });
-        }
-    } catch (error) {
-        res.status(500).json({ message: "Sorry! Unable to fetch video explanations." });
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
     }
-});
 
-module.exports = router;
+    const data = await response.json();
+
+    if (data.items.length > 0) {
+        return res.json(data.items);
+    } else {
+        return res.status(204).json({ message: "No videos found matching the query." });
+    }
+}
+

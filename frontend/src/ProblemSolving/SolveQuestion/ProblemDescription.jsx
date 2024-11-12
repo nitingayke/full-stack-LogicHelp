@@ -10,6 +10,7 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ShareIcon from '@mui/icons-material/Share';
+import { timeSlince } from '../../functions';
 
 export default function ProblemDescription({ problem }) {
     return (
@@ -118,7 +119,7 @@ export default function ProblemDescription({ problem }) {
                     className='px-0 fs-16'
                 >
                     <div className='d-flex align-items-center'>
-                        <ChatBubbleOutlineOutlinedIcon className='fs-6 me-2' />Comments
+                        <ChatBubbleOutlineOutlinedIcon className='fs-6 me-2' />Comments <span className='fs-14 ps-2'>{(problem?.comments || []).length}</span>
                     </div>
                 </AccordionSummary>
                 <AccordionDetails className='px-0 fs-16'>
@@ -131,23 +132,25 @@ export default function ProblemDescription({ problem }) {
                         </div>
                     </div>
 
-                    {problem.comments?.map((comment, idx) =>
+                    {problem?.comments?.map((comment, idx) =>
                         <div key={idx} className='px-2 pb-3 question-discussion-box mb-2'>
 
                             <div className='d-flex align-items-center py-2 col-12'>
                                 <img src="https://assets.leetcode.com/users/Nitin_Gayke/avatar_1729062514.png" alt="" height={40} width={40} className='rounded-circle border border-secondary' />
-                                <h5 className='m-0 ps-2 fw-semibold'>{comment.user}</h5>
+                                <h5 className='m-0 ps-2 fw-semibold hover-blue cursor-pointer'>{comment.user}</h5>
 
-                                <p className='m-0 ms-auto fs-14 opacity-25'>{comment.createdAt}12-8-2022</p>
+                                <p className='m-0 ms-auto fs-14 opacity-25'>{timeSlince(comment?.createdAt 
+
+                                )}</p>
                             </div>
 
                             <p className='m-0'>{comment.text}</p>
 
                             <ul className='list-unstyled m-0 pt-3 text-secondary d-flex align-items-center'>
-                                <li className='px-1'><button className='bg-transparent border-0 me-1'><ArrowCircleUpIcon className='fs-5 text-secondary'/></button></li>
-                                <li className='px-1 fs-14'>{56.23}k</li>
-                                <li className='px-1'><button className='bg-transparent border-0 me-1'><ArrowCircleDownIcon className='fs-5 text-secondary'/></button></li>
-                                <li className='px-1'><button className='bg-transparent border-0 me-1 text-secondary fs-14 d-flex align-items-center'><ShareIcon className='fs-6 me-1'/>Share</button></li>
+                                <li className='px-1'><button className='bg-transparent border-0 me-1'><ArrowCircleUpIcon className='fs-5 text-secondary hover-orange'/></button></li>
+                                <li className='pe-1 fs-16'>null</li>
+                                <li className='px-1'><button className='bg-transparent border-0 me-1'><ArrowCircleDownIcon className='fs-5 text-secondary hover-orange'/></button></li>
+                                <li className='px-1'><button className='bg-transparent border-0 me-1 text-light-secondary fs-14 d-flex align-items-center hover-orange'><ShareIcon className='fs-6 me-1'/>Share</button></li>
                             </ul>
                         </div>)}
                 </AccordionDetails>

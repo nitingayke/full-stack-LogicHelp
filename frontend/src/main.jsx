@@ -8,6 +8,8 @@ import AppComponent from './AppComponent';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AppComponent />
+    <BrowserRouter>
+      <AppComponent />
+    </BrowserRouter>
   </StrictMode>,
 )

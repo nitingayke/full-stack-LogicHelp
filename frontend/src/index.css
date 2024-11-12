@@ -31,7 +31,6 @@ body {
 }
 
 .dashboard-components {
-    display: flex;
     flex: 1;
 }
 
@@ -165,6 +164,15 @@ input:focus {
 
 .flex-1{
     flex: 1;
+}
+.height-100{
+    height: 100vh;
+}
+.hover-orange:hover{
+    color: orange !important;
+}
+.hover-blue:hover{
+    color: blue !important;
 }
 @media (max-width: 440px) {
     #root::-webkit-scrollbar {
