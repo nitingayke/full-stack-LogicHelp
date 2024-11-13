@@ -13,12 +13,10 @@ import CareerResources from './CareerResources/CareerResources.jsx';
 export default function AppComponent() {
     const [loginUser, setLoginUser] = useState(null);
 
-    const navigate = useNavigate();
-
     const handleLoginUser = (user) => {
         setLoginUser(user);
     }
-    
+
     return (
         <>
             <Navbar loginUser={loginUser} handleLoginUser={handleLoginUser} />

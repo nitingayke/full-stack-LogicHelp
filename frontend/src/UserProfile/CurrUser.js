@@ -11,6 +11,38 @@ export const currUser = {
     }
 }
 
+const User = {
+    username: "gaykenitin",
+    password: "ng#456",
+    name: "nitin",
+    about: "Full Stack Developer",
+    image: "profile link",
+    rank: 6523,
+    country: "india",
+    socialLink: {
+        linkedIn: "link of linkedin",
+        github: "github link",
+        portFolio: "link portfolio"
+    },
+    userProfress: {
+        supportPoints: 0,
+        languages: ["Java", "Python"],
+        skills: ["Dynamic Programming", "Array"],
+        favoriteQuestion: ["reference of questions"],
+        contestStatus: [{
+            contest: 2,
+            date: "date to solve question",
+            contestQuestions: ["reference of question",],
+            rank: 123,
+            score: 18,
+            timeTaken: "1 hour 15 mins"
+        },],
+        activeDay: 20,
+        totalStreak: 215,
+        submissions: [{ date: "date", questions: ["reference of question"]},],
+    },
+}
+
 export const UserProgress = {
     questions: [
         { questionNo: 1, title: "Two Sum", category: "easy", dateSolved: "2024-10-26", favorite: true },
@@ -26,13 +58,6 @@ export const UserProgress = {
         { questionNo: 17, title: "Implement strStr()", category: "medium", dateSolved: "2024-10-02", favorite: false },
         { questionNo: 19, title: "Count Primes", category: "easy", dateSolved: "2024-09-30", favorite: false },
     ],
-    uploadedSolution: [
-        { questionNo: 1, title: "Two Sum" },
-        { questionNo: 12, title: "Longest Substring Without Repeating Characters" },
-        { questionNo: 15, title: "Group Anagrams" },
-        { questionNo: 24, title: "Trapping Rain Water" }
-    ],
-    solutionViews: 88,
     supportPoints: 78,
     languages: [
         { Java: 85 },
@@ -58,7 +83,7 @@ export const UserProgress = {
         { questionNo: 25, title: "Word Ladder II" }
     ],
     contestStatus: [
-  
+
         {
             contest: 2,
             date: "2024-02-12",
@@ -156,6 +181,6 @@ export const UserProgress = {
         { date: "2024-10-28", submissions: 1 },
         { date: "2024-10-29", submissions: 5 },
         { date: "2024-10-30", submissions: 9 }
-      ]
+    ]
 }
 

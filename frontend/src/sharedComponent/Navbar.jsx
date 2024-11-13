@@ -32,7 +32,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
 
     useEffect(() => {
         const verifyCookie = async () => {
-
+            
             const publicRoutes = ["/signup", "/login", "/logout"];
 
             if (!cookies.token) {
@@ -56,7 +56,11 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                 } else {
                     handleLoginUser(null);
                     removeCookie("token");
-                    navigate("/logout");
+
+                    if (!publicRoutes.includes(location.pathname)) {
+                        navigate("/login");
+                    }
+                    return;
                 }
             } catch (error) {
                 removeCookie("token");

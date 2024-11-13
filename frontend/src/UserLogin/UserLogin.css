@@ -8,17 +8,7 @@
     margin: 1rem 0;
     color: #13131379;
 }
-.account-open-btn{
-    background-color: transparent;
-    border: 1px solid orange;
-    border-radius: 1.2rem;
-    color: orange;
-}
-.account-open-btn:hover{
-    background-color: orange;
-    color: white;
-    border: none;
-}
+
 .text-orange{
     color: orange;
 }

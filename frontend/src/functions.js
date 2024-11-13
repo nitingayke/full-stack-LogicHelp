@@ -755,7 +755,6 @@ export const questionsList = [
     }
 ]
 
-
 export const companies = [
     "Microsoft", "Google", "Amazon", "Apple", "Facebook", "IBM", "SAP", "Oracle",
     "Salesforce", "Accenture", "Cognizant", "Capgemini", "Infosys", "Wipro", "TCS",
@@ -766,7 +765,6 @@ export const companies = [
     "EPAM Systems", "PayPal", "LinkedIn", "Cisco", "VMware", "ServiceNow", "SAP Labs",
     "FIS", "Alfresco", "Box", "ServiceTitan", "Airbnb", "Snapchat", "Twitter", "Uber"
 ];
-
 
 export const topics = [
     "Arrays",
@@ -1393,7 +1391,6 @@ export const userDoubts = [
     }
 ];
 
-
 export const challenges = [
     {
         title: "DSA Challenge: Largest Combination with Bitwise AND > 0",
@@ -1562,7 +1559,6 @@ export const challenges = [
         ]
     }
 ];
-
 
 export const liveStreamData = [
     {

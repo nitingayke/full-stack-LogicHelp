@@ -1,6 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Question = require("./Questions.js");
+const User = require("./UserModel.js");
 
 const mongo_url = "mongodb+srv://gaykenitin975:OGQvJJ8gJmyIq7iy@cluster0.aby67.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(mongo_url)
@@ -96,4 +97,12 @@ function insertData(){
     })
 }
 
-insertData();
+// insertData();
+
+const deleteUser = async() => {
+    const users = await User.deleteMany({});
+
+    console.log(users);
+}
+
+deleteUser();

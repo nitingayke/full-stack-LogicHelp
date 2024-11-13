@@ -102,18 +102,16 @@ export default function Login() {
                         <LoginIcon className='pe-1 fs-5' />Login
                     </Button>
                 </div>
-                <button className='col-10 mb-2 d-flex align-items-center justify-content-center mx-auto account-open-btn'>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="" className='me-1' height={20} />
-                    <span className='fs-16 py-2'>Log In With Google</span>
-                </button>
-                <button className='col-10 mb-2 d-flex align-items-center justify-content-center mx-auto account-open-btn'>
-                    <LinkedInIcon className='text-primary' />
-                    <span className='fs-16 py-2'>Log In With LinkedIn</span>
-                </button>
 
-                <p className='pb-3'>
+                <p className=''>
                     <Link to={"/signup"} className='fs-16 text-decoration-none'>
-                        <span>Move to signup page</span>
+                        <span>Don't have an account&#63; Sign up here</span>
+                    </Link>
+                </p>
+                
+                <p className='pb-3'>
+                    <Link to={"/logout"} className='fs-16 text-decoration-none'>
+                        <span>Know More About the Application</span>
                     </Link>
                 </p>
             </div>

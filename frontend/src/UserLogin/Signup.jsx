@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function Signup({ handleLoginUser }) {
     const [userSignp, setUserSignup] = useState({ username: "", password: "", email: "" });
     const [isLoading, setIsLoading] = useState(false);
-
+    const navigate = useNavigate();
     const handleInputChange = (e) => {
         setUserSignup({ ...userSignp, [e.target.name]: e.target.value });
     };
@@ -36,14 +36,20 @@ export default function Signup({ handleLoginUser }) {
                 { ...userSignp },
                 { withCredentials: true }
             );
+
             const { success, message } = data;
+            
             if (success) {
-                useNavigate("/");
+                navigate("/");
             } else {
                 toast.error(message || "Signup failed. Please try again.");
             }
         } catch (error) {
-            toast.error("Failed to sign up. Please check your connection and try again.");
+            if (error.response && error.response.status === 400) {
+                toast.error("User already exists. Please try with a different email.");
+            } else {
+                toast.error("Failed to sign up. Please check your connection and try again.");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -87,18 +93,10 @@ export default function Signup({ handleLoginUser }) {
                     <br />
                     <Button variant="contained" className='mb-4' onClick={handleSubmitbutton}>Signup</Button>
                 </div>
-                <button type="button" className='col-10 mb-2 d-flex align-items-center justify-content-center mx-auto account-open-btn'>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="" className='me-1' height={20} />
-                    <span className='fs-16 py-2'>Sign Up With Google</span>
-                </button>
-                <button type="button" className='col-10 mb-2 d-flex align-items-center justify-content-center mx-auto account-open-btn'>
-                    <LinkedInIcon className='text-primary' />
-                    <span className='fs-16 py-2'>Sign Up With LinkedIn</span>
-                </button>
 
                 <p className='pb-3'>
                     <Link to={"/login"} className='fs-16 text-decoration-none'>
-                        <span>move to login page</span>
+                        <span>Already have an account&#63; Login here</span>
                     </Link>
                 </p>
             </div>

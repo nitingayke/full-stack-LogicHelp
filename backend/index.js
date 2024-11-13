@@ -40,6 +40,7 @@ app.get("*", (req, res) => {
 });
 
 app.use((err, req, res, next) => {
+        
     const { errorCode = 505, message = "Something Went Wrong" } = err;
     return res.status(errorCode).json({
         error: {
