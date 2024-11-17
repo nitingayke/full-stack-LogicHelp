@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
 import "./userLogin.css";

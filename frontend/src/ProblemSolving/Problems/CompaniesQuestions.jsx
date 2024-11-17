@@ -5,16 +5,23 @@ import Rating from '@mui/material/Rating';
 import ShareIcon from '@mui/icons-material/Share';
 import StarBorderPurple500Icon from '@mui/icons-material/StarBorderPurple500';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
-
-import { questionsList } from '../../functions';
 import QuestionsList from './QuestionsList';
 
-export default function CompaniesQuestions({}){
+export default function CompaniesQuestions({ questionsList, loginUser }){
 
     const { id } = useParams();
     const [ratingValue, setRatingValue] = useState(5);
-
     const [filteredQuestions, setFilteredQuestions] = useState([]);
+    const [allQuestions, setAllQuestions] = useState([]);
+
+    useEffect(() => {
+        const questions = loginUser?.userProgress?.submissions.flatMap(submission => submission.questions) || [];
+       const reverseQuestios = questions.reverse();
+        setAllQuestions(reverseQuestios);
+    }, [loginUser]);
+
+    const userProgressQuestionNumbers = new Set(allQuestions?.map(question => question.questionNo));
+
 
     useEffect(() => {
         const filtered = (questionsList || []).filter(question =>
@@ -53,7 +60,7 @@ export default function CompaniesQuestions({}){
         </div>
         <div className='p-2 col-12 col-md-8 fs-16'>
             {/* printing questions */}
-            <QuestionsList totalQuestions={filteredQuestions} />
+            <QuestionsList totalQuestions={filteredQuestions} userProgressQuestion={userProgressQuestionNumbers} />
         </div>
     </div>
     )

@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import Pagination from '@mui/material/Pagination';
-import { questionsList, companies, topics } from '../../functions';
-import { UserProgress } from '../../UserProfile/CurrUser';
+import { companies, topics } from '../../functions';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
@@ -16,16 +14,26 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionsList from './QuestionsList';
 
-export default function ProblemList() {
+export default function ProblemList({ questionsList, loginUser }) {
 
     const navigate = useNavigate();
-    const userProgressQuestionNumbers = new Set(UserProgress.questions.map(question => question.questionNo));
+
     const [noOfQuestions, setNoOfQuestions] = useState(30);
     const [searchCompany, setSearchCompany] = useState("");
     const [searchQuestion, setSearchQuestion] = useState("");
     const [totalQuestions, setTotalQuestions] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
+
+    const [allQuestions, setAllQuestions] = useState([]);
+
+    useEffect(() => {
+        const questions = loginUser?.userProgress?.submissions.flatMap(submission => submission.questions) || [];
+       const reverseQuestios = questions.reverse();
+        setAllQuestions(reverseQuestios);
+    }, [loginUser]);
+
+    const userProgressQuestionNumbers = new Set(allQuestions?.map(question => question.questionNo));
 
     const matchesStatus = (question) => {
         switch (selectedStatus) {
@@ -63,8 +71,8 @@ export default function ProblemList() {
     }
 
     const handlePickRandomQuestion = () => {
-        let title = questionsList[Math.floor(Math.random() * questionsList.length)].title;
-        navigate(`/problem-solving/problem/${title}`)
+        let id = questionsList[Math.floor(Math.random() * questionsList.length)]._id;
+        navigate(`/problem-solving/problem/${id}`)
     }
 
     const trendingCompanies = companies.filter((currCompany) => (currCompany.toLowerCase()).includes(searchCompany.toLowerCase()));
@@ -137,12 +145,14 @@ export default function ProblemList() {
                         </div>
                     </li>
                     <li className='py-1'>
-                        <button type='button' className='bg-transparent p-1 rounded border border-success d-flex align-items-center pe-2 text-light button-hover' onClick={handlePickRandomQuestion}><ShuffleIcon className='fs-6 me-1 text-gold' />Pick Random</button>
+                        <button type='button' className='bg-transparent p-1 rounded border border-success d-flex align-items-center pe-2 text-light button-hover' onClick={handlePickRandomQuestion}>
+                            <ShuffleIcon className='fs-6 me-1 text-gold' />Pick Random
+                        </button>
                     </li>
                 </ul>
 
                 {/* printing questions */}
-                <QuestionsList totalQuestions={totalQuestions} />
+                <QuestionsList totalQuestions={totalQuestions} userProgressQuestion={userProgressQuestionNumbers} />
 
                 <div className='d-flex justify-content-between pt-3'>
                     <Pagination count={Math.floor((filteredQuestions.length + (noOfQuestions - 1)) / noOfQuestions)} variant="outlined" color="secondary" shape="rounded" sx={{

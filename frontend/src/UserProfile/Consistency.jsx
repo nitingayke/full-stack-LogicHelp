@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { UserProgress } from './CurrUser';
+import React, { useState, useEffect } from 'react';
 import LineGraph from '../Chart/LingGraph';
 import CodeIcon from '@mui/icons-material/Code';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -10,40 +9,46 @@ import { searchQuestions } from '../functions.js';
 import PrintQuestions from './PrintQuestions.jsx';
 import ProgressSection from './ProgressSection.jsx';
 
-export default function Consistency() {
+export default function Consistency({ loginUser }) {
     const [search, setSearch] = useState("");
     const [prevSelected, setPrevSelected] = useState("option-1");
-    const [solvedQuestion, setSolvedQuestion] = useState(UserProgress.questions);
+    const [solvedQuestion, setSolvedQuestion] = useState([]);
+    const [allQuestions, setAllQuestions] = useState([]);
 
+    useEffect(() => {
+        const questions = loginUser?.userProgress?.submissions.flatMap(submission => submission.questions) || [];
+       const reverseQuestios = questions.reverse();
+        setAllQuestions(reverseQuestios);
+        setSolvedQuestion(reverseQuestios);
+    }, [loginUser]);
 
-    const labels = UserProgress.contestStatus.map((data) => data.contest);
+    const labels = loginUser?.userProgress?.contestStatus.map((data) => data.contest);
     const lineData = {
         labels,
         datasets: [
             {
                 label: 'Contest Rank',
-                data: UserProgress.contestStatus.map((data) => data.rank),
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                data: loginUser?.userProgress?.contestStatus.map((data) => data.rank),
+                borderColor: '#ffffff',
+                backgroundColor: '#ff5722',
             },
         ],
     };
 
+    const last30Submissions = loginUser?.userProgress?.submissions.slice(-30);
     const submissionData = {
-        labels: UserProgress.submissions.map((data) => data.date),
+        labels: last30Submissions?.map((data) => data.date.slice(0, 10)),
         datasets: [
             {
                 label: 'total submission',
-                data: UserProgress.submissions.map((data) => data.submissions),
-                backgroundColor: 'green',
+                data: last30Submissions?.map((data) => data?.questions.length),
+                backgroundColor: '#30d630',
             },
         ],
     };
 
-
-    const latestRank = UserProgress.contestStatus.length > 0 ? UserProgress.contestStatus[UserProgress.contestStatus.length - 1].rank : 0;
-    const totalAttempts = UserProgress.contestStatus.length;
-
+    const latestRank = (loginUser?.userProgress?.contestStatus?.at(-1)?.rank || 0); 
+    const totalAttempts = loginUser?.userProgress?.contestStatus.length;
 
     const categoryCounts = {
         easy: 0,
@@ -51,13 +56,13 @@ export default function Consistency() {
         hard: 0
     };
 
-    for (const question of UserProgress.questions) {
+    for (const question of allQuestions) {
         const category = question.category;
         if (categoryCounts[category] !== undefined) {
             categoryCounts[category]++;
         }
     }
-    
+
 
     const handleSeletedOption = (e) => {
         if (!(e.currentTarget.classList.contains("selected-option"))) {
@@ -69,11 +74,11 @@ export default function Consistency() {
             let innerText = e.target.innerText.toLowerCase();
 
             if (innerText === 'all') {
-                setSolvedQuestion(UserProgress.questions);
+                setSolvedQuestion(allQuestions);
             } else if (innerText === 'favorite') {
-                setSolvedQuestion(UserProgress.questions.filter((data) => data.favorite));
+                setSolvedQuestion(loginUser?.userProgress?.favoriteQuestion || []);
             } else {
-                setSolvedQuestion(UserProgress.questions.filter((data) => data.category === innerText));
+                setSolvedQuestion(allQuestions.filter((data) => data.category === innerText));
             }
         }
     };
@@ -96,32 +101,47 @@ export default function Consistency() {
                 </div>
             </div>
 
-            <ProgressSection categoryCounts={categoryCounts} />
+            <ProgressSection categoryCounts={categoryCounts} loginUser={loginUser} />
 
             <div className='col-12 mb-3 consistency-box p-3 rounded'>
                 <h5 className='d-flex'><CodeIcon className='text-aqua me-1' />Languages</h5>
 
-                {UserProgress.languages.map((data, index) => {
-                    const [language, score] = Object.entries(data)[0];
+                {
+                    (!loginUser?.userProgress?.languages || loginUser?.userProgress?.languages.length === 0)
+                        ? <p className='text-center fs-16 text-light-secondary py-3 m-0'>Solve questions to add languages to your profile.</p>
+                        : loginUser?.userProgress?.languages.map((languageData, index) => {
+                            return (
+                                <div className='d-flex justify-content-between text-secondary' key={index}>
+                                    <span>{languageData.language}</span>
+                                    <span className='flex-1 border-secondary mx-3 language-interval-line'></span>
+                                    <p className='m-0 fs-16'>
+                                        <span className='text-light fs-6'>{languageData.number.length}</span> problems solved
+                                    </p>
+                                </div>
+                            );
+                        })
+                }
 
-                    return (
-                        <div className='d-flex justify-content-between text-secondary' key={index}>
-                            <span>{language}</span>
-                            <span className='flex-1 border-secondary mx-3 language-interval-line'></span>
-                            <p className='m-0 fs-16'><span className='text-light fs-6'>{score}</span> problems solved</p>
-                        </div>
-                    );
-                })}
 
                 <hr className='text-secondary' />
 
                 <h5 className='m-0 d-flex align-items-center'><CheckCircleOutlineIcon className='fs-5 me-1 color-green' />Skills</h5>
                 <ul className='d-flex flex-wrap list-unstyled m-0'>
-                    {UserProgress.skills.map((skill, index) => (
-                        <li className='px-2 py-1 m-1 selected-link fs-16 rounded text-light-secondary' key={index}>
-                            {skill}
-                        </li>
-                    ))}
+                    {
+                        loginUser?.userProgress?.skills.map((skill, index) => (
+                            <li className='px-2 py-1 m-1 selected-link fs-16 rounded text-light-secondary' key={index}>
+                                {skill}
+                            </li>
+                        ))
+                    }
+                    {
+                        (loginUser?.userProgress?.skills?.length === 0) && (
+                            <p className="text-center col-12 py-3 fs-16 text-light-secondary m-0">
+                                You haven't added any skills yet. <br />
+                                Start solving problems to unlock and add skills to your profile!
+                            </p>
+                        )
+                    }
                 </ul>
             </div>
 
@@ -130,8 +150,8 @@ export default function Consistency() {
                     <h6 className='m-0 d-flex fs-5'>Submissions in the past one month</h6>
 
                     <div className='fs-14 text-secondary d-flex'>
-                        <p className='m-0 me-2'>Total active day <span className='fs-16 text-light-secondary'>{UserProgress.activeDay}</span></p>
-                        <p className='m-0'>Total streak <span className='fs-16 text-light-secondary'>{UserProgress.totalStreak}</span></p>
+                        <p className='m-0 me-2'>Total active day <span className='fs-16 text-light-secondary'>{loginUser?.userProgress?.submissions?.length || 0}</span></p>
+                        <p className='m-0'>Total streak <span className='fs-16 text-light-secondary'>{loginUser?.userProgress?.totalStreak || 0}</span></p>
                     </div>
                 </div>
 

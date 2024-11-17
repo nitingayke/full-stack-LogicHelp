@@ -11,38 +11,6 @@ export const currUser = {
     }
 }
 
-const User = {
-    username: "gaykenitin",
-    password: "ng#456",
-    name: "nitin",
-    about: "Full Stack Developer",
-    image: "profile link",
-    rank: 6523,
-    country: "india",
-    socialLink: {
-        linkedIn: "link of linkedin",
-        github: "github link",
-        portFolio: "link portfolio"
-    },
-    userProfress: {
-        supportPoints: 0,
-        languages: ["Java", "Python"],
-        skills: ["Dynamic Programming", "Array"],
-        favoriteQuestion: ["reference of questions"],
-        contestStatus: [{
-            contest: 2,
-            date: "date to solve question",
-            contestQuestions: ["reference of question",],
-            rank: 123,
-            score: 18,
-            timeTaken: "1 hour 15 mins"
-        },],
-        activeDay: 20,
-        totalStreak: 215,
-        submissions: [{ date: "date", questions: ["reference of question"]},],
-    },
-}
-
 export const UserProgress = {
     questions: [
         { questionNo: 1, title: "Two Sum", category: "easy", dateSolved: "2024-10-26", favorite: true },

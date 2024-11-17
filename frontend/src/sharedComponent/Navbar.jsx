@@ -32,7 +32,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
 
     useEffect(() => {
         const verifyCookie = async () => {
-            
+
             const publicRoutes = ["/signup", "/login", "/logout"];
 
             if (!cookies.token) {
@@ -136,17 +136,15 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                         <li onClick={handleSelectButton} >
                             <Link to={"/coins"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
                                 <MonetizationOnIcon className='fs-5 color-gold' />
-                                <span className='color-gold mx-1 fs-6'>0</span>
+                                <span className='color-gold mx-1 fs-6'>{(loginUser?.userProgress?.coins || 0)}</span>
                             </Link>
                         </li>
 
                         <li onClick={handleSelectButton} >
-                            <Link to={"/daily-problem"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
-                                {
-                                    (!loginUser) ? <span className='d-flex text-secondary fs-6'><StarBorderIcon className='fs-5' /><span className=' mx-1 fs-6'>0</span> </span>
-                                        : <span className='d-flex'><StarIcon className='fs-5 text-orange' /><span className='mx-1 fs-6 text-orange'>50</span> </span>
-                                }
-                            </Link>
+                            {
+                                (!loginUser?.userProgress?.totalSreak) ? <span className='d-flex text-secondary fs-6 ms-1'><StarBorderIcon className='fs-5' /><span className='fs-6'>0</span> </span>
+                                    : <span className='d-flex ms-1'><StarIcon className='fs-5 text-orange' /><span className='ms-1 fs-6 text-orange'>{loginUser?.userProgress?.totalSreak}</span> </span>
+                            }
                         </li>
 
                         <li className='ps-2'>
@@ -164,7 +162,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                                             onClick={handleClick}
                                             className='p-0 m-0'
                                         >
-                                            <Avatar sx={{ bgcolor: deepOrange[500] }} alt={'NitinGayke'} src='https://assets.leetcode.com/users/Nitin_Gayke/avatar_1729062514.png'>N</Avatar>
+                                            <Avatar sx={{ bgcolor: deepOrange[500] }} alt={loginUser?.username} src={loginUser?.image || "https://"}></Avatar>
                                         </Button>
                                         <Menu
                                             id="basic-menu"

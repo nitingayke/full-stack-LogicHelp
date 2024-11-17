@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   country: {
     type: String,
+    default: "India",
   },
   socialLink: {
     linkedIn: {
@@ -41,13 +42,18 @@ const userSchema = new mongoose.Schema({
       type: String,
     },
   },
-  userProfress: {
+  userProgress: {
     supportPoints: {
       type: Number,
       default: 0,
     },
     languages: {
-      type: [String], // Array of strings for languages
+      type: [
+        {
+          language: { type: String, required: true },
+          number: { type: [String], default: [] }, 
+        },
+      ],
     },
     skills: {
       type: [String], // Array of strings for skills
@@ -83,9 +89,15 @@ const userSchema = new mongoose.Schema({
     ],
     activeDay: {
       type: Number,
+      default: 0,
+    },
+    coins: {
+      type: Number,
+      default: 0,
     },
     totalStreak: {
       type: Number,
+      default: 0,
     },
     submissions: [
       {

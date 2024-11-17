@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProblemDescription from './ProblemDescription';
-import { questionsList } from '../../functions';
 import { useParams } from 'react-router-dom';
 import CodeEditor from './CodeEditor';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
@@ -18,10 +17,21 @@ import TouchAppIcon from '@mui/icons-material/TouchApp';
 import axios from "axios";
 import VisualSolution from './VisualSolution';
 import Box from '@mui/material/Box';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 
-export default function SolveQuestion() {
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function SolveQuestion({ loginUser }) {
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
+    const [problem, setProblem] = useState(null);
 
     useEffect(() => {
         let timer;
@@ -55,9 +65,28 @@ export default function SolveQuestion() {
     const editorRef = useRef(null);
     const [outputResult, setOutputResult] = useState({ output: [], error: "" });
     const [selectedComponent, setSelectedComponent] = useState("description-component");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isOpenAlert, setIsOpenAlert] = useState(false);
 
     const { id } = useParams();
-    const problem = questionsList.find((p) => p?.title === id);
+    useEffect(() => {
+        const featchQuestion = async () => {
+            try {
+                setIsLoading(true);
+                const res = await axios.get(`http://localhost:9658/questions/get-question/${id}`);
+                if (res.data) {
+                    setProblem(res.data);
+                } else {
+                    setProblem(null);
+                }
+            } catch (error) {
+                setProblem(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        featchQuestion();
+    }, [id]);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -130,10 +159,54 @@ export default function SolveQuestion() {
         }
     }
 
+    const handleSubmitButton = async () => {
+
+        setIsOpenAlert(false);
+        let sourceCode = editorRef.current.getValue();
+        if (!sourceCode) return;
+
+        setOutputResult({ output: "", error: "" });
+        if (!document.querySelector(".problem-output-box ").classList.contains("increase-output-box-height")) {
+            document.querySelector(".problem-output-box ").classList.add("increase-output-box-height");
+        }
+
+        try {
+            setIsSubmit(true);
+
+            const response = await axios.post("http://localhost:9658/api/execute-code", {
+                language: language,
+                sourceCode: sourceCode
+            });
+
+            const { run: result } = response.data.run;
+
+            if (result?.stdout) {
+                
+                const submitRes = await axios.put(`http://localhost:9658/questions/submit-code/${problem._id}/user/${loginUser._id}/language/${language}`);
+                
+                if (!submitRes.data.success) {
+                    setOutputResult({ output: "", error: "Unable to update data in your profile." });
+                } else {
+                    setOutputResult({ output: ["Problem solution submitted successfully."], error: "" });
+                }
+
+            } else if (result?.stderr) {
+                setOutputResult({ output: "", error: result.stderr });
+            } else {
+                setOutputResult({ output: "", error: "Does not have print statemt to print output or error from code execution." });
+            }
+        } catch (error) {
+            setOutputResult({ output: "", error: (error && error.message) ? error.message : "Unable to submit code" });
+        } finally {
+            setIsSubmit(false);
+        }
+    }
+
     return (
         <>
-            {(!problem) ? (<div className='col-12 text-center my-5 text-secondary'>
-                Sorry, we couldn't find the question you were looking for.
+            {(isLoading || !problem) ? (<div className='col-12 h-100 d-flex py-5 mt-5 justify-content-center text-secondary'>
+                <div className="spinner-border text-light " role="status"></div>
+                <span className='ps-2 text-light'>Loading...</span>
             </div>) :
                 (
                     <Box
@@ -177,10 +250,8 @@ export default function SolveQuestion() {
                                 </li>
                             </ul>
 
-
-                            <div id='description-component' className='p-2 pt-0'><ProblemDescription problem={problem} /></div>
+                            <div id='description-component' className='p-2 pt-0'><ProblemDescription problem={ problem } loginUser={loginUser} /></div>
                             <div className='d-none p-2' id='visual-solutions-component'><VisualSolution query={problem?.title} language={language} /></div>
-
 
                         </div>
                         <div className='col-12 col-lg-7 ps-0 ps-lg-1'>
@@ -201,6 +272,7 @@ export default function SolveQuestion() {
                                             open={open}
                                             onClose={handleClose}
                                             TransitionComponent={Fade}
+                                            style={{ zIndex: 5000 }}
                                         >
                                             <MenuItem onClick={() => handleLanguageChange('c')}>C</MenuItem>
                                             <MenuItem onClick={() => handleLanguageChange('cpp')}>C++</MenuItem>
@@ -215,17 +287,23 @@ export default function SolveQuestion() {
                                         <button type="button" className="btn bg-light-black text-light hover-component" onClick={handleRunButton}>
                                             {isRun ? <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div> : <PlayArrowIcon className='pe-1 pb-1' />}Run
                                         </button>
-                                        <button type="button" className="btn bg-light-black color-green hover-component" onClick={() => setIsSubmit(!isSubmit)}>{isSubmit ? <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div> : <BackupOutlinedIcon className='pe-1 pb-1' />}Submit</button>
+                                        <button type="button" className="btn bg-light-black color-green hover-component" onClick={() => setIsOpenAlert(true)}>
+                                            {
+                                                isSubmit ?
+                                                    <div className="spinner-border spinner-border-sm me-2 opacity-50" role="status"></div>
+                                                    : <BackupOutlinedIcon className='pe-1 pb-1' />
+                                            }Submit
+                                        </button>
                                     </li>
                                     <li className='me-3'>
-                                        <button type='button' className='text-light d-flex align-items-center bg-light-black border-0 p-1 hover-component' onClick={toggleStopwatch}><AlarmOnOutlinedIcon className='p-1' />{isActive && formatTime(seconds)}</button>
+                                        <button type='button' className='text-light d-flex align-items-center bg-light-black border border-secondary rounded p-1 hover-component' onClick={toggleStopwatch}><AlarmOnOutlinedIcon className='p-1' />{isActive && formatTime(seconds)}</button>
                                     </li>
                                 </ul>
 
                                 <div className='position-relative flex-1'>
 
                                     <CodeEditor sourceCode={sourceCode} language={language} handleSourceCode={handleSourceCode} handleEditorMount={handleEditorMount} />
-                                    
+
                                     <div className='position-absolute bottom-0 problem-output-box col-12 border-top border-secondary overflow-hidden'>
                                         <button type='button' onClick={handleOutputBox} className='col-12 bg-dark-gray py-2 fs-6 fw-bold border-0 text-white d-flex justify-content-center'><TouchAppIcon className='fs-5' />Output: </button>
                                         <div className='p-2 fs-16 h-100 overflow-auto'>
@@ -241,6 +319,26 @@ export default function SolveQuestion() {
                     </Box>
                 )
             }
+
+            <Dialog
+                open={isOpenAlert}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => setIsOpenAlert(false)}
+                aria-describedby="alert-dialog-slide-description"
+                sx={{ zIndex: 5000 }}
+            >
+                <DialogTitle className='bg-dark-gray text-danger'>{"Are you sure your code will pass all test cases?"}</DialogTitle>
+                <DialogContent className='bg-dark-gray'>
+                    <DialogContentText className='text-light' id="alert-dialog-slide-description">
+                    Please make sure your code works correctly for all test cases. If any test case fails, we will take necessary action to address the issue.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions className='bg-dark-gray'>
+                    <Button  variant="outlined" onClick={() => setIsOpenAlert(false)}>Disagree</Button>
+                    <Button  variant="outlined" className='color-green border-success' onClick={() => handleSubmitButton()}>Agree</Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }

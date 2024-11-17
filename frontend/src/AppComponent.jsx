@@ -23,13 +23,13 @@ export default function AppComponent() {
 
             <div className='dashboard-components'>
                 <Routes>
-                    <Route path='/' element={<HomePage />} />
+                    <Route path='/' element={<HomePage loginUser={loginUser} />} />
 
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/logout' element={<LandingComponent />} />
 
-                    <Route path='/problem-solving/*' element={<ProblemSolving />} />
+                    <Route path='/problem-solving/*' element={<ProblemSolving loginUser={loginUser}/>} />
 
                     <Route path='/career-resources/*' element={<CareerResources />} />
 

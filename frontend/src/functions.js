@@ -32,728 +32,162 @@ export function searchQuestions(questions, query) {
     );
 }
 
-export const questionsList = [
+export const solutions = [
     {
-        questionNo: 41,
-        title: 'Longest Valid Parentheses',
-        image: "https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg",
-        description: [
-            "Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.",
-            "For example, the input '(()' has a valid substring of length 2."
-        ],
-        examples: [
-            { input: '"(()"', output: '2', description: 'The longest valid substring is "()".', image: "https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg" },
-            { input: '")()())"', output: '4', description: 'The longest valid substring is "()()".' }
-        ],
-        category: 'hard',
-        topics: ['strings', 'dynamic programming', 'stack'],
-        acceptance: 30,
-        hint: ['Consider using a stack to track indices of characters.'],
-        constraints: ['0 <= s.length <= 3 * 10^4'],
+        title: "Two Sum",
+        solution: `
+      // Problem: Two Sum
+      // Given an array of integers nums and an integer target,
+      // return indices of the two numbers such that they add up to the target.
+      import java.util.HashMap;
+      import java.util.Map;
+  
+      public int[] twoSum(int[] nums, int target) {
+          Map<Integer, Integer> map = new HashMap<>();
+          for (int i = 0; i < nums.length; i++) {
+              int complement = target - nums[i];
+              if (map.containsKey(complement)) {
+                  return new int[] { map.get(complement), i };
+              }
+              map.put(nums[i], i);
+          }
+          throw new IllegalArgumentException("No solution found");
+      }
+      `
     },
     {
-        questionNo: 442,
-        title: 'Trapping Rain Water',
-        description: [
-            "Given n non-negative integers representing the height of walls, compute how much water it can trap after raining.",
-            "For instance, the heights [0,1,0,2,1,0,1,3,2,1,2,1] can trap 6 units of water."
-        ],
-        examples: [
-            { input: '[0,1,0,2,1,0,1,3,2,1,2,1]', output: '6', description: 'Water trapped is 6 units.' },
-            { input: '[4,2,0,3,2,5]', output: '9', description: 'Water trapped is 9 units.' }
-        ],
-        category: 'hard',
-        topics: ['array', 'two pointers', 'stack'],
-        acceptance: 40,
-        hint: ['Use a two-pointer technique to optimize space.'],
-        constraints: ['n == height.length', 'n >= 2'],
+        title: "Add Two Numbers",
+        solution: `
+      // Problem: Add Two Numbers
+      // Add two numbers represented as linked lists.
+      class ListNode {
+          int val;
+          ListNode next;
+          ListNode(int x) { val = x; }
+      }
+  
+      public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+          ListNode dummyHead = new ListNode(0);
+          ListNode p = l1, q = l2, current = dummyHead;
+          int carry = 0;
+  
+          while (p != null || q != null) {
+              int x = (p != null) ? p.val : 0;
+              int y = (q != null) ? q.val : 0;
+              int sum = carry + x + y;
+              carry = sum / 10;
+              current.next = new ListNode(sum % 10);
+              current = current.next;
+              if (p != null) p = p.next;
+              if (q != null) q = q.next;
+          }
+          if (carry > 0) {
+              current.next = new ListNode(carry);
+          }
+          return dummyHead.next;
+      }
+      `
     },
     {
-        questionNo: 36,
-        title: 'Merge k Sorted Lists',
-        description: [
-            "Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.",
-            "For example, given [[1,4,5],[1,3,4],[2,6]], the merged list is [1,1,2,3,4,4,5,6]."
-        ],
-        examples: [
-            { input: '[[1,4,5],[1,3,4],[2,6]]', output: '[1,1,2,3,4,4,5,6]', description: 'Merged sorted list.' },
-            { input: '[]', output: '[]', description: 'Empty input results in an empty list.' }
-        ],
-        category: 'hard',
-        topics: ['linked list', 'divide and conquer'],
-        acceptance: 35,
-        hint: ['Consider using a priority queue to efficiently merge the lists.'],
-        constraints: ['0 <= k <= 10^4', '0 <= lists[i].length <= 500', 'The values of the linked list nodes are in the range [-10^4, 10^4]'],
+        title: "Median of Two Sorted Arrays",
+        solution: `
+      // Problem: Median of Two Sorted Arrays
+      // Find the median of two sorted arrays.
+      public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+          if (nums1.length > nums2.length) {
+              return findMedianSortedArrays(nums2, nums1);
+          }
+          int x = nums1.length;
+          int y = nums2.length;
+          int low = 0, high = x;
+  
+          while (low <= high) {
+              int partitionX = (low + high) / 2;
+              int partitionY = (x + y + 1) / 2 - partitionX;
+  
+              int maxX = (partitionX == 0) ? Integer.MIN_VALUE : nums1[partitionX - 1];
+              int minX = (partitionX == x) ? Integer.MAX_VALUE : nums1[partitionX];
+              int maxY = (partitionY == 0) ? Integer.MIN_VALUE : nums2[partitionY - 1];
+              int minY = (partitionY == y) ? Integer.MAX_VALUE : nums2[partitionY];
+  
+              if (maxX <= minY && maxY <= minX) {
+                  if ((x + y) % 2 == 0) {
+                      return ((double)Math.max(maxX, maxY) + Math.min(minX, minY)) / 2;
+                  } else {
+                      return (double)Math.max(maxX, maxY);
+                  }
+              } else if (maxX > minY) {
+                  high = partitionX - 1;
+              } else {
+                  low = partitionX + 1;
+              }
+          }
+          throw new IllegalArgumentException("Input arrays are not sorted.");
+      }
+      `
     },
     {
-        questionNo: 96,
-        title: 'First Missing Positive',
-        description: [
-            "Given an unsorted integer array, find the smallest missing positive integer.",
-            "For example, the input [3, 4, -1, 1] should return 2."
-        ],
-        examples: [
-            { input: '[3,4,-1,1]', output: '2', description: 'The smallest missing positive integer is 2.' },
-            { input: '[1,2,0]', output: '3', description: 'The smallest missing positive integer is 3.' }
-        ],
-        category: 'hard',
-        topics: ['array', 'hashing'],
-        acceptance: 40,
-        hint: ['Try to place each number in its correct position.'],
-        constraints: ['0 <= nums.length <= 300', '-10^9 <= nums[i] <= 10^9'],
+        title: "Longest Palindromic Substring",
+        solution: `
+      // Problem: Longest Palindromic Substring
+      // Find the longest palindromic substring in a given string.
+      public String longestPalindrome(String s) {
+          if (s == null || s.length() < 1) return "";
+          int start = 0, end = 0;
+  
+          for (int i = 0; i < s.length(); i++) {
+              int len1 = expandFromCenter(s, i, i);
+              int len2 = expandFromCenter(s, i, i + 1);
+              int len = Math.max(len1, len2);
+              if (len > end - start) {
+                  start = i - (len - 1) / 2;
+                  end = i + len / 2;
+              }
+          }
+          return s.substring(start, end + 1);
+      }
+  
+      private int expandFromCenter(String s, int left, int right) {
+          while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+              left--;
+              right++;
+          }
+          return right - left - 1;
+      }
+      `
     },
     {
-        questionNo: 55,
-        title: 'Word Search II',
-        description: [
-            "Given a 2D board and a list of words, find all words in the board.",
-            "Words can be constructed from letters of sequentially adjacent cells, where adjacent cells are those horizontally or vertically neighboring."
-        ],
-        examples: [
-            { input: 'board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]', output: '["eat","oath"]', description: 'Found words are "eat" and "oath".' },
-            { input: 'board = [["a","b"],["c","d"]], words = ["abcb"]', output: '[]', description: 'No words found.' }
-        ],
-        category: 'hard',
-        topics: ['trie', 'backtracking'],
-        acceptance: 30,
-        hint: ['Use a Trie to optimize the searching process.'],
-        constraints: ['m == board.length', 'n == board[i].length', '1 <= m, n <= 12', '1 <= words.length <= 3 * 10^4', '1 <= words[i].length <= 10'],
-    },
-    {
-        questionNo: 1,
-        title: 'Two Sum',
-        description: [
-            "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-            "You may assume that each input would have exactly one solution, and you may not use the same element twice.",
-            "You can return the answer in any order."
-        ],
-        examples: [
-            { input: '[2, 7, 11, 15]', output: '[0, 1]', description: 'Example where the sum of 2 and 7 equals 9.' }
-        ],
-        category: 'easy',
-        topics: ['arrays', 'hash tables'],
-        acceptance: 75,
-        hint: ['Consider using a hash map to optimize your solution.'],
-        company: ['LeetCode', 'Google', 'Amazon', 'Zerodha'],
-        constraints: ['1 <= nums.length <= 10^4', '-10^9 <= nums[i] <= 10^9', '-10^9 <= target <= 10^9', 'Only one valid answer exists.'],
-        followUp: ['Can you come up with an algorithm that is less than O(n^2) time complexity?'],
-        comments: [
-            { user: 'User1', text: 'Great question!', createdAt: "" },
-            { user: 'User2', text: 'I found this challenging.', createdAt: "" }
-        ],
-        tags: ['Array', 'Searching'],
-    },
-    {
-        questionNo: 2,
-        title: 'Add Two Numbers',
-        description: [
-            "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contains a single digit.",
-            "Add the two numbers and return it as a linked list."
-        ],
-        examples: [
-            { input: '[2 -> 4 -> 3] + [5 -> 6 -> 4]', output: '[7 -> 0 -> 8]', description: 'The sum is 807.' }
-        ],
-        category: 'medium',
-        topics: ['linked lists', 'math'],
-        acceptance: 80,
-        hint: ['Consider carrying values while adding digits.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['The number of nodes in each linked list is in the range [1, 100].', '0 <= Node.val <= 9'],
-        followUp: ['Can you do this without using extra space?'],
-        comments: [
-            { user: 'User3', text: 'Great practice for linked lists!', createdAt: "" }
-        ],
-        tags: ['Linked List', 'Math'],
-    },
-    {
-        questionNo: 3,
-        title: 'Longest Substring Without Repeating Characters',
-        description: [
-            "Given a string s, find the length of the longest substring without repeating characters."
-        ],
-        examples: [
-            { input: '"abcabcbb"', output: '3', description: 'The answer is "abc", with length 3.' }
-        ],
-        category: 'medium',
-        topics: ['strings', 'sliding window'],
-        acceptance: 75,
-        hint: ['Use a sliding window to track characters.'],
-        company: ['Google', 'Amazon'],
-        constraints: ['0 <= s.length <= 5 * 10^4'],
-        followUp: ['Can you optimize to O(n) time complexity?'],
-        comments: [
-            { user: 'User4', text: 'The sliding window technique is very useful!', createdAt: "" }
-        ],
-        tags: ['String', 'Sliding Window'],
-    },
-    {
-        questionNo: 4,
-        title: 'Valid Parentheses',
-        description: [
-            "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid."
-        ],
-        examples: [
-            { input: '"()[]{}"', output: 'true', description: 'All parentheses are matched.' }
-        ],
-        category: 'easy',
-        topics: ['strings', 'stack'],
-        acceptance: 70,
-        hint: ['Use a stack to keep track of opening brackets.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['1 <= s.length <= 104'],
-        followUp: ['What if we also include angle brackets?'],
-        comments: [
-            { user: 'User5', text: 'Good way to practice stacks!', createdAt: "" }
-        ],
-        tags: ['String', 'Stack'],
-    },
-    {
-        questionNo: 5,
-        title: 'Merge Two Sorted Lists',
-        description: [
-            "Merge two sorted linked lists and return it as a new sorted list. The new list should be made by splicing together the nodes of the first two lists."
-        ],
-        examples: [
-            { input: '[1 -> 2 -> 4] + [1 -> 3 -> 4]', output: '[1 -> 1 -> 2 -> 3 -> 4 -> 4]', description: 'The merged list is 1 -> 1 -> 2 -> 3 -> 4 -> 4.' }
-        ],
-        category: 'easy',
-        topics: ['linked lists', 'recursion'],
-        acceptance: 75,
-        hint: ['Use a dummy head to simplify list manipulation.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['The number of nodes in each list is in the range [0, 50].'],
-        followUp: ['Can you solve it iteratively?'],
-        comments: [
-            { user: 'User6', text: 'Nice to practice linked lists!', createdAt: "" }
-        ],
-        tags: ['Linked List', 'Sorting'],
-    },
-    {
-        questionNo: 6,
-        title: 'Climbing Stairs',
-        description: [
-            "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?"
-        ],
-        examples: [
-            { input: 'n = 2', output: '2', description: 'There are two ways to climb to the top: 1 step + 1 step or 2 steps.' }
-        ],
-        category: 'easy',
-        topics: ['dynamic programming', 'math'],
-        acceptance: 80,
-        hint: ['The solution follows Fibonacci sequence logic.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['1 <= n <= 45'],
-        followUp: ['Can you solve it using O(1) space?'],
-        comments: [
-            { user: 'User7', text: 'A classic dynamic programming question!', createdAt: "" }
-        ],
-        tags: ['Dynamic Programming', 'Math'],
-    },
-    {
-        questionNo: 7,
-        title: 'Maximum Subarray',
-        description: [
-            "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum."
-        ],
-        examples: [
-            { input: '[-2,1,-3,4,-1,2,1,-5,4]', output: '6', description: 'The subarray [4,-1,2,1] has the largest sum 6.' }
-        ],
-        category: 'easy',
-        topics: ['arrays', 'dynamic programming'],
-        acceptance: 75,
-        hint: ['Use Kadane’s algorithm to solve this problem efficiently.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['1 <= nums.length <= 10^5', '-10^4 <= nums[i] <= 10^4'],
-        followUp: ['Can you implement it in O(n) time?'],
-        comments: [
-            { user: 'User8', text: 'Kadane’s algorithm is elegant!', createdAt: "" }
-        ],
-        tags: ['Dynamic Programming', 'Array'],
-    },
-    {
-        questionNo: 8,
-        title: 'Product of Array Except Self',
-        description: [
-            "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]."
-        ],
-        examples: [
-            { input: '[1,2,3,4]', output: '[24,12,8,6]', description: 'The output array is calculated by excluding the respective element.' }
-        ],
-        category: 'medium',
-        topics: ['arrays', 'prefix sum'],
-        acceptance: 70,
-        hint: ['Think about using prefix and suffix products.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['2 <= nums.length <= 10^4', '-30 <= nums[i] <= 30'],
-        followUp: ['Can you do it without division?'],
-        comments: [
-            { user: 'User9', text: 'A great way to practice array manipulation!', createdAt: "" }
-        ],
-        tags: ['Array', 'Math'],
-    },
-    {
-        questionNo: 9,
-        title: 'Two Sum II - Input Array Is Sorted',
-        description: [
-            "Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number."
-        ],
-        examples: [
-            { input: '[2,7,11,15], target = 9', output: '[1, 2]', description: 'The sum of 2 and 7 equals 9.' }
-        ],
-        category: 'easy',
-        topics: ['arrays', 'two pointers'],
-        acceptance: 85,
-        hint: ['Utilize the two-pointer technique to find the solution efficiently.'],
-        company: ['LeetCode', 'Microsoft'],
-        constraints: ['2 <= numbers.length <= 3 * 10^4', '1 <= numbers[i] <= 10^4'],
-        followUp: ['How would you approach this problem if the array was not sorted?'],
-        comments: [
-            { user: 'User10', text: 'I love the two-pointer technique!', createdAt: "" }
-        ],
-        tags: ['Array', 'Two Pointers'],
-    },
-    {
-        questionNo: 10,
-        title: 'Count Primes',
-        description: [
-            "Given an integer n, return the number of prime numbers that are strictly less than n."
-        ],
-        examples: [
-            { input: '10', output: '4', description: 'The prime numbers less than 10 are 2, 3, 5, and 7.' }
-        ],
-        category: 'easy',
-        topics: ['math', 'sieve of Eratosthenes'],
-        acceptance: 70,
-        hint: ['Consider using the Sieve of Eratosthenes for an efficient solution.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['0 <= n <= 5 * 106'],
-        followUp: ['Can you provide a solution that runs in O(n log log n) time?'],
-        comments: [
-            { user: 'User11', text: 'The Sieve of Eratosthenes is an amazing algorithm!', createdAt: "" }
-        ],
-        tags: ['Math', 'Prime Numbers'],
-    },
-    {
-        questionNo: 11,
-        title: 'Invert Binary Tree',
-        description: [
-            "Invert a binary tree."
-        ],
-        examples: [
-            { input: '[4,2,7,1,3,6,9]', output: '[4,7,2,9,6,3,1]', description: 'The tree is inverted.' }
-        ],
-        category: 'easy',
-        topics: ['trees', 'depth-first search'],
-        acceptance: 85,
-        hint: ['Use recursion to invert the tree.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['The number of nodes in the tree is in the range [0, 100].'],
-        followUp: ['What is the time complexity of your solution?'],
-        comments: [
-            { user: 'User12', text: 'A good way to practice tree traversal!', createdAt: "" }
-        ],
-        tags: ['Tree', 'Recursion'],
-    },
-    {
-        questionNo: 12,
-        title: 'Symmetric Tree',
-        description: [
-            "Given a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center)."
-        ],
-        examples: [
-            { input: '[1,2,2,3,4,4,3]', output: 'true', description: 'The tree is symmetric.' }
-        ],
-        category: 'easy',
-        topics: ['trees', 'depth-first search'],
-        acceptance: 90,
-        hint: ['Use a recursive approach to compare the left and right subtrees.'],
-        company: ['LeetCode', 'Microsoft'],
-        constraints: ['The number of nodes in the tree is in the range [0, 100].'],
-        followUp: ['Can you solve this iteratively?'],
-        comments: [
-            { user: 'User13', text: 'A classic tree problem!', createdAt: "" }
-        ],
-        tags: ['Tree', 'Recursion'],
-    },
-    {
-        questionNo: 13,
-        title: 'Maximum Depth of Binary Tree',
-        description: [
-            "Given a binary tree, find its maximum depth."
-        ],
-        examples: [
-            { input: '[3,9,20,null,null,15,7]', output: '3', description: 'The maximum depth is 3.' }
-        ],
-        category: 'easy',
-        topics: ['trees', 'depth-first search'],
-        acceptance: 85,
-        hint: ['Use a recursive approach to determine the depth.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['The number of nodes in the tree is in the range [0, 100].'],
-        followUp: ['Can you provide an iterative solution?'],
-        comments: [
-            { user: 'User14', text: 'Great exercise for understanding tree depth!', createdAt: "" }
-        ],
-        tags: ['Tree', 'Recursion'],
-    },
-    {
-        questionNo: 14,
-        title: 'Path Sum',
-        description: [
-            "Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum."
-        ],
-        examples: [
-            { input: '[5,4,8,11,null,13,4,7,2,null,null,1], sum = 22', output: 'true', description: 'There exists a root-to-leaf path.' }
-        ],
-        category: 'easy',
-        topics: ['trees', 'depth-first search'],
-        acceptance: 80,
-        hint: ['Consider the base cases for recursion carefully.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['The number of nodes in the tree is in the range [0, 100].'],
-        followUp: ['What if the sum is negative?'],
-        comments: [
-            { user: 'User15', text: 'I love tree problems!', createdAt: "" }
-        ],
-        tags: ['Tree', 'Recursion'],
-    },
-    {
-        questionNo: 15,
-        title: 'Balanced Binary Tree',
-        description: [
-            "Given a binary tree, determine if it is height-balanced."
-        ],
-        examples: [
-            { input: '[3,9,20,null,null,15,7]', output: 'true', description: 'The tree is height-balanced.' }
-        ],
-        category: 'easy',
-        topics: ['trees', 'depth-first search'],
-        acceptance: 75,
-        hint: ['Use depth-first search to calculate the height of subtrees.'],
-        company: ['LeetCode', 'Microsoft'],
-        constraints: ['The number of nodes in the tree is in the range [0, 100].'],
-        followUp: ['Can you optimize your solution to O(n)?'],
-        comments: [
-            { user: 'User16', text: 'Height balancing is an interesting topic!', createdAt: "" }
-        ],
-        tags: ['Tree', 'Recursion'],
-    },
-    {
-        questionNo: 16,
-        title: 'Binary Tree Level Order Traversal',
-        description: [
-            "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level)."
-        ],
-        examples: [
-            { input: '[3,9,20,null,null,15,7]', output: '[[3],[9,20],[15,7]]', description: 'Values are traversed level by level.' }
-        ],
-        category: 'medium',
-        topics: ['trees', 'breadth-first search'],
-        acceptance: 80,
-        hint: ['Use a queue to facilitate level order traversal.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['The number of nodes in the tree is in the range [0, 200].'],
-        followUp: ['Can you implement it using recursion?'],
-        comments: [
-            { user: 'User17', text: 'Queue is perfect for level order traversal!', createdAt: "" }
-        ],
-        tags: ['Tree', 'BFS'],
-    },
-    {
-        questionNo: 17,
-        title: 'Construct Binary Tree from Preorder and Inorder Traversal',
-        description: [
-            "Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree."
-        ],
-        examples: [
-            { input: 'preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]', output: '[3,9,20,null,null,15,7]', description: 'The tree is constructed successfully.' }
-        ],
-        category: 'medium',
-        topics: ['trees', 'recursion'],
-        acceptance: 75,
-        hint: ['Use the properties of preorder and inorder traversals.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['The length of both arrays is between 1 and 3000.'],
-        followUp: ['What if the tree can contain duplicate values?'],
-        comments: [
-            { user: 'User18', text: 'This is a tricky one!', createdAt: "" }
-        ],
-        tags: ['Tree', 'Recursion'],
-    },
-    {
-        questionNo: 18,
-        title: 'Lowest Common Ancestor of a Binary Search Tree',
-        description: [
-            "Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST."
-        ],
-        examples: [
-            { input: '[6,2,8,0,4,7,9], p = 2, q = 8', output: '6', description: 'The LCA of nodes 2 and 8 is 6.' }
-        ],
-        category: 'medium',
-        topics: ['trees', 'binary search tree'],
-        acceptance: 75,
-        hint: ['Utilize the properties of BST for an efficient solution.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['The number of nodes in the tree is in the range [1, 104].'],
-        followUp: ['What if the BST is not balanced?'],
-        comments: [
-            { user: 'User19', text: 'I love working with binary search trees!', createdAt: "" }
-        ],
-        tags: ['Tree', 'BST'],
-    },
-    {
-        questionNo: 19,
-        title: 'Validate Binary Search Tree',
-        description: [
-            "Given the root of a binary tree, determine if it is a valid binary search tree (BST)."
-        ],
-        examples: [
-            { input: '[2,1,3]', output: 'true', description: 'This tree is a valid BST.' }
-        ],
-        category: 'medium',
-        topics: ['trees', 'binary search tree'],
-        acceptance: 85,
-        hint: ['Use a recursive approach to validate the BST properties.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['The number of nodes in the tree is in the range [1, 104].'],
-        followUp: ['Can you implement an iterative solution?'],
-        comments: [
-            { user: 'User20', text: 'This is a great problem for practicing tree validations!', createdAt: "" }
-        ],
-        tags: ['Tree', 'BST'],
-    },
-    {
-        questionNo: 20,
-        title: 'Group Anagrams',
-        description: [
-            "Given an array of strings, group the anagrams together."
-        ],
-        examples: [
-            { input: '["eat","tea","tan","ate","nat","bat"]', output: '[["bat"],["nat","tan"],["ate","eat","tea"]]', description: 'Anagrams are grouped together.' }
-        ],
-        category: 'medium',
-        topics: ['hash table', 'string manipulation'],
-        acceptance: 85,
-        hint: ['Consider using a hash table to group anagrams efficiently.'],
-        company: ['LeetCode', 'Microsoft'],
-        constraints: ['1 <= strs.length <= 10^4', '0 <= strs[i].length <= 100'],
-        followUp: ['Can you improve the space complexity of your solution?'],
-        comments: [
-            { user: 'User21', text: 'I enjoy problems that involve string manipulation!', createdAt: "" }
-        ],
-        tags: ['Strings', 'Hash Table'],
-    },
-    {
-        questionNo: 21,
-        title: 'Add Two Numbers',
-        description: [
-            "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contains a single digit. Add the two numbers and return it as a linked list."
-        ],
-        examples: [
-            { input: '[2,4,3],[5,6,4]', output: '[7,0,8]', description: 'The sum is 807.' }
-        ],
-        category: 'medium',
-        topics: ['linked list', 'math'],
-        acceptance: 85,
-        hint: ['Keep track of the carry while adding the numbers.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['The number of nodes in each linked list is in the range [1, 100].'],
-        followUp: ['What if the two numbers are very large?'],
-        comments: [
-            { user: 'User22', text: 'Linked list problems are always fun!', createdAt: "" }
-        ],
-        tags: ['Linked List', 'Math'],
-    },
-    {
-        questionNo: 22,
-        title: 'Merge Two Sorted Lists',
-        description: [
-            "Merge two sorted linked lists and return it as a new sorted list. The new list should be made by splicing together the nodes of the first two lists."
-        ],
-        examples: [
-            { input: '[1,2,4],[1,3,4]', output: '[1,1,2,3,4,4]', description: 'The lists are merged into a sorted list.' }
-        ],
-        category: 'easy',
-        topics: ['linked list', 'two pointers'],
-        acceptance: 85,
-        hint: ['Use a dummy node to simplify the merging process.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['The number of nodes in the linked lists is in the range [0, 100].'],
-        followUp: ['Can you optimize the space complexity of your solution?'],
-        comments: [
-            { user: 'User23', text: 'I love merging lists!', createdAt: "" }
-        ],
-        tags: ['Linked List', 'Two Pointers'],
-    },
-    {
-        questionNo: 23,
-        title: 'Reverse Linked List',
-        description: [
-            "Reverse a singly linked list."
-        ],
-        examples: [
-            { input: '[1,2,3,4,5]', output: '[5,4,3,2,1]', description: 'The linked list is reversed.' }
-        ],
-        category: 'easy',
-        topics: ['linked list', 'two pointers'],
-        acceptance: 90,
-        hint: ['Use iterative or recursive methods to reverse the list.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['The number of nodes in the linked list is in the range [0, 5000].'],
-        followUp: ['What if the linked list was doubly linked?'],
-        comments: [
-            { user: 'User24', text: 'Reversing a linked list is a must-know!', createdAt: "" }
-        ],
-        tags: ['Linked List', 'Two Pointers'],
-    },
-    {
-        questionNo: 24,
-        title: 'Single Number',
-        description: [
-            "Given a non-empty array of integers, every element appears twice except for one. Find that single one."
-        ],
-        examples: [
-            { input: '[2,2,1]', output: '1', description: 'The single number is 1.' }
-        ],
-        category: 'easy',
-        topics: ['bit manipulation', 'hash table'],
-        acceptance: 90,
-        hint: ['Try using bit manipulation to solve the problem.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['1 <= nums.length <= 3 * 10^4', '−3 * 10^4 <= nums[i] <= 3 * 10^4'],
-        followUp: ['Can you achieve O(1) space complexity?'],
-        comments: [
-            { user: 'User25', text: 'Bit manipulation is so interesting!', createdAt: "" }
-        ],
-        tags: ['Array', 'Bit Manipulation'],
-    },
-    {
-        questionNo: 25,
-        title: 'Two Sum',
-        description: [
-            "Given an array of integers, return indices of the two numbers such that they add up to a specific target."
-        ],
-        examples: [
-            { input: '[2,7,11,15], target = 9', output: '[0,1]', description: 'The numbers at indices 0 and 1 add up to the target.' }
-        ],
-        category: 'easy',
-        topics: ['array', 'hash table'],
-        acceptance: 90,
-        hint: ['Use a hash map to store and look up numbers efficiently.'],
-        company: ['LeetCode', 'Microsoft'],
-        constraints: ['2 <= nums.length <= 3 * 10^4', '−10^9 <= nums[i] <= 10^9', '−10^9 <= target <= 10^9'],
-        followUp: ['What if the input array is not sorted?'],
-        comments: [
-            { user: 'User26', text: 'Two Sum is a classic problem!', createdAt: "" }
-        ],
-        tags: ['Array', 'Hash Table'],
-    },
-    {
-        questionNo: 26,
-        title: 'Search in Rotated Sorted Array',
-        description: [
-            "You are given an integer array nums sorted in ascending order, and an integer target. Suppose that nums is rotated at some pivot unknown to you beforehand. You should write a function to search for target in nums. If target exists, then return its index. Otherwise, return -1."
-        ],
-        examples: [
-            { input: '[4,5,6,7,0,1,2], target = 0', output: '4', description: 'The target 0 is found at index 4.' }
-        ],
-        category: 'medium',
-        topics: ['binary search', 'array'],
-        acceptance: 75,
-        hint: ['Consider the pivot point when applying binary search.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['1 <= nums.length <= 5000', '−10^4 <= nums[i] <= 10^4', 'nums is guaranteed to be rotated at some pivot.'],
-        followUp: ['What if the array was not rotated?'],
-        comments: [
-            { user: 'User27', text: 'Binary search is always exciting!', createdAt: "" }
-        ],
-        tags: ['Array', 'Binary Search'],
-    },
-    {
-        questionNo: 27,
-        title: 'Merge Intervals',
-        description: [
-            "Given a collection of intervals, merge all overlapping intervals."
-        ],
-        examples: [
-            { input: '[[1,3],[2,6],[8,10],[15,18]]', output: '[[1,6],[8,10],[15,18]]', description: 'The intervals are merged correctly.' }
-        ],
-        category: 'medium',
-        topics: ['array', 'sorting'],
-        acceptance: 85,
-        hint: ['Sort the intervals and then merge them in a single pass.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['1 <= intervals.length <= 10^4', 'intervals[i].length == 2', '0 <= intervals[i][0] <= intervals[i][1] <= 10^4'],
-        followUp: ['Can you implement this in O(n log n) time?'],
-        comments: [
-            { user: 'User28', text: 'Merging intervals is a useful technique!', createdAt: "" }
-        ],
-        tags: ['Array', 'Sorting'],
-    },
-    {
-        questionNo: 28,
-        title: 'Find First and Last Position of Element in Sorted Array',
-        description: [
-            "Given an array of integers sorted in non-decreasing order, find the starting and ending position of a given target value. If target is not found in the array, return [-1, -1]."
-        ],
-        examples: [
-            { input: '[5,7,7,8,8,10], target = 8', output: '[3,4]', description: 'The target 8 is found at indices 3 and 4.' }
-        ],
-        category: 'medium',
-        topics: ['binary search', 'array'],
-        acceptance: 75,
-        hint: ['Use binary search to find the leftmost and rightmost indices.'],
-        company: ['LeetCode', 'Google'],
-        constraints: ['1 <= nums.length <= 10^5', '−10^9 <= nums[i] <= 10^9'],
-        followUp: ['What if the array is not sorted?'],
-        comments: [
-            { user: 'User29', text: 'Finding positions is a great challenge!', createdAt: "" }
-        ],
-        tags: ['Array', 'Binary Search'],
-    },
-    {
-        questionNo: 29,
-        title: 'Product of Array Except Self',
-        description: [
-            "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]."
-        ],
-        examples: [
-            { input: '[1,2,3,4]', output: '[24,12,8,6]', description: 'The products are calculated correctly.' }
-        ],
-        category: 'medium',
-        topics: ['array', 'prefix sum'],
-        acceptance: 80,
-        hint: ['Consider calculating products using prefix and suffix arrays.'],
-        company: ['LeetCode', 'Amazon'],
-        constraints: ['2 <= nums.length <= 10^5', '−30 <= nums[i] <= 30'],
-        followUp: ['Can you do this in O(1) space complexity?'],
-        comments: [
-            { user: 'User30', text: 'Calculating products without division is tricky!', createdAt: "" }
-        ],
-        tags: ['Array', 'Prefix Sum'],
-    },
-    {
-        questionNo: 30,
-        title: 'Climbing Stairs',
-        description: [
-            "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?"
-        ],
-        examples: [
-            { input: 'n = 2', output: '2', description: 'There are 2 ways to climb 2 steps.' }
-        ],
-        category: 'easy',
-        topics: ['dynamic programming', 'fibonacci sequence'],
-        acceptance: 90,
-        hint: ['This is similar to the Fibonacci sequence.'],
-        company: ['LeetCode', 'Facebook'],
-        constraints: ['1 <= n <= 45'],
-        followUp: ['What if you can climb 1, 2, or 3 steps at a time?'],
-        comments: [
-            { user: 'User31', text: 'I love dynamic programming problems!', createdAt: "" }
-        ],
-        tags: ['Dynamic Programming'],
+        title: "Zigzag Conversion",
+        solution: `
+      // Problem: Zigzag Conversion
+      // Convert a string to a zigzag pattern.
+      public String convert(String s, int numRows) {
+          if (numRows == 1) return s;
+  
+          StringBuilder[] rows = new StringBuilder[numRows];
+          for (int i = 0; i < numRows; i++) {
+              rows[i] = new StringBuilder();
+          }
+          int currentRow = 0;
+          boolean goingDown = false;
+  
+          for (char c : s.toCharArray()) {
+              rows[currentRow].append(c);
+              if (currentRow == 0 || currentRow == numRows - 1) goingDown = !goingDown;
+              currentRow += goingDown ? 1 : -1;
+          }
+  
+          StringBuilder result = new StringBuilder();
+          for (StringBuilder row : rows) {
+              result.append(row);
+          }
+          return result.toString();
+      }
+      `
     }
-]
+];
+
+
 
 export const companies = [
     "Microsoft", "Google", "Amazon", "Apple", "Facebook", "IBM", "SAP", "Oracle",
@@ -767,12 +201,14 @@ export const companies = [
 ];
 
 export const topics = [
-    "Arrays",
-    "Linked Lists",
+    "Array",
+    "String",
+    "Linked List",
     "Stacks",
     "Queues",
-    "Hashing",
+    "Hash Table",
     "Trees",
+    "Math",
     "Graphs",
     "Tries",
     "Heap (Priority Queue)",
@@ -798,7 +234,6 @@ export const topics = [
     "Shortest Path",
     "Graph Theory",
     "Binary Search Tree",
-    "String Matching",
     "Enumeration",
     "Bitmask",
     "Counting",
@@ -1587,6 +1022,8 @@ export const liveStreamData = [
         message: "Struggling with the logic, but I think I'm close to a solution."
     }
 ];
+
+
 
 
 

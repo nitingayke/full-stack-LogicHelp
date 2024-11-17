@@ -13,8 +13,10 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 
-export default function Problems() {
+export default function Problems({ questionsList, loginUser }) {
+
     const currentDate = new Date();
+    
     return (
         <div className='col-12 col-lg-10 col-md-11 mx-auto py-4'>
 
@@ -56,14 +58,14 @@ export default function Problems() {
                             value={currentDate}
                             view="month" // Show only the month view
                             activeStartDate={currentDate} // Set the active month to the current month
-                            onClickDay={(value) => console.log(value)}
+                            // onClickDay={(value) => }
                             className="bg-dark-gray border-0 rounded w-fit-content"
                         />
                     </div>
                 </div>
             </div>
 
-            <ProblemList />
+            <ProblemList questionsList={questionsList} loginUser={loginUser} />
         </div>
     )
 }

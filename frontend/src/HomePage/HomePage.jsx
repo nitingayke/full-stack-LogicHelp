@@ -3,14 +3,14 @@ import ProductCard from './ProductCard';
 import "./HomePage.css";
 import UserProfile from '../UserProfile/UserProfile';
 
-export default function HomePage() {
+export default function HomePage({ loginUser }) {
     return (
         <div className='col-12 col-md-10 mx-auto px-2 px-md-0 py-4'>
 
             <div className='d-flex flex-wrap'>
                 <ProductCard />
                 <div className='col-12 col-lg-7'>
-                    <UserProfile />
+                    <UserProfile loginUser={loginUser}/>
                 </div>
             </div>
 

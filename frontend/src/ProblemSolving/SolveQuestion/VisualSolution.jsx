@@ -2,13 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { solarizedlight, solarizedDarkAtom } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { solutions } from '../../functions';
 
 export default function VisualSolution({ query, language }) {
 
     const [videoSolution, setVideoSolution] = useState(null);
-    const [sourceCode, setSourceCode] = useState("");
-
+    const [sourceCode, setSourceCode] = useState();
 
     useEffect(() => {
         const fetchVideoSolution = async () => {
@@ -26,6 +26,12 @@ export default function VisualSolution({ query, language }) {
         if (query) {
             fetchVideoSolution();
         }
+
+        const questionSolution = solutions.filter((q) => q.title.toLowerCase() === query.toLowerCase());
+        if(questionSolution.length > 0){
+            setSourceCode(questionSolution[0].solution);
+        }
+        
     }, [query]);
 
     return (
@@ -49,7 +55,9 @@ export default function VisualSolution({ query, language }) {
                     <span className='pt-2'>but remember, the best solutions come from great questions!</span>
                 </div> :
                     <div>
-                        <SyntaxHighlighter language={language} style={ solarizedlight } >{sourceCode}</SyntaxHighlighter>
+                        
+                        <button className='border-0 py-1 px-3 text-secondary fw-semibold rounded-top' style={{backgroundColor: 'rgb(254 248 226)'}}>Java</button>
+                        <SyntaxHighlighter className='m-0 rounded-0' language={language} style={ solarizedlight } >{sourceCode}</SyntaxHighlighter> {/* this basically highlight the code, look like a source code or clean */}
                     </div>
                 }
             </div>

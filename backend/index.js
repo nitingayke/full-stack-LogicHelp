@@ -36,7 +36,7 @@ app.use("/questions", questions);
 
 
 app.get("*", (req, res) => {
-    res.send("Working");
+    return res.send("Working");
 });
 
 app.use((err, req, res, next) => {

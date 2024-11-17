@@ -27,7 +27,7 @@ const executeCode = async (language, sourceCode) => {
     }
 };
 
-module.exports.codeExecution = async (req, res, next) => {
+module.exports.codeExecution = async (req, res ) => {
     const { language, sourceCode } = req.body;
 
     if (!language || !sourceCode) {
@@ -38,9 +38,11 @@ module.exports.codeExecution = async (req, res, next) => {
     return res.json({ run: result });
 }
 
-module.exports.youtubeVideo = async (req, res, next) => {
+module.exports.youtubeVideo = async (req, res ) => {
 
-    const query = `DSA Question Solution ${req.body.searchQuery} code-with-mike`;
+    const query = `LeetCode ${req.body.searchQuery} solution "Code With Mike" "DSA"`;
+
+
     const API_KEY = process.env.YOUTUBE_DATA_API_KEY;
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${API_KEY}&maxResults=1&order=viewCount`;
 
