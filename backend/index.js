@@ -34,6 +34,14 @@ app.use("/api", apiExecute);
 const questions = require("./Routes/QuestionsRoute.js");
 app.use("/questions", questions);
 
+const userData = require("./Routes/UserRoute.js");
+app.use('/user', userData);
+
+const contestsData = require("./Routes/ContestsRoute.js");
+app.use('/contest', contestsData);
+
+const userDoubts = require('./Routes/DoubtsRoute.js');
+app.use('/doubts', userDoubts);
 
 app.get("*", (req, res) => {
     return res.send("Working");

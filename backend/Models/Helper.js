@@ -2,14 +2,15 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const Question = require("./Questions.js");
 const User = require("./UserModel.js");
+const PastContests = require("./PastContest.js");
 
 const mongo_url = "mongodb+srv://gaykenitin975:OGQvJJ8gJmyIq7iy@cluster0.aby67.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(mongo_url)
-.then((res) => {
-    console.log("Connection Establish successfully");
-}).catch((error) => {
-    console.log(error);
-});
+    .then((res) => {
+        console.log("Connection Establish successfully");
+    }).catch((error) => {
+        console.log(error);
+    });
 
 const questions = [
     {
@@ -17,13 +18,13 @@ const questions = [
         title: "Longest Palindromic Substring",
         // image: "https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg",
         description: [
-            "Given a string s, return the longest palindromic substring in s.",
+            "Given a string s, return the longest palindromic substring in s.", ""
         ],
         examples: [
             {
-                input: `s = "babad"`,
-                output: "bab",
-                description: `"aba" is also a valid answer.`
+                input: `x = 123`,
+                output: "321",
+                image: ''
             },
             {
                 input: `s = "cbbd"`,
@@ -86,23 +87,26 @@ const questions = [
     }
 ]
 
-function insertData(){
 
-    Question.insertMany(questions)
-    .then((docs) => {
-        console.log("questions inserted successfully: "+docs);
-    })
-    .catch((error) => {
-        console.log("Error inserting question "+ error);
-    })
-}
-
-// insertData();
-
-const deleteUser = async() => {
+const deleteUser = async () => {
     const users = await User.deleteMany({});
 
     console.log(users);
 }
 
-deleteUser();
+const contestQuestions = [{
+    contestNo: 2,
+    questions: [],
+    participatedUser: [],
+}];
+
+function insertData() {
+
+    
+
+}
+
+insertData();
+
+
+

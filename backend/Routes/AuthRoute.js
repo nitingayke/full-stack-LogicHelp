@@ -1,5 +1,5 @@
 const { userVerification } = require("../Middlewares/AuthMiddleware.js");
-const { Signup, Login } = require("../RoutesControllers/AuthController.js");
+const { Signup, Login } = require("../RouteControllers/AuthController.js");
 const wrapAsync = require("../UtilErrors/errorHandling.js");
 const router = require("express").Router();
 

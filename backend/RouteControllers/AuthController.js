@@ -1,4 +1,4 @@
-const User = require("../Models/UserModel");
+const User = require("../Models/UserModel.js");
 const { createSecretToken } = require("../UtilErrors/SecretToken.js");
 const bcrypt = require("bcryptjs");
 
@@ -36,7 +36,7 @@ module.exports.Login = async (req, res, next) => {
         return res.json({ message: 'Incorrect password or email' })
     }
     const auth = await bcrypt.compare(password, user.password);
-   
+    
     if (!auth) {
         return res.json({ message: 'Incorrect password or email' })
     }

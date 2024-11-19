@@ -47,7 +47,7 @@ export default function Contest() {
             </section>
 
             <section className='mt-4'>
-                <h3 className='ps-2'>Weekly Contest: <span className='fs-2 fw-semibold'>423</span></h3>
+                <h3 className='ps-2'>Weekly Contest: <span className='fs-2 fw-semibold'>2</span></h3>
 
                 <div className='border border-dark p-2'>
                     <p className='m-0 fw-light text-light-secondary'>Reminder: The Contest Will Start in <span className='text-light'>{time}</span></p>

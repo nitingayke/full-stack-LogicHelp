@@ -65,7 +65,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
             } catch (error) {
                 removeCookie("token");
                 navigate("/logout");
-            }
+            } 
         };
 
         verifyCookie();

@@ -60,6 +60,10 @@
     height: 80vh;
 }
 
+.contest-registed-user li:nth-child(odd){
+  background-color: rgb(44, 44, 44);
+}
+
 .fire-icon {
   color: #ff4500; /* Fire color */
   /* animation: flicker 1s infinite alternate; */

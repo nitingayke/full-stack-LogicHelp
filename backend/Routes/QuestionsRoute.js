@@ -1,6 +1,6 @@
 const express = require("express");
 const wrapAsync = require("../UtilErrors/errorHandling");
-const listingController = require("../RoutesControllers/QuestionsController");
+const listingController = require("../RouteControllers/QuestionsController");
 const router = express.Router();
 
 router.get("/total-questions", wrapAsync(listingController.questions));

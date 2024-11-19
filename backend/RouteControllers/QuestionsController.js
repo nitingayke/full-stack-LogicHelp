@@ -47,7 +47,7 @@ module.exports.getQuestion = async (req, res) => {
                 select: 'username _id image country'
             }
         });
-
+        
     return res.json(question);
 }
 

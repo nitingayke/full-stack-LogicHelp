@@ -9,6 +9,7 @@ import Login from './UserLogin/Login.jsx';
 import Signup from './UserLogin/Signup.jsx';
 import ProblemSolving from './ProblemSolving/ProblemSolving.jsx';
 import CareerResources from './CareerResources/CareerResources.jsx';
+import EditProfile from './UserProfile/EditProfile.jsx';
 
 export default function AppComponent() {
     const [loginUser, setLoginUser] = useState(null);
@@ -28,11 +29,12 @@ export default function AppComponent() {
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/logout' element={<LandingComponent />} />
+                    <Route path='/user/edit-profile/:user' element={<EditProfile loginUser={loginUser}/>} />
 
                     <Route path='/problem-solving/*' element={<ProblemSolving loginUser={loginUser}/>} />
 
                     <Route path='/career-resources/*' element={<CareerResources />} />
-
+            
                     <Route path='*' element={<NotFound />} />
                 </Routes>
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../UtilErrors/errorHandling");
-const execute = require("../RoutesControllers/ExecutionController");
+const execute = require("../RouteControllers/ExecutionController");
 
 router.post("/execute-code", wrapAsync(execute.codeExecution));
 

@@ -187,8 +187,6 @@ export const solutions = [
     }
 ];
 
-
-
 export const companies = [
     "Microsoft", "Google", "Amazon", "Apple", "Facebook", "IBM", "SAP", "Oracle",
     "Salesforce", "Accenture", "Cognizant", "Capgemini", "Infosys", "Wipro", "TCS",
