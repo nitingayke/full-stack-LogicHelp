@@ -6,22 +6,12 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { toast, ToastContainer } from 'react-toastify';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { styled } from '@mui/material/styles';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
+import { io } from "socket.io-client";
+export const socket = io("http://localhost:9658");
 
-export default function CreateNewChallenge() {
+export default function CreateNewChallenge({ loginUser }) {
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -34,28 +24,29 @@ export default function CreateNewChallenge() {
     const [title, setTitle] = useState();
     const [textMessage, setTextMessage] = useState();
     const [tag, setTag] = useState("DSA");
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageURL, setImageURL] = useState("");
 
     const handleTagButton = (currTag) => {
         setTag(currTag);
         handleClose();
     }
 
-    const handleFileChange = () => {
-        const file = event.target.files[0];
-        if (file) {
-            setSelectedFile(file);
-            setImageUrl(URL.createObjectURL(file));  // Create an object URL for the image
-        }
-    }
-
-    const handleDoubleEvent = () => {
+    const submitNewChallenge = () => {
         if (!title || !textMessage) {
             toast.error("Title and message are required.");
             return;
         }
-        toast.success("Your doubt has been successfully submitted!");
+
+        socket.emit('create-new-live-challenge', {
+            user_id: loginUser._id,
+            title,
+            message: textMessage,
+            imageURL,
+            tag
+        });
+        setTitle("");
+        setTextMessage("");
+        setImageURL("");
     }
 
     return (
@@ -66,23 +57,12 @@ export default function CreateNewChallenge() {
 
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Title' className='col-12 bg-transparent border-0 border-primary text-light p-1 fs-5' />
                 <textarea name="text-message" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} placeholder='Text Message...' className='col-12 p-2 bg-transparent text-light fs-16 border-0 mb-1 doubts-text-message'></textarea>
+                
                 <p className='m-0 fs-14 text-warning'>Optional</p>
+                <input type="text" value={imageURL} onChange={(e)=>setImageURL(e.target.value)} className='col-12 bg-transparent border border-secondary text-light p-1 fs-16 mb-2' placeholder='Enter deployment link' />
 
                 <div className='col-12 d-flex flex-wrap justify-content-between'>
                     <div className='pb-2'>
-                        <Button
-                            component="label"
-                            role={undefined}
-                            variant="contained"
-                            tabIndex={-1}
-                            startIcon={<CloudUploadIcon />}
-                        >
-                            Select Image
-                            <VisuallyHiddenInput
-                                type="file"
-                                onChange={handleFileChange}
-                            />
-                        </Button>
 
                         <Button
                             id="basic-button"
@@ -90,7 +70,7 @@ export default function CreateNewChallenge() {
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                             onClick={handleClick}
-                            className='bg-dark text-light mx-2'
+                            className='bg-dark text-light'
                         >
                             <LocalOfferIcon className='me-2 fs-6' />{tag}
                         </Button>
@@ -104,8 +84,9 @@ export default function CreateNewChallenge() {
                             }}
                         >
                             <MenuItem onClick={() => handleTagButton("DSA")}>DSA</MenuItem>
-                            <MenuItem onClick={() => handleTagButton("Web Development")}>Programming Languages</MenuItem>
-                            <MenuItem onClick={() => handleTagButton("Creative")}>Frontend</MenuItem>
+                            <MenuItem onClick={() => handleTagButton("Programming Languages")}>Programming Languages</MenuItem>
+                            <MenuItem onClick={() => handleTagButton("Web Development")}>Web Development</MenuItem>
+                            <MenuItem onClick={() => handleTagButton("Creative")}>Creative</MenuItem>
                             <MenuItem onClick={() => handleTagButton("AI")}>AI</MenuItem>
                             <MenuItem onClick={() => handleTagButton("Machine Learning")}>Machine Learning</MenuItem>
                             <MenuItem onClick={() => handleTagButton("Cybersecurity")}>Cybersecurity</MenuItem>
@@ -114,7 +95,7 @@ export default function CreateNewChallenge() {
                         </Menu>
                     </div>
 
-                    <Button variant="contained" color="secondary" startIcon={<ChatBubbleOutlineIcon />} onClick={handleDoubleEvent}>
+                    <Button variant="contained" color="secondary" startIcon={<ChatBubbleOutlineIcon />} onClick={submitNewChallenge}>
                         Post a Challenge
                     </Button>
 

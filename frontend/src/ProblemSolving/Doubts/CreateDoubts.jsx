@@ -6,7 +6,8 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { toast, ToastContainer } from 'react-toastify';
-import axios from 'axios';
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:9658');
 
 export default function CreateDoubts({ loginUser }) {
 
@@ -20,8 +21,8 @@ export default function CreateDoubts({ loginUser }) {
         setAnchorEl(null);
     };
 
-    const [title, setTitle] = useState();
-    const [textMessage, setTextMessage] = useState();
+    const [title, setTitle] = useState("");
+    const [textMessage, setTextMessage] = useState("");
     const [tag, setTag] = useState("DSA");
 
     const handleTagButton = (currTag) => {
@@ -36,24 +37,15 @@ export default function CreateDoubts({ loginUser }) {
             return;
         }
 
-        try {
-            const res = await axios.put(`http://localhost:9658/doubts/new-doubts/${loginUser._id}`, {
-                title,
-                message: textMessage,
-                tag,
-            });
-
-            if (res.status === 200) {
-                setTitle('');
-                setTextMessage('');
-                toast.success("Your doubt has been successfully submitted! Wait for a reply.");
-
-            } else {
-                toast.error(res.data.message || "An error occurred. Please try again.");
-            }
-        } catch (error) {
-            toast.error(error.response?.data?.message || "Something went wrong.");
-        }
+        socket.emit('create-new-doubt', {
+            user_id: loginUser?._id,
+            title,
+            message: textMessage,
+            tag,
+        });
+        
+        setTitle('');
+        setTextMessage('');
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -19,16 +19,35 @@ import GroupIcon from '@mui/icons-material/Group';
 import SendIcon from '@mui/icons-material/Send';
 import { ToastContainer, toast } from 'react-toastify';
 
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:9658');
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 
-export default function CurrentChallenges({ challenges = [] }) {
+export default function CurrentChallenges({ challenges, loginUser }) {
 
     const [open, setOpen] = useState(false);
     const [selectedChallenge, setSelectedChallenge] = useState(null);
     const [challengeSolution, setChallengeSolution] = useState("");
+    const [projectDeployLink, setProjectDeployLink] = useState("");
+
+    useEffect(() => {
+        socket.on('live-challenge-results-success', (data) => {
+            setSelectedChallenge((prev) => ({
+                ...prev,
+                result: [...prev.result, data.result],
+            }));
+            console.log(data);
+        });
+
+        return () => {
+            socket.off('live-challenge-results-success');
+        }
+
+    }, [loginUser]);
 
     const handleSelectedChallenge = (challenge) => {
         setSelectedChallenge(challenge);
@@ -40,13 +59,21 @@ export default function CurrentChallenges({ challenges = [] }) {
     };
 
     const handleSendEvent = () => {
-        // we have to creaete backend api that will add new solution on to the mongo db
-        if(!challengeSolution){
+        if (!challengeSolution) {
             toast.error("Please enter your solution before submitting.");
-            return ;
+            return;
         }
-    }
 
+        socket.emit('live-challenge-results', {
+            user_id: loginUser._id,
+            challenge_id: selectedChallenge._id,
+            challengeSolution,
+            projectDeployLink,
+        });
+        setChallengeSolution("");
+        setProjectDeployLink("");
+
+    }
 
     return (
         <div>
@@ -96,21 +123,20 @@ export default function CurrentChallenges({ challenges = [] }) {
                         <div>
                             <div className='col-12 col-md-11 mx-auto bg-dark-gray rounded p-2'>
                                 <div className='d-flex flex-wrap align-items-center border-bottom pt-2 pb-3 border-secondary'>
-                                    <Avatar sx={{ bgcolor: deepPurple[500], }} alt={selectedChallenge.user.username} src={selectedChallenge.user.userImage}></Avatar>
-                                    <h4 className='m-0 ps-2 text-break fw-semibold text-light-secondary'>{selectedChallenge.user.username}</h4>
+                                    <Avatar sx={{ bgcolor: deepPurple[500], }} alt={selectedChallenge?.user?.username} src={selectedChallenge?.user?.image}></Avatar>
+                                    <h4 className='m-0 ps-2 text-break fw-semibold text-light-secondary'>{selectedChallenge?.user?.username}</h4>
                                 </div>
 
                                 <h5 className='py-3 m-0'><span className='text-secondary pe-1'>Title:</span> {selectedChallenge?.title}</h5>
-                                {selectedChallenge.image && <div className='col-12 rounded'><img src={selectedChallenge.image} className=' img-fluid rounded' /></div>}
+                                {selectedChallenge?.imageURL && <div className='col-12 rounded'><img src={selectedChallenge?.imageURL} className=' img-fluid rounded' /></div>}
 
                                 <div className='py-2 fs-16 text-light-secondary'>
                                     <p className='m-0 fs-6 text-light'>Description: </p>
-                                    {selectedChallenge?.textMessage.split('\n').map((line, index) => (
-                                        <React.Fragment key={index}>
-                                            {line}
-                                            <br />
-                                        </React.Fragment>
-                                    ))}
+
+                                    <p className='pre-wrap-space' >
+                                        {selectedChallenge.textMessage}
+                                    </p>
+
                                 </div>
                             </div>
 
@@ -118,35 +144,44 @@ export default function CurrentChallenges({ challenges = [] }) {
                                 <h4 className='fw-semibold border-bottom py-2'>User Contributions <GroupIcon sx={{ color: '#FF5733' }} className='ms-1' /></h4>
 
                                 <ul className='list-unstyled'>
-                                    {selectedChallenge?.result.map((contributor, index) =>
-                                        <li key={index} className='pt-3 px-2'>
-                                            <div className='d-flex align-items-center justify-content-between'>
-                                                <div className='d-flex align-items-center'>
-                                                    <Avatar alt={contributor?.username} sx={{ bgcolor: deepPurple[300] }} src={contributor?.image} />
-                                                    <h5 className='fw-semibold ps-3 m-0 text-break'>{contributor?.username}</h5>
+                                    {
+                                        ((selectedChallenge?.result || []).length === 0) 
+                                        ? <div className='py-3 text-center'>
+                                            <h4 className='m-0 text-dark'>No Solutions Shared Yet.</h4>
+                                        </div>
+                                        : selectedChallenge?.result.map((contributor, index) =>
+                                            <li key={index} className='pt-3 px-2 border-bottom border-dark'>
+                                                <div className='d-flex align-items-center justify-content-between'>
+                                                    <div className='d-flex align-items-center'>
+                                                        <Avatar alt={contributor?.user?.username} sx={{ bgcolor: deepPurple[300] }} src={contributor?.user?.image} />
+                                                        <h5 className='fw-semibold ps-3 m-0 text-break'>{contributor?.user?.username}</h5>
+                                                    </div>
+                                                    <span className='fs-14 text-secondary'>{timeSlince(contributor?.createdAt)}</span>
                                                 </div>
-                                                <span className='fs-16 text-secondary'>{timeSlince(contributor?.createdAt)}</span>
-                                            </div>
-                                            <div className='fs-16 text-light-secondary ps-5 py-2'>
-                                                {contributor?.message.split('\n').map((line, index) => (
-                                                    <React.Fragment key={index}>
-                                                        {line}
-                                                        <br />
-                                                    </React.Fragment>
-                                                ))}
-                                                {contributor?.deployLink && <a href={contributor.deployLink} className='text-decoration-none'>click here</a>}
-                                            </div>
+                                                <div className='fs-16 text-light-secondary ps-5 pb-2'>
+                                                    <p className='pre-wrap-space border rounded-bottom rounded-end border-secondary m-0 p-1 bg-dark w-fit-content'>
+                                                        {contributor.message}
+                                                    </p>
+                                                    {contributor?.deployLink && <a href={contributor?.deployLink} className='text-decoration-none p-1'>click here</a>}
+                                                </div>
 
-                                        </li>
-                                    )}
+                                            </li>
+                                        )
+                                    }
                                 </ul>
 
-                                <div>
-                                    <div className="input-group pt-3">
-                                        <textarea value={challengeSolution} onChange={(e) => setChallengeSolution(e.target.value)} className="p-0 form-control bg-transparent border border-secondary p-1 fs-16 text-light rounded-0" placeholder="Type your response to the challenge..."></textarea>
-                                        <button className="input-group-text p-0 bg-transparent border-secondary border-start-0 rounded-0" onClick={handleSendEvent} ><SendIcon className='fs-6 text-light m-2' /></button>
-                                    </div>
+                                <textarea value={challengeSolution} onChange={(e) => setChallengeSolution(e.target.value)} className="p-0 form-control bg-transparent border border-secondary p-1 fs-16 text-light rounded-0" placeholder="Type your response to the challenge..."></textarea>
+
+                                <p className='m-0 mt-1 fs-14 text-warning border w-fit-content border-bottom-0 border-secondary py-1 px-2'>Optional</p>
+                                <input type="text" value={projectDeployLink} onChange={(e) => setProjectDeployLink(e.target.value)} className='text-light col-12 bg-transparent border border-secondary p-1 fs-16' placeholder='Enter deployment link' />
+
+                                <div className='mt-1 d-flex justify-content-end'>
+                                    <button className="input-group-text p-0 bg-transparent border-secondary rounded-0" onClick={handleSendEvent} >
+                                        <span className='text-secondary fs-16 ps-2'>Send</span>
+                                        <SendIcon className='fs-6 text-light m-2' />
+                                    </button>
                                 </div>
+
                             </div>
                         </div>
 

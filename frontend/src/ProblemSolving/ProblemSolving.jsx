@@ -46,7 +46,7 @@ export default function ProblemSolving({ loginUser }) {
             />
             <Route path='/contest' element={<ContestRegistration />} />
             <Route path='/doubts' element={<Doubts loginUser={loginUser}/>} />
-            <Route path='/live-challenge' element={<LiveChallenges />} />
+            <Route path='/live-challenge' element={<LiveChallenges loginUser={loginUser} />} />
             <Route path='/problem/:id' element={<SolveQuestion loginUser={loginUser}/>} />
             <Route path='/topic/:id' element={<TopicQuestions questionsList={questionsList} loginUser={loginUser} />} />
             <Route path='/company/:id' element={<CompaniesQuestions questionsList={questionsList} loginUser={loginUser} />} />

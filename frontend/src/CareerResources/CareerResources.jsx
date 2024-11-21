@@ -6,10 +6,11 @@ import InterviewQuestions from './InterviewQuestions/InterviewQuestions';
 import MockInterviews from './MockInterviews/MockInterviews';
 import Opportunity from './Opportunity/Opportunity';
 import Projects from './Projects/Projects';
+import './CareerResources.css';
 
-export default function CareerResources() {
+export default function CareerResources({ loginUser }) {
+
     return (
-
         <Routes>
             <Route path='/ai-bug-detection' element={<AIBugDetection />} />
             <Route path='/courses' element={<Courses />} />

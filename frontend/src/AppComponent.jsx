@@ -33,7 +33,7 @@ export default function AppComponent() {
 
                     <Route path='/problem-solving/*' element={<ProblemSolving loginUser={loginUser}/>} />
 
-                    <Route path='/career-resources/*' element={<CareerResources />} />
+                    <Route path='/career-resources/*' element={<CareerResources loginUser={loginUser} />} />
             
                     <Route path='*' element={<NotFound />} />
                 </Routes>

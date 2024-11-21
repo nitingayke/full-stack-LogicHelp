@@ -113,7 +113,6 @@ textarea{
 .cursor-pointer{
     cursor: pointer !important;
 }
-
 .question-title {
     display: inline-block;
     flex: 1;
@@ -178,6 +177,11 @@ input:focus {
 .hover-blue:hover{
     color: blue !important;
 }
+.pre-wrap-space{
+    white-space: pre-wrap;
+}
+
+
 @media (max-width: 440px) {
     #root::-webkit-scrollbar {
         display: none;
