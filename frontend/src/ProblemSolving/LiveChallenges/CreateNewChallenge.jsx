@@ -52,7 +52,7 @@ export default function CreateNewChallenge({ loginUser }) {
     return (
         <div className='mb-2 col-12'>
 
-            <div className='bg-dark-gray p-3 multi-color-border rounded'>
+            <div className='bg-dark-gray multi-color-border rounded'>
                 <h4 className='fw-semibold fs-3 m-0 pb-2'>Create New Challenge <AddTaskIcon className='fs-3 color-green' /></h4>
 
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Title' className='col-12 bg-transparent border-0 border-primary text-light p-1 fs-5' />
@@ -62,7 +62,7 @@ export default function CreateNewChallenge({ loginUser }) {
                 <input type="text" value={imageURL} onChange={(e)=>setImageURL(e.target.value)} className='col-12 bg-transparent border border-secondary text-light p-1 fs-16 mb-2' placeholder='Enter deployment link' />
 
                 <div className='col-12 d-flex flex-wrap justify-content-between'>
-                    <div className='pb-2'>
+                    <div>
 
                         <Button
                             id="basic-button"

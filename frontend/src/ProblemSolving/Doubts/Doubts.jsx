@@ -33,10 +33,88 @@ export default function Doubts({ loginUser }) {
             ]));
         }
 
+        const handleDeletedDoubt = (data) => {
+            setAllDoubts((prev) =>
+                prev?.filter((d) => d._id !== data.doubt_id)
+            );
+            setDoubts(null);
+        }
+
+        const handleUpdatedDoubt = (data) => {
+            setDoubts(data.currDoubt);
+            setAllDoubts((prev) =>
+                prev.map((doubt) =>
+                    doubt._id === data._id ? data : doubt
+                )
+            );
+        }
+
+        const handleDeleteDoubtComment = (data) => {
+            const { doubt_id, comment_id } = data;
+
+            setAllDoubts((prevDoubts) => {
+                return prevDoubts.map((doubt) => {
+                    if (doubt._id === doubt_id) {
+                        return {
+                            ...doubt,
+                            comments: doubt.comments.filter((comment) => comment._id !== comment_id),
+                        }
+                    }
+                    return doubt;
+                });
+            });
+
+            setDoubts((prev) => ({
+                ...prev,
+                comments: prev.comments.filter((comment) => comment._id !== comment_id),
+            }));
+        }
+
+        const handleUpdatedDoubtComment = (data) => {
+            const { newMessage, doubt_id, comment_id } = data;
+
+            setAllDoubts((prevDoubts) =>
+                prevDoubts.map((doubt) =>
+                    doubt._id === doubt_id
+                        ? {
+                            ...doubt,
+                            comments: doubt.comments.map((comment) =>
+                                comment._id === comment_id
+                                    ? { ...comment, message: newMessage }
+                                    : comment
+                            ),
+                        }
+                        : doubt
+                )
+            );
+
+            setDoubts((prev) =>
+                prev && prev._id === doubt_id
+                    ? {
+                        ...prev,
+                        comments: prev.comments.map((comment) =>
+                            comment._id === comment_id
+                                ? { ...comment, message: newMessage }
+                                : comment
+                        ),
+                    }
+                    : prev
+            );
+        };
+
+
         socket.on('added-new-doubt', handleNewDoubt);
+        socket.on('deleted-doubt', handleDeletedDoubt);
+        socket.on('edited-user-doubt', handleUpdatedDoubt);
+        socket.on('doubt-comment-deleted', handleDeleteDoubtComment);
+        socket.on('edited-doubt-comment', handleUpdatedDoubtComment);
 
         return () => {
             socket.off('added-new-doubt', handleNewDoubt);
+            socket.off('deleted-doubt', handleDeletedDoubt);
+            socket.off('edited-user-doubt', handleUpdatedDoubt);
+            socket.off('doubt-comment-deleted', handleDeleteDoubtComment);
+            socket.off('edited-doubt-comment', handleUpdatedDoubtComment);
         }
     }, [doubts?._id]);
 

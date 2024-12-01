@@ -33,7 +33,7 @@ mongoose
         console.log("MongoDB is connected successfully");
     })
     .catch((error) => {
-        console.error("Error in establishing connection:", error);
+        console.error("Error in establishing connection:", error.message);
     });
 
 const io = new Server(server, {
@@ -197,7 +197,7 @@ io.on("connection", (socket) => {
             currUser.userProgress.coins += 10;
             await currUser.save();
             await newChallenge.save();
-     
+
             await newChallenge.populate({
                 path: 'user',
                 select: 'username country _id image',
@@ -220,7 +220,7 @@ io.on("connection", (socket) => {
 
             const user = await User.findById(user_id);
             const challenge = await LiveChallenge.findById(challenge_id);
-    
+
             if (!user || !challenge) {
                 return socket.emit('error', { message: 'User or challenge not found.' });
             }
@@ -234,7 +234,7 @@ io.on("connection", (socket) => {
             challenge.result.push(result);
             user.userProgress.coins += 7;
             await user.save();
-            
+
             await challenge.save();
 
             result.user = {
@@ -249,6 +249,227 @@ io.on("connection", (socket) => {
             socket.emit('error', { message: "unable to add user solution." });
         }
     });
+
+    socket.on('delete-user-doubt', async (data) => {
+        try {
+            const { doubt_id } = data;
+
+            if (!doubt_id) {
+                return socket.emit('error', { message: 'doubt id not found.' });
+            }
+            const deletedDoubt = await Doubt.findByIdAndDelete(doubt_id);
+            if (!deletedDoubt) {
+                return socket.emit('error', { message: 'Doubt not found or already deleted.' });
+            }
+            io.emit('deleted-doubt', { doubt_id });
+        } catch (error) {
+            socket.emit('error', { message: "unable to delete user doubt." });
+        }
+    });
+
+    socket.on('edit-user-doubt', async (data) => {
+
+        const { doubt_id, title, message } = data;
+        try {
+            if (!doubt_id || !title || !message) {
+                return socket.emit('error', { message: 'Missing required fields.' });
+            }
+
+            let currDoubt = await Doubt.findByIdAndUpdate(
+                doubt_id,
+                { title, message },
+                { new: true }
+            ).populate({
+                path: 'user',
+                select: 'username _id image'
+            }).populate({
+                path: 'comments.user',
+                select: 'username _id image'
+            });
+
+            io.emit('edited-user-doubt', { currDoubt });
+        } catch (error) {
+            socket.emit('error', { message: "unable to update route." });
+        }
+    });
+
+    socket.on('delete-doubt-comment', async (data) => {
+        const { comment_id, doubt_id } = data;
+
+        try {
+            if (!comment_id || !doubt_id) {
+                return socket.emit('error', { message: 'Missing required fields.' });
+            }
+
+            const updatedDoubt = await Doubt.findOneAndUpdate(
+                { _id: doubt_id, 'comments._id': comment_id },
+                { $pull: { comments: { _id: comment_id } } },
+                { new: true }
+            );
+
+            if (!updatedDoubt) {
+                socket.emit("error", { message: "Doubt or comment not found" });
+                return;
+            }
+
+            io.emit("doubt-comment-deleted", { doubt_id, comment_id });
+        } catch (error) {
+            socket.emit("error", { message: "Error deleting doubt comment" });
+        }
+    });
+
+    socket.on('edit-doubt-comment', async (data) => {
+        const { doubt_id, comment_id, message: newMessage } = data;
+
+        try {
+            if (!doubt_id || !comment_id || !newMessage) {
+                return socket.emit('error', { message: 'Missing required fields.' });
+            }
+
+            let updatedDoubt = await Doubt.findOneAndUpdate(
+                { _id: doubt_id, 'comments._id': comment_id },
+                {
+                    $set: {
+                        'comments.$.message': newMessage
+                    }
+                },
+                { new: true }
+            );
+
+            if (!updatedDoubt) {
+                return socket.emit("error", { message: "Doubt or comment not found" });
+            }
+
+            io.emit('edited-doubt-comment', { newMessage, doubt_id, comment_id });
+        } catch (error) {
+            socket.emit("error", { message: "Error editing doubt comment" });
+        }
+    });
+
+    socket.on('edit-live-stream-comment', async (data) => {
+        try {
+            const { comment_id, message } = data;
+            if (!comment_id || !message) {
+                socket.emit('error', { message: 'Missing required fields.' });
+                return;
+            }
+
+            const response = await LiveStream.findOneAndUpdate(
+                { _id: comment_id },
+                { $set: { message } },
+                { new: true }
+            );
+
+            if (!response) {
+                socket.emit('error', { message: 'Comment not found.' });
+                return;
+            }
+
+            io.emit('edited-live-stream-comment', { comment_id, message });
+        } catch (error) {
+            socket.emit('error', { message: `Failed to edit comment: ${error.message}` });
+        }
+    });
+
+    socket.on('delete-live-stream-comment', async (data) => {
+        try {
+            const { comment_id } = data;
+            if (!comment_id) {
+                socket.emit('error', { message: 'Missing required fields.' });
+                return;
+            }
+
+            await LiveStream.findByIdAndDelete(comment_id);
+            io.emit('deleted-live-stream-comment', { comment_id });
+        } catch (error) {
+            socket.emit('error', { message: `Failed to delete comment: ${error.message}` });
+        }
+    });
+
+    socket.on('edit-live-challenge', async (data) => {
+        try {
+            const { challenge_id, title, textMessage, imageURL } = data;
+
+            if (!challenge_id) {
+                socket.emit('error', { message: 'Challenge ID is required.' });
+                return;
+            }
+
+            const updateFields = {};
+            if (title) updateFields.title = title;
+            if (textMessage) updateFields.textMessage = textMessage;
+            if (imageURL !== undefined) updateFields.imageURL = imageURL;
+
+            const editedChallenge = await LiveChallenge.findOneAndUpdate(
+                { _id: challenge_id },
+                { $set: updateFields },
+                { new: true },
+            )
+
+            if (!editedChallenge) {
+                socket.emit('error', { message: 'Live Challenge not found.' });
+                return;
+            }
+
+            io.emit('edited-live-challenge', {
+                challenge_id,
+                title: editedChallenge.title,
+                textMessage: editedChallenge.textMessage,
+                imageURL: editedChallenge.imageURL,
+            });
+        } catch (error) {
+            socket.emit('error', { message: `Failed to edit challenge: ${error.message}` });
+        }
+    });
+
+    socket.on('delete-selected-challenge', async (data) => {
+        const { challenge_id } = data;
+
+        if (!challenge_id) {
+            socket.emit('error', { message: 'Challenge ID is required.' });
+            return;
+        }
+
+        try {
+            const result = await LiveChallenge.findByIdAndDelete(challenge_id);
+
+            if (!result) {
+                socket.emit('error', { message: 'Challenge does not found.' });
+                return;
+            }
+
+            io.emit('deleted-selected-challenge', { challenge_id });
+        } catch (error) {
+            socket.emit('error', { message: `Failed to delete challenge: ${error.message}` });
+        }
+    });
+
+    socket.on('delete-selected-challenge-comment', async (data) => {
+        const { challenge_id, comment_id } = data;
+
+        if (!challenge_id || !comment_id) {
+            socket.emit('error', { message: 'Challenge ID and Comment ID are required.' });
+            return;
+        }
+
+        try {
+            const updatedChallenge = await LiveChallenge.findOneAndUpdate(
+                { _id: challenge_id },
+                { $pull: { result: { _id: comment_id } } },
+                { new: true } 
+            );
+
+            if (!updatedChallenge) {
+                socket.emit('error', { message: 'Challenge not found.' });
+                return;
+            }
+
+            io.emit('deleted-selected-challenge-comment', { challenge_id, comment_id });
+        } catch (error) {
+            socket.emit('error', { message: `Failed to delete comment: ${error.message}` });
+        }
+    });
+
 
     socket.on("disconnect", () => {
         console.log(`User disconnected`);
@@ -273,6 +494,7 @@ const contestsData = require("./Routes/ContestsRoute.js");
 app.use("/contest", contestsData);
 
 const userDoubts = require("./Routes/DoubtsRoute.js");
+const path = require("path");
 app.use("/doubts", userDoubts);
 
 app.get("*", (req, res) => {

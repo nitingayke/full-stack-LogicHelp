@@ -68,6 +68,10 @@
   color: #ff4500; /* Fire color */
   /* animation: flicker 1s infinite alternate; */
 }
+.border-orange{
+  border: 1px solid rgb(255, 162, 0) !important;
+}
+
 
 @keyframes flicker {
   0%, 100% {

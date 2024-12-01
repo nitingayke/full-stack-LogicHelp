@@ -20,7 +20,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [cookies, removeCookie] = useCookies([]);
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
