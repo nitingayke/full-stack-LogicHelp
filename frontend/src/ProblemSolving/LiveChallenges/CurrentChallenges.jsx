@@ -71,7 +71,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
         });
 
         socket.on('deleted-selected-challenge-comment', ({ challenge_id, comment_id }) => {
-            // here have to updated becasue selectedChallenge showing null 
+
             if (selectedChallenge?._id === challenge_id) {
                 setSelectedChallenge((prev) => ({
                     ...prev,
@@ -79,7 +79,6 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                 }));
             }
         });
-
 
         return () => {
             socket.off('live-challenge-results-success');
@@ -167,7 +166,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                 {challenges?.map((challenge, index) => (
                     <ListItemButton key={index} alignItems="flex-start" onClick={() => handleSelectedChallenge(challenge)}>
                         <ListItemAvatar>
-                            <Avatar alt={challenge?.user?.username} sx={{ bgcolor: deepOrange[500] }} src={challenge.user.userImage} />
+                            <Avatar alt={challenge?.user?.username} sx={{ bgcolor: deepOrange[500] }} src={challenge?.user?.image} />
                         </ListItemAvatar>
                         <ListItemText primary={<div className='d-flex justify-content-between'><h5 className='m-0'>{challenge?.user?.username}</h5><span className='fs-14 text-secondary'>{timeSlince(challenge?.createdAt)}</span></div>} secondary={<span className='text-light-secondary'>{challenge.title}</span>} />
                     </ListItemButton>
@@ -209,7 +208,9 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                             <div className='col-12 col-md-11 mx-auto bg-dark-gray rounded p-2'>
                                 <div className='d-flex flex-wrap align-items-center border-bottom pt-2 pb-3 border-secondary'>
                                     <Avatar sx={{ bgcolor: deepPurple[500], }} alt={selectedChallenge?.user?.username} src={selectedChallenge?.user?.image}></Avatar>
-                                    <h4 className='m-0 ps-2 text-break fw-semibold text-light-secondary'>{selectedChallenge?.user?.username}</h4>
+                                    <Link className='text-decoration-none text-secondary fw-semibold hover-orange text-break fs-4 ps-3' to={`/user-profile/${selectedChallenge?.user?._id}`} >{selectedChallenge?.user?.username}</Link>
+
+                                    <span className='fs-16 text-secondary ms-auto'>{timeSlince(selectedChallenge?.createdAt)} ago</span>
                                 </div>
 
                                 {
@@ -314,10 +315,11 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                                             </div>
                                             : selectedChallenge?.result.map((contributor, index) =>
                                                 <li key={index} className='pt-3 px-2 border-bottom border-dark'>
-                                                    <div className='d-flex align-items-center justify-content-between'>
+                                                    <div className='d-flex align-items-center justify-content-between pb-2'>
                                                         <div className='d-flex align-items-center'>
                                                             <Avatar alt={contributor?.user?.username} sx={{ bgcolor: deepPurple[300] }} src={contributor?.user?.image} />
-                                                            <h5 className='fw-semibold ps-3 m-0 text-break'>{contributor?.user?.username}</h5>
+
+                                                            <Link className='text-decoration-none text-light hover-orange text-break fs-4 ps-3' to={`/user-profile/${contributor?.user?._id}`} >{contributor?.user?.username}</Link>
                                                         </div>
                                                         <span className='fs-14 text-secondary'>{timeSlince(contributor?.createdAt)}</span>
                                                     </div>

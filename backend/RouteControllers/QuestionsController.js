@@ -114,7 +114,6 @@ module.exports.questionLike = async (req, res) => {
 
     const question = await Question.findById(question_id);
 
-
     if (!question) {
         return res.status(404).json({ message: "Question not found" })
     }

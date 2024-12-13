@@ -9,33 +9,33 @@ import { searchQuestions } from '../functions.js';
 import PrintQuestions from './PrintQuestions.jsx';
 import ProgressSection from './ProgressSection.jsx';
 
-export default function Consistency({ loginUser }) {
+export default function Consistency({ currUser }) {
     const [search, setSearch] = useState("");
     const [prevSelected, setPrevSelected] = useState("option-1");
     const [solvedQuestion, setSolvedQuestion] = useState([]);
     const [allQuestions, setAllQuestions] = useState([]);
 
     useEffect(() => {
-        const questions = loginUser?.userProgress?.submissions.flatMap(submission => submission.questions) || [];
+        const questions = currUser?.userProgress?.submissions.flatMap(submission => submission.questions) || [];
        const reverseQuestios = questions.reverse();
         setAllQuestions(reverseQuestios);
         setSolvedQuestion(reverseQuestios);
-    }, [loginUser]);
+    }, [currUser]);
 
-    const labels = loginUser?.userProgress?.contestStatus.map((data) => data.contest);
+    const labels = currUser?.userProgress?.contestStatus.map((data) => data.contest);
     const lineData = {
         labels,
         datasets: [
             {
                 label: 'Contest Rank',
-                data: loginUser?.userProgress?.contestStatus.map((data) => data.rank),
+                data: currUser?.userProgress?.contestStatus.map((data) => data.rank),
                 borderColor: '#ffffff',
                 backgroundColor: '#ff5722',
             },
         ],
     };
 
-    const last30Submissions = loginUser?.userProgress?.submissions.slice(-30);
+    const last30Submissions = currUser?.userProgress?.submissions.slice(-30);
     const submissionData = {
         labels: last30Submissions?.map((data) => data.date.slice(0, 10)),
         datasets: [
@@ -47,8 +47,8 @@ export default function Consistency({ loginUser }) {
         ],
     };
 
-    const latestRank = (loginUser?.userProgress?.contestStatus?.at(-1)?.rank || 0); 
-    const totalAttempts = loginUser?.userProgress?.contestStatus.length;
+    const latestRank = (currUser?.userProgress?.contestStatus?.at(-1)?.rank || 0); 
+    const totalAttempts = currUser?.userProgress?.contestStatus.length;
 
     const categoryCounts = {
         easy: 0,
@@ -76,7 +76,7 @@ export default function Consistency({ loginUser }) {
             if (innerText === 'all') {
                 setSolvedQuestion(allQuestions);
             } else if (innerText === 'favorite') {
-                setSolvedQuestion(loginUser?.userProgress?.favoriteQuestion || []);
+                setSolvedQuestion(currUser?.userProgress?.favoriteQuestion || []);
             } else {
                 setSolvedQuestion(allQuestions.filter((data) => data.category === innerText));
             }
@@ -101,15 +101,15 @@ export default function Consistency({ loginUser }) {
                 </div>
             </div>
 
-            <ProgressSection categoryCounts={categoryCounts} loginUser={loginUser} />
+            <ProgressSection categoryCounts={categoryCounts} currUser={currUser} />
 
             <div className='col-12 mb-3 consistency-box p-3 rounded'>
                 <h5 className='d-flex'><CodeIcon className='text-aqua me-1' />Languages</h5>
 
                 {
-                    (!loginUser?.userProgress?.languages || loginUser?.userProgress?.languages.length === 0)
+                    (!currUser?.userProgress?.languages || currUser?.userProgress?.languages.length === 0)
                         ? <p className='text-center fs-16 text-light-secondary py-3 m-0'>Solve questions to add languages to your profile.</p>
-                        : loginUser?.userProgress?.languages.map((languageData, index) => {
+                        : currUser?.userProgress?.languages.map((languageData, index) => {
                             return (
                                 <div className='d-flex justify-content-between text-secondary' key={index}>
                                     <span>{languageData.language}</span>
@@ -128,14 +128,14 @@ export default function Consistency({ loginUser }) {
                 <h5 className='m-0 d-flex align-items-center'><CheckCircleOutlineIcon className='fs-5 me-1 color-green' />Skills</h5>
                 <ul className='d-flex flex-wrap list-unstyled m-0'>
                     {
-                        loginUser?.userProgress?.skills.map((skill, index) => (
+                        currUser?.userProgress?.skills.map((skill, index) => (
                             <li className='px-2 py-1 m-1 selected-link fs-16 rounded text-light-secondary' key={index}>
                                 {skill}
                             </li>
                         ))
                     }
                     {
-                        (loginUser?.userProgress?.skills?.length === 0) && (
+                        (currUser?.userProgress?.skills?.length === 0) && (
                             <p className="text-center col-12 py-3 fs-16 text-light-secondary m-0">
                                 You haven't added any skills yet. <br />
                                 Start solving problems to unlock and add skills to your profile!
@@ -150,8 +150,8 @@ export default function Consistency({ loginUser }) {
                     <h6 className='m-0 d-flex fs-5'>Submissions in the past one month</h6>
 
                     <div className='fs-14 text-secondary d-flex'>
-                        <p className='m-0 me-2'>Total active day <span className='fs-16 text-light-secondary'>{loginUser?.userProgress?.submissions?.length || 0}</span></p>
-                        <p className='m-0'>Total streak <span className='fs-16 text-light-secondary'>{loginUser?.userProgress?.totalStreak || 0}</span></p>
+                        <p className='m-0 me-2'>Total active day <span className='fs-16 text-light-secondary'>{currUser?.userProgress?.submissions?.length || 0}</span></p>
+                        <p className='m-0'>Total streak <span className='fs-16 text-light-secondary'>{currUser?.userProgress?.totalStreak || 0}</span></p>
                     </div>
                 </div>
 

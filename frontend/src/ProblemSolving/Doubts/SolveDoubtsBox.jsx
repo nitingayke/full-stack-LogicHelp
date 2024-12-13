@@ -17,6 +17,7 @@ import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
 
 import { io } from 'socket.io-client';
+import { Link } from 'react-router-dom';
 const socket = io('http://localhost:9658');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -140,7 +141,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         });
         setEditCommentOpen(false);
     }
-
+    
     return (
         <>
             <div className='bg-dark-gray p-2 rounded'>
@@ -157,10 +158,12 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
                 ) : (
                     <div className='p-2'>
                         <div className='d-flex align-items-center justify-content-between col-12 pb-2'>
-                            <div className='d-flex align-items-center'>
+
+                            <Link to={`/user-profile/${localDoubts?.user?._id}`} className='d-flex align-items-center text-decoration-none hover-orange text-light' >
                                 <Avatar sx={{ bgcolor: deepPurple[500] }} className='me-2' alt={(localDoubts?.user?.username || '').toUpperCase()} src={doubts?.user?.image || '#'} />
                                 <h4 className='text-break m-0 fw-semibold'>{localDoubts?.user?.username}</h4>
-                            </div>
+                            </Link>
+
                             <p className='text-light-secondary m-0 fs-16'>{timeSlince(localDoubts?.createdAt)} ago</p>
                         </div>
                         {localDoubts?.isSolve ? (

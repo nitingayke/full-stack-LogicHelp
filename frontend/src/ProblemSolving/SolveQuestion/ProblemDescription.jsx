@@ -17,21 +17,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { Link } from 'react-router-dom';
 
 export default function ProblemDescription({ problem, loginUser }) {
     const [localProblem, setLocalProblem] = useState(problem);
     const [isLoading, setIsLoading] = useState(false);
     const [commentText, setCommentText] = useState();
 
+    console.log(localProblem)
     const handleLikeButton = async () => {
         try {
             setIsLoading(true);
             const res = await axios.put(`http://localhost:9658/questions/question-like/${problem._id}/user/${loginUser._id}`);
 
-            if (res.status !== 200) {
-                setLocalProblem((prev) => ({
+            if (res.status === 200) {
+                setLocalProblem((prev) =>  ({
                     ...prev,
-                    likes: res.data.updatedLikes,
+                    likes: [...prev.likes, loginUser._id],
                 }));
             } else {
                 toast.error("Something went wrong. Please try again later.");
@@ -301,9 +303,8 @@ export default function ProblemDescription({ problem, loginUser }) {
 
                             <div className='d-flex flex-wrap align-items-center py-2 col-12'>
                                 <Avatar sx={{ bgcolor: deepOrange[500] }} alt={comment?.user?.username} src={comment?.user?.image}></Avatar>
-                                <h5 className='m-0 ps-2 fw-semibold hover-blue cursor-pointer'>{comment?.user?.username}
-                                    <i className='m-0 fs-14 ps-2 text-secondary'>{comment?.user?.country}</i>
-                                </h5>
+                                <Link to={`/user-profile/${comment?.user?._id}`} className='m-0 fs-5 ps-2 fw-semibold hover-orange cursor-pointer text-decoration-none text-light'>{comment?.user?.username}</Link>
+                                <i className='m-0 fs-14 ps-2 text-secondary'>{comment?.user?.country}</i>
 
                                 <p className='m-0 ms-auto fs-14 opacity-25'>{timeSlince(comment?.createdAt)}</p>
                             </div>

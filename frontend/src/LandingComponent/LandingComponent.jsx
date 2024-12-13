@@ -41,48 +41,21 @@ export default function LandingComponent() {
                 </h3>
             </div>
             <section className='pt-5 border-bottom border-secondary pb-4'>
+
                 <div className="feature">
                     <h3 className="landingpage-section-header fw-semibold m-0">
                         <BookIcon style={{ color: '#007BFF' }} /> Learn DSA (Data Structures and Algorithms)
                     </h3>
                     <FeatureComponent description={"Master key concepts in Data Structures and Algorithms through a wide variety of problems, ranging from beginner to advanced levels. LogicHelp provides detailed solutions and multiple approaches to help you understand the problem-solving process deeply. This will strengthen your foundation for technical interviews and coding competitions."} imgURL={"https://thedigitaladda.com/wp-content/uploads/Data-Structure-Algorithms.png"} />
                 </div>
+
                 <div className='feature'>
                     <h3 className="landingpage-section-header fw-semibold m-0">
                         <SchoolIcon style={{ color: '#28A745' }} /> Comprehensive Course Library
                     </h3>
                     <FeatureComponent description={"Explore a vast collection of IT courses covering various topics such as AI/ML, Data Structures, Web Development, Python, and more. Each course is designed to provide in-depth knowledge and practical skills, allowing you to learn at your own pace and convenience."} imgURL={"https://blogassets.leverageedu.com/blog/wp-content/uploads/2020/05/23151218/BA-Courses.png"} />
                 </div>
-                <div className='feature'>
-                    <h3 className="landingpage-section-header fw-semibold m-0">
-                        <CertificateIcon style={{ color: '#FFC107' }} /> Certification Upon Completion
-                    </h3>
-                    <FeatureComponent description={"Receive a certification after successfully completing each course, which you can showcase on your resume and LinkedIn profile. This certification validates your skills and knowledge, making you more attractive to potential employers."} imgURL={"/assets/certificate.png"} />
-                </div>
-                <div className="feature">
-                    <h3 className="landingpage-section-header fw-semibold m-0">
-                        <BuildIcon style={{ color: '#17A2B8' }} /> Build Real Projects
-                    </h3>
-                    <FeatureComponent description={"Work on hands-on coding projects that simulate real-world challenges. Whether it's developing a full-stack web application or a mobile app, you'll build practical solutions that you can add to your portfolio. These projects are designed to enhance your coding logic and creativity, making you more job-ready."} imgURL={"https://epee-education.com/wp-content/uploads/2023/03/Real-World-Projects-Solving-Real-World-Problems-1.jpg"} />
-                </div>
-                <div className="feature">
-                    <h3 className="landingpage-section-header fw-semibold m-0">
-                        <InterviewIcon style={{ color: '#FF5733' }} /> Practice Mock Interviews
-                    </h3>
-                    <FeatureComponent description={"Prepare for real-life interviews with our mock interview sessions, guided by industry professionals. You'll experience realistic interview questions, receive constructive feedback, and gain the confidence you need to excel in actual interviews. Each session helps you identify areas for improvement and refine your answers."} imgURL={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDWunGzXdPAIc3oK2Q_Se5dglGYP9Y283wwz25BwtSTY5zlOHeXm1v_hxE5AmIVmGZn84&usqp=CAU"} />
-                </div>
-                <div className="feature">
-                    <h3 className="landingpage-section-header fw-semibold m-0">
-                        <QuestionAnswerIcon style={{ color: '#6610F2' }} /> Access Interview Questions
-                    </h3>
-                    <FeatureComponent description={"Gain access to a comprehensive repository of interview questions that have been asked by top companies such as Google, Facebook, and Amazon. Each question comes with detailed explanations, allowing you to explore multiple problem-solving strategies and improve your chances of cracking technical interviews."} imgURL={"https://media.istockphoto.com/id/2162708563/vector/school-exam-results-concept-educational-quiz-score-passing-checklist-checklist-assignment.jpg?s=612x612&w=0&k=20&c=FART8Is2LdBg3TSdFyX_RuipeRCKISyl81AVcAGZi2c="} />
-                </div>
-                <div className='feature'>
-                    <h3 className="landingpage-section-header fw-semibold m-0">
-                        <TrackChangesIcon style={{ color: '#6F42C1' }} /> Personalized Learning Path
-                    </h3>
-                    <FeatureComponent description={"LogicHelp provides a customized learning path based on your skill level and goals. Whether you're aiming to improve your coding skills or get ready for job placements, the platform adapts to guide you step by step toward mastering essential topics and achieving success in your career."} imgURL={"https://www.slideteam.net/media/catalog/product/cache/1280x720/p/a/path_to_success_with_stairs_and_employee_slide01.jpg"} />
-                </div>
+
                 <div className='feature'>
                     <h3 className="landingpage-section-header fw-semibold m-0">
                         <PeopleIcon style={{ color: '#DC3545' }} /> Community Support

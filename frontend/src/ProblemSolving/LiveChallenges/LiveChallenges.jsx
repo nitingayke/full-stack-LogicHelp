@@ -19,6 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import LinearProgress from '@mui/material/LinearProgress';
 import { io } from 'socket.io-client';
+import { Link } from 'react-router-dom';
 const socket = io('http://localhost:9658');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -241,7 +242,7 @@ export default function LiveChallenges({ loginUser }) {
                                                 />
                                                 <div className='ps-3 flex-1'>
                                                     <div className='d-flex justify-content-between flex-1'>
-                                                        <h5 className='m-0 text-break'>{stream?.user?.username}</h5>
+                                                        <Link className='text-decoration-none text-light hover-orange text-break fs-5' to={`/user-profile/${stream?.user?._id}`} >{stream?.user?.username}</Link>
                                                         <span className='fs-14 text-secondary'>{timeSlince(stream?.createdAt)}</span>
                                                     </div>
                                                     <div className="mt-2 fs-16 text-light-secondary m-0 bg-dark p-2 rounded-bottom rounded-end border border-secondary">

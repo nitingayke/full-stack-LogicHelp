@@ -3,7 +3,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { DoughnutGraph } from '../Chart/DoughnutGraph';
 import axios from 'axios';
 
-export default function ProgressSection({ categoryCounts, loginUser }) {
+export default function ProgressSection({ categoryCounts, currUser }) {
     const [questions, setQuestions] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,7 +24,7 @@ export default function ProgressSection({ categoryCounts, loginUser }) {
         }
 
         getTotalQuestions();
-    }, []);
+    }, [currUser]);
 
     const category_Questions = {
         easy: 0,
@@ -45,10 +45,10 @@ export default function ProgressSection({ categoryCounts, loginUser }) {
             {
                 label: 'Problems',
                 data: [((category_Questions.easy + category_Questions.medium + category_Questions.hard)
-                    - (categoryCounts.easy - categoryCounts.medium - categoryCounts.hard)),
-                categoryCounts.easy,
-                categoryCounts.medium,
-                categoryCounts.hard
+                    - (categoryCounts?.easy - categoryCounts?.medium - categoryCounts?.hard)),
+                categoryCounts?.easy,
+                categoryCounts?.medium,
+                categoryCounts?.hard
                 ],
                 backgroundColor: [
                     '#6f6f6d42',
@@ -77,7 +77,7 @@ export default function ProgressSection({ categoryCounts, loginUser }) {
 
                 {isLoading
                     ? <div className="d-flex justify-content-center align-items-center pt-5">
-                        <div className="spinner-border" role="status">
+                        <div className="spinner-border" >
                         </div>
                     </div>
                     : <div className='d-flex justify-content-between'>
@@ -99,7 +99,7 @@ export default function ProgressSection({ categoryCounts, loginUser }) {
                         </div>
                     </div>
                 }
-                <p className='m-0 fs-16 text-secondary pt-2'>Support Points: <span className='text-light'>{loginUser?.userProgress?.supportPoints}</span></p>
+                <p className='m-0 fs-16 text-secondary pt-2'>Support Points: <span className='text-light'>{currUser?.userProgress?.supportPoints}</span></p>
             </div>
         </div>
     )

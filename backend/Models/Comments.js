@@ -7,7 +7,7 @@ const commentSchema = new mongoose.Schema({
         { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
     ]
 }, {
-    timestamps: { createdAt: true, updatedAt: false }
+    timestamps: { createdAt: true, updatedAt: true }
 });
 
 module.exports = mongoose.model("Comment", commentSchema);

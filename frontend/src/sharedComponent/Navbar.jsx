@@ -16,7 +16,7 @@ import axios from "axios";
 import "./SharedComponent.css";
 
 export default function Navbar({ loginUser, handleLoginUser }) {
-    const [selected, setSelectedButton] = useState("");
+
     const navigate = useNavigate();
     const location = useLocation();
     const [cookies, removeCookie] = useCookies([]);
@@ -65,7 +65,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
             } catch (error) {
                 removeCookie("token");
                 navigate("/logout");
-            } 
+            }
         };
 
         verifyCookie();
@@ -79,30 +79,16 @@ export default function Navbar({ loginUser, handleLoginUser }) {
         navigate("/logout");
     };
 
-
-    const handleSelectButton = (e) => {
-        const currEle = e.currentTarget;
-        const currId = currEle.id;
-
-        if (selected) {
-            document.getElementById(selected).classList.remove("selected-link");
-        }
-        if (currId) {
-            currEle.classList.add("selected-link");
-            setSelectedButton(currId);
-        }
-    }
-
     return (
         <div className='sticky-top dashboard-navbar'>
             <nav className="navbar navbar-expand-md col-12 col-lg-10 mx-auto px-3 px-lg-0">
                 <div className="container-fluid  px-2 px-md-0">
 
-                    <span onClick={handleSelectButton} >
+                    <button className='bg-transparent border-0' type='button'>
                         <Link to={"/"} className="navbar-brand" >
                             <img src="/assets/Logo.png" alt="" />
                         </Link>
-                    </span>
+                    </button>
 
 
                     <button className="navbar-toggler navbar-collapse-button border-0 ms-auto me-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" >
@@ -112,35 +98,34 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
 
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-link redirect-link mt-3 mt-md-0" onClick={handleSelectButton} id='navlink1'>
-                                <Link to={"/problem-solving/problems"}>Problems</Link>
-                            </li>
 
-                            <li className="nav-link redirect-link" onClick={handleSelectButton} id='navlink2'>
-                                <Link to={"/problem-solving/contest"}>Contest</Link>
-                            </li>
-
-                            <li className="nav-link redirect-link" onClick={handleSelectButton} id='navlink3'>
-                                <Link to={"/problem-solving/doubts"}>Doubts</Link>
-                            </li>
-
-                            <li className="nav-link redirect-link me-1 position-relative  mb-4 mb-md-0" onClick={handleSelectButton} id='navlink4'>
-                                <Link to={"/problem-solving/live-challenge"}>Live Challenge</Link>
-                                <span className="position-absolute translate-middle red rounded-circle live"></span>
-                            </li>
+                            {
+                                [
+                                    { id: "navlink1", path: "/problem-solving/problems", label: "Problems" },
+                                    { id: "navlink2", path: "/problem-solving/contest", label: "Contest" },
+                                    { id: "navlink3", path: "/problem-solving/doubts", label: "Doubts" },
+                                    { id: "navlink4", path: "/problem-solving/live-challenge", label: "Live Challenge" },
+                                ].map((link) => (
+                                    <li key={link?.id} className='nav-link redirect-link mt-3 mt-md-0'>
+                                        <Link to={link.path}>
+                                            <button className="bg-transparent border-0 text-secondary hover-orange" id={link.id}>{link.label}</button>
+                                        </Link>
+                                    </li>
+                                ))
+                            }
                         </ul>
 
                     </div>
                     <ul className='d-flex align-items-center list-unstyled d-flex border-start mb-3 mt-3 m-md-0'>
 
-                        <li onClick={handleSelectButton} >
+                        <li>
                             <Link to={"/coins"} className='p-0 ps-2 nav-link d-flex justify-content-center'>
                                 <MonetizationOnIcon className='fs-5 color-gold' />
                                 <span className='color-gold mx-1 fs-6'>{(loginUser?.userProgress?.coins || 0)}</span>
                             </Link>
                         </li>
 
-                        <li onClick={handleSelectButton} >
+                        <li>
                             {
                                 (!loginUser?.userProgress?.totalSreak) ? <span className='d-flex text-secondary fs-6 ms-1'><StarBorderIcon className='fs-5' /><span className='fs-6'>0</span> </span>
                                     : <span className='d-flex ms-1'><StarIcon className='fs-5 text-orange' /><span className='ms-1 fs-6 text-orange'>{loginUser?.userProgress?.totalSreak}</span> </span>
@@ -174,7 +159,11 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                                             }}
                                             className='mt-2'
                                         >
-                                            <MenuItem onClick={handleClose}><PortraitOutlinedIcon className='fs-5 me-1' />Profile</MenuItem>
+                                            <MenuItem onClick={handleClose}>
+                                                <Link className='text-decoration-none text-dark' to={`user-profile/${loginUser?._id}`}>
+                                                    <PortraitOutlinedIcon className='fs-5 me-1' />Profile
+                                                </Link>
+                                            </MenuItem>
                                             <MenuItem onClick={Logout}><LogoutIcon className='fs-5 me-1' />Logout</MenuItem>
                                         </Menu>
                                     </div>

@@ -39,6 +39,12 @@
     color: white !important;
 }
 
+.profile-image-update{
+    display: none;
+}
+.profile-image-component:hover .profile-image-update{
+    display: block !important;
+}
 
 
 @media (max-width: 750px) {

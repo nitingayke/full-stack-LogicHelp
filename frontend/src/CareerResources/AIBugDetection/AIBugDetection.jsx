@@ -1,47 +1,90 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import '../CareerResources.css';
 
 export default function AIBugDetection() {
 
-    const [userInput, setuserInput] = useState("");
+    const [userInput, setUserInput] = useState("");
     const [bugOutput, setBugOutput] = useState();
-    const [question, setQuestion] = useState();
 
-    const handleButDetectionEvent = (e) => {
+    const [question, setQuestion] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleButDetectionEvent = async (e) => {
         e.preventDefault();
+
+        setBugOutput();
         setQuestion(userInput);
+
+        try {
+            setIsLoading(true);
+            const response = await axios.post('http://localhost:9658/api/execute-user-bug', {
+                userDoubt: userInput,
+            });
+            setBugOutput(response.data.response);
+        } catch (error) {
+            setBugOutput(error?.response?.data?.error?.message || error?.response?.data.error || 'An error occurred while fetching the response.');
+        } finally {
+            setUserInput("");
+            setIsLoading(false);
+        }
     }
 
     return (
         <div className='d-flex align-items-end h-100 p-3 col-12'>
             <div className='col-12 col-md-9 col-lg-8 mx-auto'>
-                <div className='text-center py-5 px-3'>
-                    <h2 className='text-light-secondary fw-bold'>AI BUG DETECTION</h2>
-                    <p className='m-0 text-secondary fs-16'>This AI will help you to execute</p>
-                    <p className='m-0 text-secondary fs-16'>Syntax Errors, Logical Errors, Runtime Errors, Database Issues, Code Quality Issues, Performance Issues, etc</p>
-                </div>
                 {
-                    question && <p className='mb-2 text-light fs-6 p-2 rounded-top-3 rounded-start-3 bg-dark-gray w-fit-content'>{question}</p>
+                    (!question) &&
+                    <div className='text-center py-5 px-3'>
+                        <h2 className='text-light-secondary fw-bold'>AI BUG DETECTION</h2>
+                        <p className='m-0 text-secondary fs-16'>This AI will help you to execute</p>
+                        <p className='m-0 text-secondary fs-16'>Syntax Errors, Logical Errors, Runtime Errors, Database Issues, Code Quality Issues, Performance Issues, etc</p>
+                    </div>
                 }
                 {
-                    !bugOutput && 
-                    <div className='text-light-secondary fs-6 p-2 rounded-bottom-4 rounded-end-4 bg-dark-gray w-fit-content'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quam fugit porro ullam rerum magni dignissimos dolores officia magnam commodi ad saepe distinctio, mollitia veritatis, sunt iste blanditiis reprehenderit beatae enim.</div>
+                    question && <div className='pre-wrap-space mb-2 text-light fs-6 p-2 rounded-top rounded-start bg-dark w-fit-content d-flex'>
+                        {question}
+                        {isLoading && <div className="spinner-border spinner-border-sm text-orange ms-2"></div>}
+                    </div>
                 }
+                {
+                    bugOutput &&
+                    (
+                        bugOutput.includes("429")
+                            ? (
+                                <p className='m-0 pre-wrap-space text-danger fs-6 p-2 rounded-bottom rounded-end w-fit-content border border-danger bg-light-red'>
+                                    {bugOutput}
+                                </p>
+                            ) : (
+                                <p className='text-light-secondary pre-wrap-space fs-6 p-2 rounded-bottom rounded-end bg-dark w-fit-content'>
+                                    {bugOutput}
+                                </p>
+                            )
+                    )
+                }
+
 
                 <form className='text-center py-3' onSubmit={handleButDetectionEvent}>
                     <textarea
-                        className='col-12 bg-transparent text-light p-1'
+                        className='col-12 bg-transparent text-light p-2 border-secondary'
                         id="bugDescription"
                         placeholder="Describe the bug here..."
                         value={userInput}
-                        onChange={(e)=>setuserInput(e.target.value)}
+                        rows={4}
+                        onChange={(e) => setUserInput(e.target.value)}
                     ></textarea>
                     <br />
-                    <button
-                        type='submit'
-                        className='border-0 rounded text-dark bg-info fw-semibold py-2 px-3 but-submit-button'
-                    >
-                        Submit
-                    </button>
+                    {
+                        (userInput?.length > 0)
+                            ? <button
+                                type='submit'
+                                className='border-0 rounded text-dark bg-info fw-semibold py-2 px-3 but-submit-button'>Submit
+                            </button>
+                            : <button
+                                type='button'
+                                className='border border-info rounded text-info bg-transparent fw-semibold py-2 px-3 but-submit-button'>Submit
+                            </button>
+                    }
                 </form>
             </div>
         </div>
