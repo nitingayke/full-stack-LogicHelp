@@ -87,7 +87,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
 
                     <button className='bg-transparent border-0' type='button'>
                         <Link to={"/"} className="navbar-brand" >
-                            <img src="/assets/Logo.png" alt="" />
+                            <img src="https://res.cloudinary.com/dnpg99izj/image/upload/v1734178980/loginhelp_user_profiles/msl0p6yggut9q0ge1r3g.png" alt="" />
                         </Link>
                     </button>
 

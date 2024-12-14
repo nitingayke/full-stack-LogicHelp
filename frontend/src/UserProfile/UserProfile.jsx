@@ -46,7 +46,6 @@ export default function UserProfile({ loginUser, currUser }) {
             });
 
             if (response.status === 200) {
-                handleChangeProfile(false);
                 setUpdatedImage(response.data.url);
                 setImage();
             } else {

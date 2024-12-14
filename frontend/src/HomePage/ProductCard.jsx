@@ -8,7 +8,7 @@ export default function ProductCard() {
             <div className='col-lg-6 col-12 rounded p-2'>
                 <div className='d-flex flex-column rounded p-2 product-card h-100'>
 
-                    <CardHeader imgURL={"/assets/AIBugDetection.jpeg"} title={"AI Bug Detection"} rating={69.99} star={3} newBatchLaunch={false}/>
+                    <CardHeader imgURL={"https://mverve.com/wp-content/uploads/2024/06/circuit-board-and-ai-micro-processor-artificial-i-2023-11-27-05-28-41-utc-scaled.jpg"} title={"AI Bug Detection"} star={3} newBatchLaunch={false}/>
 
                     <p className='m-0 fs-16 card-about-prodcut flex-1'>An intelligent bug detection tool that uses AI algorithms to identify and suggest fixes for common coding issues, improving code quality and reducing debugging time.</p>
                     
@@ -22,7 +22,7 @@ export default function ProductCard() {
 
             <div className='col-lg-6 col-12 rounded p-2'>
                 <div className='d-flex flex-column rounded p-2 product-card h-100'>
-                    <CardHeader imgURL={"/assets/Courses.webp"} title={"Courses"} rating={99.99} star={5} newBatchLaunch={true}/>
+                    <CardHeader imgURL={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIhg-aaxfGQDcxiYNQiIACqfy3M3vwy_JFcQ&s"} title={"Courses"} star={5} newBatchLaunch={true}/>
 
                     <div className='card-about-prodcut'>
                         <div>
@@ -44,7 +44,7 @@ export default function ProductCard() {
             <div className='col-lg-6 col-12 rounded p-2'>
                 <div className='d-flex flex-column rounded p-2 product-card h-100'>
 
-                    <CardHeader imgURL={"/assets/opportunity.png"} title={"Job, Internship & Hackathon Opportunities"} rating={89.01} star={4}  newBatchLaunch={true}/>
+                    <CardHeader imgURL={"https://img.freepik.com/free-vector/internship-job-illustration_23-2148722413.jpg"} title={"Job, Internship & Hackathon Opportunities"} star={4}  newBatchLaunch={true}/>
 
                     <p className='m-0 fs-16 card-about-prodcut'>Explore a wide range of job opportunities that match your skills and expertise. From tech to management, find positions in top companies and accelerate your career with the right job.</p>
 

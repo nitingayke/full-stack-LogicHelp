@@ -2,17 +2,13 @@ import React from 'react';
 import "./LandingComponent.css";
 import BookIcon from '@mui/icons-material/Book';
 import SchoolIcon from '@mui/icons-material/School';
-import CertificateIcon from '@mui/icons-material/Assignment';
-import BuildIcon from '@mui/icons-material/Build';
-import InterviewIcon from '@mui/icons-material/Chat';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import PeopleIcon from '@mui/icons-material/People';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import FeatureComponent from './FeatureComponent';
 import MonacoEditor from '../MonacoEditor/MonacoEditor';
 import { feedbacks } from './TempFeedback';
 import Rating from '@mui/material/Rating';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
 
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
@@ -40,28 +36,43 @@ export default function LandingComponent() {
                     With each line of code, we're building a tool that transforms <span className='text-danger'>challenges</span> into <span className='text-success'>solutions!</span>
                 </h3>
             </div>
-            <section className='pt-5 border-bottom border-secondary pb-4'>
+            <section className='pt-5 border-bottom border-secondary pb-4 text-center'>
 
-                <div className="feature">
-                    <h3 className="landingpage-section-header fw-semibold m-0">
+                <div className="pb-3">
+                    <h4 className="landingpage-section-header fw-semibold m-0">
                         <BookIcon style={{ color: '#007BFF' }} /> Learn DSA (Data Structures and Algorithms)
-                    </h3>
-                    <FeatureComponent description={"Master key concepts in Data Structures and Algorithms through a wide variety of problems, ranging from beginner to advanced levels. LogicHelp provides detailed solutions and multiple approaches to help you understand the problem-solving process deeply. This will strengthen your foundation for technical interviews and coding competitions."} imgURL={"https://thedigitaladda.com/wp-content/uploads/Data-Structure-Algorithms.png"} />
+                    </h4>
+                    <p className='col-md-8 mx-auto'>Master the core concepts of Data Structures and Algorithms with detailed explanations, 50+ essential topics, interactive video solutions, and ready-to-use source code. Build a strong foundation to excel in technical interviews and competitive programming.</p>
                 </div>
 
-                <div className='feature'>
-                    <h3 className="landingpage-section-header fw-semibold m-0">
+                <div className='pb-3'>
+                    <h4 className="landingpage-section-header fw-semibold m-0">
                         <SchoolIcon style={{ color: '#28A745' }} /> Comprehensive Course Library
-                    </h3>
-                    <FeatureComponent description={"Explore a vast collection of IT courses covering various topics such as AI/ML, Data Structures, Web Development, Python, and more. Each course is designed to provide in-depth knowledge and practical skills, allowing you to learn at your own pace and convenience."} imgURL={"https://blogassets.leverageedu.com/blog/wp-content/uploads/2020/05/23151218/BA-Courses.png"} />
+                    </h4>
+                    <p className='col-md-8 mx-auto'>Unlock a rich library of courses covering essential programming languages like Java, C++, Python, and more. Whether you're a beginner or an advanced learner, find the right course tailored to your learning journey and career goals.</p>
                 </div>
 
-                <div className='feature'>
-                    <h3 className="landingpage-section-header fw-semibold m-0">
-                        <PeopleIcon style={{ color: '#DC3545' }} /> Community Support
-                    </h3>
-                    <FeatureComponent description={"Join a vibrant community of learners where you can ask questions, share knowledge, and collaborate with peers. Participate in discussions, study groups, and networking opportunities that enrich your learning experience and help you build valuable connections in the tech industry."} imgURL={"/assets/community.jpg"} />
+                <div className='pb-3'>
+                    <h4 className="landingpage-section-header fw-semibold m-0">
+                        <PeopleIcon className='text-info' /> Doubt Solving
+                    </h4>
+                    <p className='col-md-8 mx-auto'>Got stuck? Post your doubts in the dedicated doubt section and get responses from fellow learners and experts. Collaborate, share ideas, and overcome challenges together as a community.</p>
                 </div>
+
+                <div className='pb-3'>
+                    <h4 className="landingpage-section-header fw-semibold m-0">
+                        <AdjustOutlinedIcon style={{ color: '#DC3545' }} /> Live Challenge
+                    </h4>
+                    <p className='col-md-8 mx-auto'>Participate in thrilling live challenges designed to test and enhance your skills. Create innovative applications, design stunning webpages, and solve real-world problems. Share your solutions and learn from others in a vibrant, competitive environment.</p>
+                </div>
+
+                <div className='pb-3'>
+                    <h4 className="landingpage-section-header fw-semibold m-0">
+                        <WorkOutlineIcon className='text-warning' /> Daily Posted Job Updates
+                    </h4>
+                    <p className='col-md-8 mx-auto'>Stay ahead in your career with up-to-date job and internship postings. Search for roles based on your skills and preferred locations, and seize the opportunities that align with your aspirations. Stay informed and get hired!</p>
+                </div>
+
             </section>
 
             <section id="testimonials" className='pt-5 border-bottom border-secondary pb-4'>

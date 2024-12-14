@@ -23,7 +23,7 @@ export default function Problems({ questionsList, loginUser }) {
             <div className='d-flex flex-wrap col-12'>
                 <div className='col-md-9 col-12 d-flex flex-wrap fs-16 '>
                     <div className="p-1 mb-1 mb-md-0 col-12 col-md-6">
-                        <Link to={"/courses/dsa"} className='text-decoration-none text-white'>
+                        <a href='https://www.youtube.com/watch?v=VTLCoHnyACE&list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt' target='_blank' className='text-decoration-none text-white'>
                             <div className="bg-dark-gray rounded p-3 h-100">
                                 <h4 className='fw-semibold text-light p-1 rounded'>DSA Course</h4>
                                 <p> &nbsp;&nbsp; Master Data Structures and Algorithms. Solve over 700+ problems and build a solid foundation for competitive programming.</p>
@@ -33,11 +33,11 @@ export default function Problems({ questionsList, loginUser }) {
                                     <li><CodeIcon className='color-orange fs-16' /> Hands-on practice</li>
                                 </ul>
                             </div>
-                        </Link>
+                        </a>
                     </div>
 
                     <div className="p-1 mb-1 mb-md-0 col-12 col-md-6">
-                        <Link to={"/courses/sql"} className='text-decoration-none text-white'>
+                        <a href='https://www.youtube.com/watch?v=hlGoQC332VM' target='_blank' className='text-decoration-none text-white'>
                             <div className="bg-dark-gray rounded p-3 h-100">
                                 <h4 className='fw-semibold text-light p-1 rounded'>SQL Course</h4>
                                 <p>&nbsp;&nbsp;Learn SQL for data manipulation and analysis. Understand complex queries and database management essentials.</p>
@@ -47,7 +47,7 @@ export default function Problems({ questionsList, loginUser }) {
                                     <li><WorkIcon style={{ color: "rgb(184 73 73)" }} className="fs-16" /> Industry-standard practices</li>
                                 </ul>
                             </div>
-                        </Link>
+                        </a>
                     </div>
                 </div>
 

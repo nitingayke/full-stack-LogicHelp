@@ -3,24 +3,6 @@
     text-underline-offset: 0.3rem;
     padding-bottom: 1.5rem;
 }
-.feature{
-    padding: 0.5rem 0;
-}
-.feature div{
-    border: 1px solid rgb(72, 72, 72);
-    border-top-left-radius: 3rem;
-    border-bottom-right-radius: 3rem;
-    background-color: #4343433d;
-}
-.feature:nth-child(even) .feature-data{
-    flex-direction: row-reverse;
-}
-.feature div img{
-    border-radius: 3rem;
-}
-.feature p{
-    line-height: 2rem;
-}
 
 .feedback-box{
     border-radius: 0.5rem;
