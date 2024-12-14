@@ -43,7 +43,7 @@ export default function ProblemDescription({ problem, loginUser }) {
             if (res.status === 200) {
                 setLocalProblem((prev) =>  ({
                     ...prev,
-                    likes: [...prev.likes, loginUser._id],
+                    likes: [...prev.likes, loginUser?._id],
                 }));
             } else {
                 toast.error("Something went wrong. Please try again later.");
@@ -86,7 +86,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                     user: {
                         country: loginUser.country,
                         username: loginUser.username,
-                        _id: loginUser._id,
+                        _id: loginUser?._id,
                     }
                 }
                 setLocalProblem((prev) => ({
@@ -111,16 +111,16 @@ export default function ProblemDescription({ problem, loginUser }) {
         }
 
         try {
-            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/comment/support-point/${comment_id}/user/${loginUser._id}`);
+            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/comment/support-point/${comment_id}/user/${loginUser?._id}`);
 
             if (res.status === 200) {
 
                 setLocalProblem((prev) => {
                     const updatedComments = prev.comments.map((comment) =>
-                        comment._id === comment_id
+                        comment?._id === comment_id
                             ? {
                                 ...comment,
-                                supportPoints: [...comment.supportPoints, loginUser._id],
+                                supportPoints: [...comment.supportPoints, loginUser?._id],
                             }
                             : comment
                     );
@@ -143,10 +143,10 @@ export default function ProblemDescription({ problem, loginUser }) {
     const deleteUserComment = async (comment_id) => {
 
         try {
-            const res = await axios.delete(`https://loginhelp-backend.onrender.com/questions/${problem._id}/delete-comment/${comment_id}/user/${loginUser._id}`);
+            const res = await axios.delete(`https://loginhelp-backend.onrender.com/questions/${problem?._id}/delete-comment/${comment_id}/user/${loginUser?._id}`);
 
             if (res.status == 200) {
-                const commentFilter = localProblem.comments.filter((c) => c._id !== comment_id);
+                const commentFilter = localProblem.comments.filter((c) => c?._id !== comment_id);
                 setLocalProblem((prev) => ({
                     ...prev,
                     comments: commentFilter,
@@ -162,7 +162,7 @@ export default function ProblemDescription({ problem, loginUser }) {
     const addFavoriteQuestion = async() => {
    
         try {
-            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/add-favorite/${problem._id}/user/${loginUser._id}`);
+            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/add-favorite/${problem?._id}/user/${loginUser?._id}`);
             
             toast.success(res.data.message);
         } catch (error) {
@@ -333,7 +333,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                             <ul className='list-unstyled m-0 pt-3 text-secondary d-flex align-items-center'>
                                 <li className='px-1 d-flex align-items-center pe-3'>
                                     {
-                                        (comment?.supportPoints?.includes(loginUser?._id) || comment.user._id === loginUser._id)
+                                        (comment?.supportPoints?.includes(loginUser?._id) || comment.user?._id === loginUser?._id)
                                             ? <ArrowCircleUpIcon className='fs-5 text-secondary color-orange me-1' />
                                             : <button type='button' onClick={() => handleSupportButton(comment?._id)} className='bg-transparent border-0 me-1 pb-1'>
                                                 <ArrowCircleUpIcon className='fs-5 text-secondary hover-orange' />
@@ -348,8 +348,8 @@ export default function ProblemDescription({ problem, loginUser }) {
                                     <button className='bg-transparent border-0 me-1 text-light-secondary fs-14 d-flex align-items-center hover-orange'><ShareIcon className='fs-6 me-1' />Share</button>
                                 </li>
                                 {
-                                    comment.user._id === loginUser?._id && <li className='px-1'>
-                                        <button onClick={() => deleteUserComment(comment._id)} className='bg-transparent border-0 me-1 text-light-secondary fs-14 d-flex align-items-center hover-orange'><DeleteOutlinedIcon className='fs-6 me-1' />delete</button>
+                                    comment.user?._id === loginUser?._id && <li className='px-1'>
+                                        <button onClick={() => deleteUserComment(comment?._id)} className='bg-transparent border-0 me-1 text-light-secondary fs-14 d-flex align-items-center hover-orange'><DeleteOutlinedIcon className='fs-6 me-1' />delete</button>
                                     </li>
                                 }
                             </ul>

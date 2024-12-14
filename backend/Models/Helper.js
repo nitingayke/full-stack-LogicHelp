@@ -101,36 +101,35 @@ const contestQuestions = [{
 }];
 
 const tempContest = {
-    contest: 1,
-    date: "2024-12-01T10:00:00.000Z",
+    contest: 2,
+    date: new Date(),
     contestQuestions: [
         new mongoose.Types.ObjectId("672f52b926da66789c2b48b7"),
         new mongoose.Types.ObjectId("672f57d9f13b8610bb1e2909"),
         new mongoose.Types.ObjectId("672f5d8a66ce0b11a10ca74a"),
         new mongoose.Types.ObjectId("672f5d8a66ce0b11a10ca74b"),
     ],
-    rank: 45,
-    score: 95,
-    timeTaken: "80.15", // Converted to a string to match the schema
+    rank: 33,
+    score: 96,
+    timeTaken: "75.4", // Converted to a string to match the schema
 };
 
 async function insertData() {
     try {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: "673837c4ca83fe624cec843d" }, 
-        { $push: { "userProgress.contestStatus": tempContest } }, 
-        { new: true } 
-      );
-      console.log("Updated User:", updatedUser);
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: "673837c4ca83fe624cec843d" },
+            { $push: { "userProgress.contestStatus": tempContest } },
+            { new: true }
+        );
+        console.log("Updated User:", updatedUser);
     } catch (error) {
-      console.error("Error updating user:", error);
+        console.error("Error updating user:", error);
     }
-  }
-  
-  insertData();
-  
+}
 
 insertData();
+
+
 
 
 
