@@ -20,7 +20,7 @@ export default function ProblemSolving({ loginUser }) {
         const fetchQuestions = async () => {
             try {
                 setLoading(true); 
-                const res = await axios.get("http://localhost:9658/questions/total-questions");
+                const res = await axios.get("https://loginhelp-backend.onrender.com/questions/total-questions");
                 if (res.data) {
                     setQuestionsList(res.data);
                 }

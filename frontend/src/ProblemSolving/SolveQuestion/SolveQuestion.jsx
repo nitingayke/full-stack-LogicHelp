@@ -73,7 +73,7 @@ export default function SolveQuestion({ loginUser }) {
         const featchQuestion = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get(`http://localhost:9658/questions/get-question/${id}`);
+                const res = await axios.get(`https://loginhelp-backend.onrender.com/questions/get-question/${id}`);
                 if (res.data) {
                     setProblem(res.data);
                 } else {
@@ -137,7 +137,7 @@ export default function SolveQuestion({ loginUser }) {
 
         try {
             setIsRun(true);
-            const response = await axios.post("http://localhost:9658/api/execute-code", {
+            const response = await axios.post("https://loginhelp-backend.onrender.com/api/execute-code", {
                 language: language,
                 sourceCode: sourceCode
             });
@@ -173,7 +173,7 @@ export default function SolveQuestion({ loginUser }) {
         try {
             setIsSubmit(true);
 
-            const response = await axios.post("http://localhost:9658/api/execute-code", {
+            const response = await axios.post("https://loginhelp-backend.onrender.com/api/execute-code", {
                 language: language,
                 sourceCode: sourceCode
             });
@@ -182,7 +182,7 @@ export default function SolveQuestion({ loginUser }) {
 
             if (result?.stdout) {
                 
-                const submitRes = await axios.put(`http://localhost:9658/questions/submit-code/${problem._id}/user/${loginUser._id}/language/${language}`);
+                const submitRes = await axios.put(`https://loginhelp-backend.onrender.com/questions/submit-code/${problem._id}/user/${loginUser._id}/language/${language}`);
                 
                 if (!submitRes.data.success) {
                     setOutputResult({ output: "", error: "Unable to update data in your profile." });

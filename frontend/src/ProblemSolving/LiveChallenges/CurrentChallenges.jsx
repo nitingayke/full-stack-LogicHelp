@@ -21,7 +21,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Tooltip from '@mui/material/Tooltip';
 
 import { io } from 'socket.io-client';
-const socket = io('http://localhost:9658');
+const socket = io('https://loginhelp-backend.onrender.com');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;

@@ -10,7 +10,7 @@ export default function Courses() {
     useEffect(() => {
         const fetchAllCourses = async () => {
             try {
-                const response = await axios.get("http://localhost:9658/api/total-courses");
+                const response = await axios.get("https://loginhelp-backend.onrender.com/api/total-courses");
 
                 if (response?.data?.totalCourses?.length > 0) {
                     setTotalCourses(response.data.totalCourses);

@@ -18,7 +18,7 @@ export default function AIBugDetection() {
 
         try {
             setIsLoading(true);
-            const response = await axios.post('http://localhost:9658/api/execute-user-bug', {
+            const response = await axios.post('https://loginhelp-backend.onrender.com/api/execute-user-bug', {
                 userDoubt: userInput,
             });
             setBugOutput(response.data.response);

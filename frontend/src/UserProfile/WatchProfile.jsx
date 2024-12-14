@@ -11,7 +11,7 @@ export default function WatchProfile({ loginUser }) {
     useEffect(() => {
         const findUserById = async () => {
             try {
-                const response = await axios.get(`http://localhost:9658/user/get-user/${id}`);
+                const response = await axios.get(`https://loginhelp-backend.onrender.com/user/get-user/${id}`);
 
                 if (response.data.user) {
                     setCurrUser(response.data.user);

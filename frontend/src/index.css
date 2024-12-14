@@ -181,6 +181,21 @@ input:focus {
     white-space: pre-wrap;
 }
 
+.login-box{
+    width: 20rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.2rem;
+}
+.user-icon{
+    font-size: 4rem !important;
+    margin: 1rem 0;
+    color: #13131379;
+}
+
+.text-orange{
+    color: orange;
+}
+
 
 @media (max-width: 440px) {
     #root::-webkit-scrollbar {

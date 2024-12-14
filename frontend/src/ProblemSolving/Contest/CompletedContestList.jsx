@@ -11,7 +11,7 @@ export default function CompletedContestList() {
         const getPastContestData = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get('http://localhost:9658/contest/past-contests');
+                const res = await axios.get('https://loginhelp-backend.onrender.com/contest/past-contests');
 
                 if (res.status === 200) {
                     setPastContests(res.data.allContest);

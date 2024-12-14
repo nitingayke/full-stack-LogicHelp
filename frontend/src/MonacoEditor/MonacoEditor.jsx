@@ -44,22 +44,22 @@ export default function MonacoEditor() {
         try {
             setIsLoading(true);
 
-            const response = await axios.post("http://localhost:9658/api/execute-code", {
+            const response = await axios.post("https://loginhelp-backend.onrender.com/api/execute-code", {
                 language: selectedLanguage,
                 sourceCode: sourceCode
             });
             const { run: result } = response.data.run;
 
-            if (result && result.stdout) {
+            if (result?.stdout) {
                 setOutputResult({ output: result.stdout.split("\n"), error: "" });
-            } else if (result && result.stderr) {
+            } else if (rresult?.stderr) {
                 setOutputResult({ output: "", error: result.stderr });
             } else {
                 setOutputResult({ output: "", error: "No output or error from code execution." });
             }
 
         } catch (error) {
-            setOutputResult({ output: "", error: (error && error.message) ? error.message : "Unable to run code" });
+            setOutputResult({ output: "", error: (error?.message) ? error.message : "Unable to run code" });
         } finally {
             setIsLoading(false);
         }

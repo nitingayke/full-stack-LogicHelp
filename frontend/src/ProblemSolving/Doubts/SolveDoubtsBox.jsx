@@ -15,11 +15,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { io } from 'socket.io-client';
-import { Link } from 'react-router-dom';
-const socket = io('http://localhost:9658');
+const socket = io('https://loginhelp-backend.onrender.com');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;

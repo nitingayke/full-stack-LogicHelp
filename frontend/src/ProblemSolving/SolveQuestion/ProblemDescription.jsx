@@ -24,11 +24,21 @@ export default function ProblemDescription({ problem, loginUser }) {
     const [isLoading, setIsLoading] = useState(false);
     const [commentText, setCommentText] = useState();
 
-    console.log(localProblem)
     const handleLikeButton = async () => {
+
+        if(!loginUser?._id){
+            toast.error("You need to login to like question.");
+            return ;
+        }
+
+        if(!problem?._id){
+            toast.error("Problem not found.");
+            return ;
+        }
+
         try {
             setIsLoading(true);
-            const res = await axios.put(`http://localhost:9658/questions/question-like/${problem._id}/user/${loginUser._id}`);
+            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/question-like/${problem?._id}/user/${loginUser?._id}`);
 
             if (res.status === 200) {
                 setLocalProblem((prev) =>  ({
@@ -58,9 +68,14 @@ export default function ProblemDescription({ problem, loginUser }) {
             return;
         }
 
+        if(!loginUser?._id){
+            toast.error("You need to login to add comment.");
+            return ;
+        }
+
         try {
 
-            const res = await axios.put(`http://localhost:9658/questions/comment/${problem._id}/user/${loginUser._id}`, {
+            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/comment/${problem?._id}/user/${loginUser?._id}`, {
                 comment: commentText,
             });
 
@@ -90,8 +105,13 @@ export default function ProblemDescription({ problem, loginUser }) {
 
     const handleSupportButton = async (comment_id) => {
 
+        if(!loginUser?._id){
+            toast.error("You need to login.");
+            return ;
+        }
+
         try {
-            const res = await axios.put(`http://localhost:9658/questions/comment/support-point/${comment_id}/user/${loginUser._id}`);
+            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/comment/support-point/${comment_id}/user/${loginUser._id}`);
 
             if (res.status === 200) {
 
@@ -122,9 +142,8 @@ export default function ProblemDescription({ problem, loginUser }) {
 
     const deleteUserComment = async (comment_id) => {
 
-        
         try {
-            const res = await axios.delete(`http://localhost:9658/questions/${problem._id}/delete-comment/${comment_id}/user/${loginUser._id}`);
+            const res = await axios.delete(`https://loginhelp-backend.onrender.com/questions/${problem._id}/delete-comment/${comment_id}/user/${loginUser._id}`);
 
             if (res.status == 200) {
                 const commentFilter = localProblem.comments.filter((c) => c._id !== comment_id);
@@ -143,7 +162,7 @@ export default function ProblemDescription({ problem, loginUser }) {
     const addFavoriteQuestion = async() => {
    
         try {
-            const res = await axios.put(`http://localhost:9658/questions/add-favorite/${problem._id}/user/${loginUser._id}`);
+            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/add-favorite/${problem._id}/user/${loginUser._id}`);
             
             toast.success(res.data.message);
         } catch (error) {

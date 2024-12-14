@@ -8,7 +8,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 import { io } from "socket.io-client";
-export const socket = io("http://localhost:9658");
+export const socket = io("https://loginhelp-backend.onrender.com");
 
 export default function CreateNewChallenge({ loginUser }) {
 

@@ -33,9 +33,8 @@ export default function Navbar({ loginUser, handleLoginUser }) {
     useEffect(() => {
         const verifyCookie = async () => {
 
-            const publicRoutes = ["/signup", "/login", "/logout"];
+            // const publicRoutes = ["/signup", "/login", "/logout"];
             if (!cookies.token) {
-                
                 // if (!publicRoutes.includes(location.pathname)) {
                 //     navigate("/logout");
                 // }
@@ -44,7 +43,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
 
             try {
                 const { data } = await axios.post(
-                    "http://localhost:9658",
+                    "https://loginhelp-backend.onrender.com",
                     {},
                     { withCredentials: true }
                 );
