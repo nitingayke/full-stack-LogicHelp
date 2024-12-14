@@ -13,7 +13,7 @@ export default function ProgressSection({ categoryCounts, currUser }) {
         const getTotalQuestions = async () => {
             try {
                 const res = await axios.get("http://localhost:9658/questions/total-questions");
-                if (res.data) {
+                if (res?.data) {
                     setQuestions(res.data);
                 }
             } catch (error) {
