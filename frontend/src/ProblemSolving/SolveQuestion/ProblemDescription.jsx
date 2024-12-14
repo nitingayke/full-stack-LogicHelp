@@ -271,7 +271,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                     </div>
                 </AccordionSummary>
                 <AccordionDetails className='pe-0 fs-16'>
-                    {localProblem.company.map((company, idx) => <span className='py-1 px-2 rounded m-1 bg-dark' key={idx}>{company}</span>)}
+                    {localProblem.company.map((company, idx) => <p className='py-1 px-2 rounded m-1 mb-3 bg-dark' key={idx}>{company}</p>)}
                 </AccordionDetails>
             </Accordion>}
 
