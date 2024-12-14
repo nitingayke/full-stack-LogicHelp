@@ -95,6 +95,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
             [name]: value,
         }))
     }
+    
     const handleSelectedChallenge = (challenge) => {
         setSelectedChallenge(challenge);
         setOpen(true);
@@ -105,13 +106,19 @@ export default function CurrentChallenges({ challenges, loginUser }) {
     };
 
     const handleSendEvent = () => {
-        if (!challengeSolution) {
+
+        if(!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
+            toast.error('You need to login to submit your solution.');
+            return;
+        }
+
+        if(!challengeSolution) {
             toast.error("Please enter your solution before submitting.");
             return;
         }
 
         socket.emit('live-challenge-results', {
-            user_id: loginUser._id,
+            user_id: loginUser?._id,
             challenge_id: selectedChallenge._id,
             challengeSolution,
             projectDeployLink,
@@ -121,6 +128,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
     }
 
     const handleEditChallenge = () => {
+
         setIsEditOn(false);
         socket.emit('edit-live-challenge', {
             challenge_id: selectedChallenge?._id,
@@ -131,6 +139,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
     }
 
     const deleteSelectedChallenge = () => {
+
         if (!selectedChallenge) {
             toast.error('selected challenge does not found!');
             return;
@@ -340,7 +349,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                                                     </div>
 
                                                     {
-                                                        (contributor?.user?._id === loginUser._id)
+                                                        (contributor?.user?._id === loginUser?._id)
                                                         && <div className='col-12 d-flex justify-content-end'>
                                                             <Tooltip title='Do you want to delete comment.'>
                                                                 <button onClick={() => deleteSelectedChallengeComment(contributor?._id)} className='border-0 bg-transparent text-secondary fs-16 hover-orange'>Delete</button>

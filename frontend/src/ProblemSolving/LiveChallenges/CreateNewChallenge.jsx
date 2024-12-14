@@ -32,13 +32,20 @@ export default function CreateNewChallenge({ loginUser }) {
     }
 
     const submitNewChallenge = () => {
+
+        if (!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
+            toast.error('You need to login to create new challenge.');
+            navigate('/login');
+            return;
+        }
+
         if (!title || !textMessage) {
             toast.error("Title and message are required.");
             return;
         }
 
         socket.emit('create-new-live-challenge', {
-            user_id: loginUser._id,
+            user_id: loginUser?._id,
             title,
             message: textMessage,
             imageURL,
@@ -56,10 +63,10 @@ export default function CreateNewChallenge({ loginUser }) {
                 <h4 className='fw-semibold fs-3 m-0 pb-2'>Create New Challenge <AddTaskIcon className='fs-3 color-green' /></h4>
 
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Title' className='col-12 bg-transparent border-0 border-primary text-light p-1 fs-5' />
-                <textarea name="text-message" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} placeholder='Text Message...' className='col-12 p-2 bg-transparent text-light fs-16 border-0 mb-1 doubts-text-message'></textarea>
-                
+                <textarea name="text-message" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} placeholder='Text Message...' className='col-12 p-1 bg-transparent text-light fs-16 border-0 mb-1 doubts-text-message'></textarea>
+
                 <p className='m-0 fs-14 text-warning'>Optional</p>
-                <input type="text" value={imageURL} onChange={(e)=>setImageURL(e.target.value)} className='col-12 bg-transparent border border-secondary text-light p-1 fs-16 mb-2' placeholder='Enter deployment link' />
+                <input type="text" value={imageURL} onChange={(e) => setImageURL(e.target.value)} className='col-12 bg-transparent border border-secondary text-light p-1 fs-16 mb-2' placeholder='Enter deployment link' />
 
                 <div className='col-12 d-flex flex-wrap justify-content-between'>
                     <div>

@@ -26,6 +26,11 @@ export default function EditProfile({ loginUser }) {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
+        if(!loginUser?._id){
+            toast.error('Login user not found.');
+            return ;
+        }
+
         if (!formData.fullName || !formData.about){
             toast.error('Name and About are required.');
             return ;

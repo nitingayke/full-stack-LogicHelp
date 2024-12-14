@@ -110,7 +110,7 @@ io.on("connection", (socket) => {
     socket.on('create-new-doubt', async (data) => {
         try {
             const { title, message, tag, user_id } = data;
-
+       
             if (!title || !message || !tag || !user_id) {
                 return socket.emit('error', { message: 'Missing required fields.' });
             }

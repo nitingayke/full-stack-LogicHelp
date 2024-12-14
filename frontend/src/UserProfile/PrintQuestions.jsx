@@ -1,5 +1,4 @@
 import React from 'react';
-import { timeSlince } from '../functions.js';
 import { Link } from 'react-router-dom';
 
 export default function PrintQuestions({ questions }) {

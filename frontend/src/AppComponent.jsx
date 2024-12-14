@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './sharedComponent/Navbar';
 import Footer from './sharedComponent/Footer';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage/HomePage.jsx';
 import NotFound from './sharedComponent/NotFound.jsx';
 import LandingComponent from './LandingComponent/LandingComponent.jsx';
@@ -10,7 +10,6 @@ import Signup from './UserLogin/Signup.jsx';
 import ProblemSolving from './ProblemSolving/ProblemSolving.jsx';
 import CareerResources from './CareerResources/CareerResources.jsx';
 import EditProfile from './UserProfile/EditProfile.jsx';
-import UserProfile from './UserProfile/UserProfile.jsx';
 import WatchProfile from './UserProfile/WatchProfile.jsx';
 
 export default function AppComponent() {
@@ -18,7 +17,7 @@ export default function AppComponent() {
 
     const handleLoginUser = (user) => {
         setLoginUser(user);
-    }
+    }   
 
     return (
         <>

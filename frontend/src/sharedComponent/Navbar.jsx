@@ -34,11 +34,11 @@ export default function Navbar({ loginUser, handleLoginUser }) {
         const verifyCookie = async () => {
 
             const publicRoutes = ["/signup", "/login", "/logout"];
-
             if (!cookies.token) {
-                if (!publicRoutes.includes(location.pathname)) {
-                    navigate("/logout");
-                }
+                
+                // if (!publicRoutes.includes(location.pathname)) {
+                //     navigate("/logout");
+                // }
                 return;
             }
 
@@ -57,14 +57,15 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                     handleLoginUser(null);
                     removeCookie("token");
 
-                    if (!publicRoutes.includes(location.pathname)) {
-                        navigate("/login");
-                    }
+                    // if (!publicRoutes.includes(location.pathname)) {
+                    //     navigate("/login");
+                    // }
                     return;
                 }
             } catch (error) {
                 removeCookie("token");
-                navigate("/logout");
+                console.log(error);
+                // navigate("/logout");
             }
         };
 

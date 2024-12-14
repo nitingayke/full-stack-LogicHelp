@@ -1,7 +1,6 @@
 import React from 'react';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-import { UserProgress } from '../../UserProfile/CurrUser';
 import { Link } from 'react-router-dom';
 
 

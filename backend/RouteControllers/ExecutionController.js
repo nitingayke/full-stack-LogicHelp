@@ -88,6 +88,7 @@ module.exports.youtubeVideo = async (req, res) => {
 module.exports.executeUserBug = async (req, res) => {
     const { userDoubt } = req.body;
 
+    
     if (!userDoubt) {
         return res.status(400).json({ error: "userDoubt is required." });
     }

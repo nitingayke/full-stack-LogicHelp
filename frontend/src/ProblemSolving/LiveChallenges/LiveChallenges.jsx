@@ -150,13 +150,19 @@ export default function LiveChallenges({ loginUser }) {
     }, [loginUser]);
 
     const handleStreamMessage = () => {
+
+        if (!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
+            toast.error('You need to login to submit your solution.');
+            return;
+        }
+
         if (!streamMessage) {
             toast.error('please enter message.');
             return
         }
 
         socket.emit('livestream-message', {
-            user_id: loginUser._id,
+            user_id: loginUser?._id,
             message: streamMessage,
         });
         setStreamMessage('');

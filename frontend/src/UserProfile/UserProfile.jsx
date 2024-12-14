@@ -4,7 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import UserData from './UserData';
 import Consistency from './Consistency';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,7 +13,6 @@ export default function UserProfile({ loginUser, currUser }) {
     const [image, setImage] = useState(null);
     const [updatedImage, setUpdatedImage] = useState(currUser?.image);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
@@ -24,7 +22,12 @@ export default function UserProfile({ loginUser, currUser }) {
         setChangeProfile(status);
     }
 
-    const handleUpload = async() => {
+    const handleUpload = async () => {
+
+        if (!loginUser) {
+            toast.error("Login user not found");
+            return;
+        }
 
         if (!image) {
             toast.error("Please select an image!");
@@ -41,8 +44,8 @@ export default function UserProfile({ loginUser, currUser }) {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            
-            if(response.status === 200){
+
+            if (response.status === 200) {
                 handleChangeProfile(false);
                 setUpdatedImage(response.data.url);
                 setImage();
@@ -69,13 +72,18 @@ export default function UserProfile({ loginUser, currUser }) {
                 <br />
                 {
                     (!image)
-                    ? <button className='mt-3 px-3 py-1 border-secondary border bg-transparent text-secondary fs-16'>Update</button>
-                    : <button type='button' onClick={handleUpload} className='mt-3 px-3 py-1 border-secondary border bg-transparent text-light fs-16 hover-orange'>Update 
-                        {
-                            isLoading && <div class="spinner-border spinner-border-sm ms-2" ></div>
-                        }
-                    </button>
+                        ? <button className='mt-3 px-3 py-1 border-secondary border bg-transparent text-secondary fs-16'>Update</button>
+                        : <button type='button' onClick={handleUpload} className='mt-3 px-3 py-1 border-secondary border bg-transparent text-light fs-16 hover-orange'>Update
+                            {
+                                isLoading && <div class="spinner-border spinner-border-sm ms-2" ></div>
+                            }
+                        </button>
                 }
+                <button
+                    onClick={()=>handleChangeProfile(false)}
+                    type='button'
+                    className='mt-3 ms-1 px-3 py-1 border-secondary border bg-transparent text-light fs-16 hover-orange'>Cancel
+                </button>
             </div>
         )
     }

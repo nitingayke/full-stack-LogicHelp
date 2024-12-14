@@ -15,6 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 import { io } from 'socket.io-client';
 import { Link } from 'react-router-dom';
@@ -25,6 +26,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function SolveDoubtsBox({ doubts, loginUser }) {
+
+    const navigate = useNavigate();
     const [localDoubts, setLocalDoubts] = useState();
     const [inputValue, setInputValue] = useState('');
     const [editBoxopen, setEditBoxOpen] = useState(false);
@@ -88,6 +91,13 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
     }, [doubts?._id]);
 
     const handleReplyEvent = async () => {
+
+        if (!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
+            toast.error('You need to login to reply.');
+            // navigate('/login');
+            return;
+        }
+
         if (!inputValue.trim()) {
             toast.error('Reply message is required.');
             return;
@@ -132,6 +142,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         setEditCommentId(comment_id);
         setEditCommentOpen(true)
     }
+    
     const handleEditComment = () => {
         socket.emit('edit-doubt-comment', {
             doubt_id: doubts._id,
@@ -141,7 +152,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         });
         setEditCommentOpen(false);
     }
-    
+
     return (
         <>
             <div className='bg-dark-gray p-2 rounded'>
@@ -221,7 +232,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
                                         />
                                     </ListItemButton>
                                     {
-                                        (comment.user._id === loginUser._id) && <div className='col-12 d-flex justify-content-end pb-2'>
+                                        (comment.user._id === loginUser?._id) && <div className='col-12 d-flex justify-content-end pb-2'>
                                             <Tooltip title='Edit Comment.'>
                                                 <button onClick={() => handleEditCommentButton(comment?._id)} className='fs-14 px-2 bg-transparent border-0 text-secondary hover-orange'>Edit</button>
                                             </Tooltip>

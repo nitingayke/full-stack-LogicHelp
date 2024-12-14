@@ -7,10 +7,12 @@ import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { toast, ToastContainer } from 'react-toastify';
 import { io } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 const socket = io('http://localhost:9658');
 
 export default function CreateDoubts({ loginUser }) {
 
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -32,6 +34,12 @@ export default function CreateDoubts({ loginUser }) {
 
     const handleDoubleEvent = async () => {
 
+        if (!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
+            toast.error('You need to login to create new doubt.');
+            navigate('/login');
+            return;
+        }
+        
         if (!title || !textMessage || !tag) {
             toast.error("Title, message, and tag are required.");
             return;
@@ -55,7 +63,7 @@ export default function CreateDoubts({ loginUser }) {
                 <h4 className='fw-semibold fs-3 m-0 pb-2'>Create New Doubts <LiveHelpOutlinedIcon className='fs-3 color-green' /></h4>
 
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Title' className='col-12 bg-transparent border-0 border-primary text-light p-1 fs-5' />
-                <textarea name="text-message" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} placeholder='Text Message...' className='col-12 p-2 bg-transparent text-light fs-16 border-0 mb-1 doubts-text-message'></textarea>
+                <textarea name="text-message" value={textMessage} onChange={(e) => setTextMessage(e.target.value)} placeholder='Text Message...' className='col-12 p-1 bg-transparent text-light fs-16 border-0 mb-1 doubts-text-message'></textarea>
 
                 <div className='col-12 d-flex justify-content-between'>
                     <div>
