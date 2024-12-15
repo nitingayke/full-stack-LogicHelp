@@ -50,7 +50,10 @@ export default function Login() {
                 { withCredentials: true }
             );
             const { success, message } = data;
-
+            
+            console.log("in login section");
+            console.log(data);
+            
             if (success) {
                 navigate("/");
             } else {
