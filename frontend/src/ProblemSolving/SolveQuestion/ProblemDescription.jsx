@@ -254,8 +254,8 @@ export default function ProblemDescription({ problem, loginUser }) {
                         <LocalOfferOutlinedIcon className='fs-6 me-2' /> Topics
                     </div>
                 </AccordionSummary>
-                <AccordionDetails className='pe-0 fs-16'>
-                    {localProblem.topics.map((topic, idx) => <span className='py-1 px-2 rounded m-1 bg-dark' key={idx}>{topic}</span>)}
+                <AccordionDetails className='pe-0 fs-16 d-flex flex-wrap'>
+                    {localProblem.topics.map((topic, idx) => <span className='py-1 px-2 rounded m-1 mb-2 bg-dark' key={idx}>{topic}</span>)}
                 </AccordionDetails>
             </Accordion>}
 
@@ -270,8 +270,8 @@ export default function ProblemDescription({ problem, loginUser }) {
                         <RadarIcon className='fs-6 me-2' />Company
                     </div>
                 </AccordionSummary>
-                <AccordionDetails className='pe-0 fs-16'>
-                    {localProblem.company.map((company, idx) => <p className='py-1 px-2 rounded m-1 mb-3 bg-dark' key={idx}>{company}</p>)}
+                <AccordionDetails className='pe-0 fs-16 d-flex flex-wrap'>
+                    {localProblem.company.map((company, idx) => <p className='py-1 px-2 rounded m-1 mb-2 bg-dark' key={idx}>{company}</p>)}
                 </AccordionDetails>
             </Accordion>}
 
