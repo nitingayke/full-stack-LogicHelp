@@ -66,7 +66,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
         try {
 
             setIsLoading(true);
-            const { data } = await axios.post("https://loginhelp-backend.onrender.com/user-logout");
+            const { data } = await axios.post("https://loginhelp-backend.onrender.com/user-logout", {}, { withCredentials: true });
 
             if (data?.status) {
                 document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
