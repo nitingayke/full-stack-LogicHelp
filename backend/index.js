@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: "https://loginhelp.onrender.com",
+        origin: ["https://loginhelp.onrender.com", "http://localhost:3000"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     })
@@ -30,7 +30,7 @@ app.use(
 mongoose
     .connect(MONGO_URL)
     .then(() => {
-        console.log("MongoDB is connected successfully");
+        console.log("MongoDB is connected successfully", "http://localhost:3000");
     })
     .catch((error) => {
         console.error("Error in establishing connection:", error.message);
@@ -38,7 +38,7 @@ mongoose
 
 const io = new Server(server, {
     cors: {
-        origin: "https://loginhelp.onrender.com",
+        origin: ["https://loginhelp.onrender.com"],
         methods: ["GET", "POST"],
         allowedHeaders: ["Content-Type"],
         credentials: true,

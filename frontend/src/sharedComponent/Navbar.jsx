@@ -63,7 +63,6 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                 }
             } catch (error) {
                 removeCookie("token");
-                console.log(error);
                 // navigate("/logout");
             }
         };
