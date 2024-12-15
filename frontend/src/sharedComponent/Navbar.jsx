@@ -36,6 +36,8 @@ export default function Navbar({ loginUser, handleLoginUser }) {
             console.log("in navbar section");
             console.log("Cookies:", cookies?.token);
             console.log("Document.cookie:", document.cookie);
+            console.log("Document.cookie:", document);
+            console.log("Document.cookie:", cookies);
 
             // const publicRoutes = ["/signup", "/login", "/logout"];
             if (!cookies.token) {
