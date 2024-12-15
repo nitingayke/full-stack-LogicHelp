@@ -23,6 +23,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -160,8 +161,13 @@ export default function SolveQuestion({ loginUser }) {
     }
 
     const handleSubmitButton = async () => {
-
         setIsOpenAlert(false);
+        
+        if(!loginUser?._id){
+            toast.error("You must be logged in to submit a problem.");
+            return ;
+        }
+        
         let sourceCode = editorRef.current.getValue();
         if (!sourceCode) return;
 
