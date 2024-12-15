@@ -33,6 +33,9 @@ export default function Navbar({ loginUser, handleLoginUser }) {
     useEffect(() => {
         const verifyCookie = async () => {
 
+            console.log("we are inside the navbar");
+            console.log(cookies?.token);
+            console.log(document.cookie);
             // const publicRoutes = ["/signup", "/login", "/logout"];
             if (!cookies.token) {
                 // if (!publicRoutes.includes(location.pathname)) {
@@ -49,6 +52,9 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                 );
 
                 const { status, user } = data;
+
+                console.log(data);
+                console.log('well');
 
                 if (status) {
                     handleLoginUser(user);
