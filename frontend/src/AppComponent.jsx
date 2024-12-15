@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './sharedComponent/Navbar';
 import Footer from './sharedComponent/Footer';
 import { Routes, Route } from 'react-router-dom';
@@ -11,13 +11,30 @@ import ProblemSolving from './ProblemSolving/ProblemSolving.jsx';
 import CareerResources from './CareerResources/CareerResources.jsx';
 import EditProfile from './UserProfile/EditProfile.jsx';
 import WatchProfile from './UserProfile/WatchProfile.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+
+import { io } from 'socket.io-client';
+const socket = io('https://loginhelp-backend.onrender.com');
+
 
 export default function AppComponent() {
     const [loginUser, setLoginUser] = useState(null);
 
     const handleLoginUser = (user) => {
         setLoginUser(user);
-    }   
+    }
+
+    useEffect(() => {
+        const errorHandler = (errorData) => {
+            toast.error(errorData.message);
+        };
+
+        socket.on('error', errorHandler);
+
+        return () => {
+            socket.off('error', errorHandler);
+        };
+    }, []);
 
     return (
         <>
@@ -27,8 +44,8 @@ export default function AppComponent() {
                 <Routes>
                     <Route path='/' element={<HomePage />} />
 
-                    <Route path='/login' element={<Login />} />
-                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/login' element={<Login handleLoginUser={handleLoginUser} />} />
+                    <Route path='/signup' element={<Signup handleLoginUser={handleLoginUser} />} />
                     <Route path='/logout' element={<LandingComponent />} />
 
                     <Route path='user-profile/:id' element={<WatchProfile loginUser={loginUser} />} />
@@ -44,6 +61,8 @@ export default function AppComponent() {
 
             </div>
             <Footer />
+
+            <ToastContainer position='bottom-right' theme='colored' />
         </>
     )
 }

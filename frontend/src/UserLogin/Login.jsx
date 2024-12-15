@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function Login() {
+export default function Login({ handleLoginUser }) {
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
@@ -28,6 +28,7 @@ export default function Login() {
     };
 
     const handleLoginEvent = async () => {
+
         if (!email || !password) {
             toast.error("Email and password are required");
             return;
@@ -49,11 +50,14 @@ export default function Login() {
                 },
                 { withCredentials: true }
             );
-            const { success, message } = data;
+            const { success, message, user } = data;
 
             if (success) {
+                setInputValue({ email: "", password: "" });
+                handleLoginUser(user);
                 navigate("/");
-            } else {
+            }
+            else {
                 toast.error(message || "Error logging in");
             }
         } catch (error) {
@@ -61,12 +65,6 @@ export default function Login() {
         } finally {
             setIsLoading(false);
         }
-
-        setInputValue({
-            ...inputValue,
-            email: "",
-            password: "",
-        });
     };
 
     return (
@@ -105,7 +103,7 @@ export default function Login() {
                         <span>Don't have an account&#63; Sign up here</span>
                     </Link>
                 </p>
-                
+
                 <p className='pb-3'>
                     <Link to={"/logout"} className='fs-16 text-decoration-none'>
                         <span>Know More About the Application</span>
@@ -119,8 +117,8 @@ export default function Login() {
             >
                 <CircularProgress
                     color="inherit"
-                    size={50} 
-                    thickness={5}  
+                    size={50}
+                    thickness={5}
                 />
             </Backdrop>
         </div>

@@ -1,31 +1,40 @@
 const User = require("../Models/UserModel.js");
-const { createSecretToken } = require("../UtilErrors/SecretToken.js");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const { createSecretToken } = require("../UtilErrors/SecretToken.js");
 
 module.exports.Signup = async (req, res, next) => {
 
     const { email, password, username } = req.body;
-    const existingUser = await User.findOne({ email });
 
+    if (!email || !password || !username) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json({ message: "User already exists" });
     }
-    const hashedPassword = await bcrypt.hash(password, 12);
 
+    const hashedPassword = await bcrypt.hash(password, 12);
     const user = await User.create({ email, password: hashedPassword, username });
 
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
         sameSite: 'None',
         path: '/',
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).json({ message: "User signed in successfully", success: true, user });
-
-    next();
+    return res.status(201).json({
+        message: "User signed in successfully",
+        success: true,
+        user
+    });
 }
 
 module.exports.Login = async (req, res, next) => {
@@ -34,25 +43,65 @@ module.exports.Login = async (req, res, next) => {
     if (!email || !password) {
         return res.json({ message: 'All fields are required' })
     }
-    const user = await User.findOne({ email });
+
+    const user = await User.findOne({ email })
+        .populate({
+            path: "userProgress.submissions.questions",
+            model: "Question",
+        })
+        .populate({
+            path: "userProgress.contestStatus.contestQuestions",
+            model: "Question",
+        })
+        .populate({
+            path: "userProgress.favoriteQuestion",
+            model: "Question",
+        });
+
     if (!user) {
         return res.json({ message: 'Incorrect password or email' })
     }
-    const auth = await bcrypt.compare(password, user.password);
 
+    const auth = await bcrypt.compare(password, user.password);
     if (!auth) {
         return res.json({ message: 'Incorrect password or email' })
     }
+
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
         sameSite: 'None',
         path: '/',
         maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).json({ message: "User logged in successfully", success: true });
+    res.status(200).json({
+        message: "User logged in successfully",
+        success: true,
+        user
+    });
+}
 
-    next();
+module.exports.Logout = async (req, res, next) => {
+
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(400).json({
+            message: "No token found, user is not logged in",
+            success: false,
+        });
+    }
+
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        path: '/',
+    });
+
+    return res.status(200).json({
+        message: "User logged out successfully",
+        success: true,
+    });
 }

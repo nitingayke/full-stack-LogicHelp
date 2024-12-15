@@ -8,22 +8,29 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Signup({ handleLoginUser }) {
-    const [userSignp, setUserSignup] = useState({ username: "", password: "", email: "" });
+    const [userSignup, setUserSignup] = useState({ username: "", password: "", email: "" });
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
     const handleInputChange = (e) => {
-        setUserSignup({ ...userSignp, [e.target.name]: e.target.value });
+        setUserSignup({ ...userSignup, [e.target.name]: e.target.value });
     };
 
-    const handleSubmitbutton = async () => {
-        if (!userSignp.email || !userSignp.username || !userSignp.password) {
-            toast.error("Username, email, and password are required");
+    const handleSubmitButton = async () => {
+        const { email, username, password } = userSignup;
+
+        if (!email || !username || !password) {
+            toast.error("All fields are required");
             return;
         }
 
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(userSignp.email)) {
-            toast.error("Please enter a valid email address");
+        if (!isValidEmail(email)) {
+            toast.error("Invalid email address");
+            return;
+        }
+
+        if (password.length < 8) {
+            toast.error("Password must be at least 8 characters long");
             return;
         }
 
@@ -31,27 +38,29 @@ export default function Signup({ handleLoginUser }) {
             setIsLoading(true);
             const { data } = await axios.post(
                 "https://loginhelp-backend.onrender.com/signup",
-                { ...userSignp },
+                userSignup,
                 { withCredentials: true }
             );
 
-            const { success, message } = data;
-            
+            const { success, message, user } = data;
+
             if (success) {
+                handleLoginUser(user);
                 navigate("/");
             } else {
                 toast.error(message || "Signup failed. Please try again.");
             }
         } catch (error) {
-            if (error.response && error.response.status === 400) {
-                toast.error("User already exists. Please try with a different email.");
+            if (error.response?.status === 400) {
+                toast.error("User already exists.");
+            } else if (error.response?.status === 500) {
+                toast.error("Server error. Please try again later.");
             } else {
-                toast.error("Failed to sign up. Please check your connection and try again.");
+                toast.error("Failed to sign up. Check your connection and try again.");
             }
         } finally {
             setIsLoading(false);
         }
-        setUserSignup({ username: "", password: "", email: "" });
     };
 
     return (
@@ -65,7 +74,7 @@ export default function Signup({ handleLoginUser }) {
                         size="small"
                         className='col-11 pb-3'
                         name='email'
-                        value={userSignp.email}
+                        value={userSignup.email}
                         onChange={handleInputChange}
                     />
                     <TextField
@@ -74,7 +83,7 @@ export default function Signup({ handleLoginUser }) {
                         size="small"
                         className='col-11 pb-3'
                         name='username'
-                        value={userSignp.username}
+                        value={userSignup.username}
                         onChange={handleInputChange}
                     />
                     <TextField
@@ -84,7 +93,7 @@ export default function Signup({ handleLoginUser }) {
                         type='password'
                         className='col-11 pb-3'
                         name='password'
-                        value={userSignp.password}
+                        value={userSignup.password}
                         onChange={handleInputChange}
                     />
 

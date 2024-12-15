@@ -110,7 +110,7 @@ io.on("connection", (socket) => {
     socket.on('create-new-doubt', async (data) => {
         try {
             const { title, message, tag, user_id } = data;
-       
+
             if (!title || !message || !tag || !user_id) {
                 return socket.emit('error', { message: 'Missing required fields.' });
             }
@@ -423,14 +423,15 @@ io.on("connection", (socket) => {
     });
 
     socket.on('delete-selected-challenge', async (data) => {
-        const { challenge_id } = data;
-
-        if (!challenge_id) {
-            socket.emit('error', { message: 'Challenge ID is required.' });
-            return;
-        }
 
         try {
+            const { challenge_id } = data;
+
+            if (!challenge_id) {
+                socket.emit('error', { message: 'Challenge ID is required.' });
+                return;
+            }
+
             const result = await LiveChallenge.findByIdAndDelete(challenge_id);
 
             if (!result) {
@@ -456,7 +457,7 @@ io.on("connection", (socket) => {
             const updatedChallenge = await LiveChallenge.findOneAndUpdate(
                 { _id: challenge_id },
                 { $pull: { result: { _id: comment_id } } },
-                { new: true } 
+                { new: true }
             );
 
             if (!updatedChallenge) {

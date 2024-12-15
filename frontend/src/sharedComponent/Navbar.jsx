@@ -11,15 +11,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PortraitOutlinedIcon from '@mui/icons-material/PortraitOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useCookies } from "react-cookie";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 import "./SharedComponent.css";
 
 export default function Navbar({ loginUser, handleLoginUser }) {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const [cookies, removeCookie] = useCookies([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -31,16 +30,8 @@ export default function Navbar({ loginUser, handleLoginUser }) {
     };
 
     useEffect(() => {
-        const verifyCookie = async () => {
-
-            // const publicRoutes = ["/signup", "/login", "/logout"];
-            if (!cookies.token) {
-                // if (!publicRoutes.includes(location.pathname)) {
-                //     navigate("/logout");
-                // }
-                return;
-            }
-
+        const verifyUserLogin = async () => {
+            const publicRoutes = ["/signup", "/login", "/logout"];
             try {
                 const { data } = await axios.post(
                     "https://loginhelp-backend.onrender.com",
@@ -49,33 +40,45 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                 );
 
                 const { status, user } = data;
-           
+
                 if (status) {
                     handleLoginUser(user);
                 } else {
                     handleLoginUser(null);
-                    removeCookie("token");
-
-                    // if (!publicRoutes.includes(location.pathname)) {
-                    //     navigate("/login");
-                    // }
-                    return;
                 }
             } catch (error) {
-                removeCookie("token");
-                // navigate("/logout");
+                if (!publicRoutes.includes(location.pathname)) {
+                    navigate("/login");
+                }
             }
         };
 
-        verifyCookie();
+        verifyUserLogin();
 
-    }, [cookies, location.pathname, navigate, removeCookie]);
+    }, [location.pathname, navigate]);
 
-    const Logout = () => {
-        removeCookie("token");
-        handleLoginUser(null);
+    const Logout = async () => {
+
+        if(!loginUser){
+            toast.error("You are not logged in.");
+            return ;
+        }
+
         handleClose();
-        navigate("/logout");
+        try {
+            const { data } = await axios.post("https://loginhelp-backend.onrender.com/user-logout");
+            const { status } = data;
+            
+            if (status) {
+                handleLoginUser(null);
+                navigate("/logout");
+            } else {
+                toast.error("Logout failed. Please try again.");
+            }
+        } catch (error) {
+            toast.error("Something went wrong. Please try again.");
+        }
+
     };
 
     return (
@@ -172,6 +175,8 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                     </ul>
                 </div>
             </nav>
+
+            <ToastContainer position='bottom-right' theme='colored' />
         </div>
     )
 }
