@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Contest from './Contest';
 import CompletedContestList from './CompletedContestList';
 import ContestQuestions from './ContestQuestions';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function ContestRegistration() {
     const [contestQuestions, setContestsQuestions] = useState(null);
@@ -30,8 +30,6 @@ export default function ContestRegistration() {
             </section>
 
             <CompletedContestList />
-
-            <ToastContainer position='bottom-right' theme='colored' />
         </div>
     );
 }

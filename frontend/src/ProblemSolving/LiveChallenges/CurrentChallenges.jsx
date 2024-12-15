@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined';
 import GroupIcon from '@mui/icons-material/Group';
 import SendIcon from '@mui/icons-material/Send';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Tooltip from '@mui/material/Tooltip';
 
 import { io } from 'socket.io-client';
@@ -387,9 +387,6 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                 </div>
 
             </Dialog>
-
-
-            <ToastContainer theme="colored" position="bottom-right" />
         </div>
     )
 }

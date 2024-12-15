@@ -13,7 +13,7 @@ import { timeSlince } from '../../functions';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -356,16 +356,6 @@ export default function ProblemDescription({ problem, loginUser }) {
                         </div>)}
                 </AccordionDetails>
             </Accordion>
-
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                theme="colored"
-            />
         </>
     )
 }

@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import PortraitOutlinedIcon from '@mui/icons-material/PortraitOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "./SharedComponent.css";
 
 export default function Navbar({ loginUser, handleLoginUser }) {
@@ -20,6 +20,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -40,16 +41,13 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                 );
 
                 const { status, user } = data;
-
                 if (status) {
                     handleLoginUser(user);
                 } else {
                     handleLoginUser(null);
                 }
             } catch (error) {
-                if (!publicRoutes.includes(location.pathname)) {
-                    navigate("/login");
-                }
+                
             }
         };
 
@@ -59,26 +57,29 @@ export default function Navbar({ loginUser, handleLoginUser }) {
 
     const Logout = async () => {
 
-        if(!loginUser){
+        if (!loginUser) {
             toast.error("You are not logged in.");
-            return ;
+            return;
         }
 
         handleClose();
         try {
+
+            setIsLoading(true);
             const { data } = await axios.post("https://loginhelp-backend.onrender.com/user-logout");
-            const { status } = data;
-            
-            if (status) {
+
+            if (data?.status) {
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 handleLoginUser(null);
                 navigate("/logout");
             } else {
                 toast.error("Logout failed. Please try again.");
             }
         } catch (error) {
-            toast.error("Something went wrong. Please try again.");
+            toast.error(error?.response?.data?.message || "Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
-
     };
 
     return (
@@ -141,42 +142,46 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                                         <Link to={'/login'} className='user-login'>Login</Link>
                                     </p> :
                                     <div>
-                                        <Button
-                                            id="basic-button"
-                                            aria-controls={open ? 'basic-menu' : undefined}
-                                            aria-haspopup="true"
-                                            aria-expanded={open ? 'true' : undefined}
-                                            onClick={handleClick}
-                                            className='p-0 m-0'
-                                        >
-                                            <Avatar sx={{ bgcolor: deepOrange[500] }} alt={loginUser?.username} src={loginUser?.image || "https://"}></Avatar>
-                                        </Button>
-                                        <Menu
-                                            id="basic-menu"
-                                            anchorEl={anchorEl}
-                                            open={open}
-                                            onClose={handleClose}
-                                            MenuListProps={{
-                                                'aria-labelledby': 'basic-button',
-                                            }}
-                                            className='mt-2'
-                                        >
-                                            <MenuItem onClick={handleClose}>
-                                                <Link className='text-decoration-none text-dark' to={`user-profile/${loginUser?._id}`}>
-                                                    <PortraitOutlinedIcon className='fs-5 me-1' />Profile
-                                                </Link>
-                                            </MenuItem>
-                                            <MenuItem onClick={Logout}><LogoutIcon className='fs-5 me-1' />Logout</MenuItem>
-                                        </Menu>
+                                        {
+                                            (isLoading)
+                                                ? <div className="spinner-border spinner-border-sm m-2" ></div>
+                                                : <>
+                                                    <Button
+                                                        id="basic-button"
+                                                        aria-controls={open ? 'basic-menu' : undefined}
+                                                        aria-haspopup="true"
+                                                        aria-expanded={open ? 'true' : undefined}
+                                                        onClick={handleClick}
+                                                        className='p-0 m-0'
+                                                    >
+                                                        <Avatar sx={{ bgcolor: deepOrange[500] }} alt={loginUser?.username} src={loginUser?.image || "https://"}></Avatar>
+                                                    </Button>
+                                                    <Menu
+                                                        id="basic-menu"
+                                                        anchorEl={anchorEl}
+                                                        open={open}
+                                                        onClose={handleClose}
+                                                        MenuListProps={{
+                                                            'aria-labelledby': 'basic-button',
+                                                        }}
+                                                        className='mt-2'
+                                                    >
+                                                        <MenuItem onClick={handleClose}>
+                                                            <Link className='text-decoration-none text-dark' to={`user-profile/${loginUser?._id}`}>
+                                                                <PortraitOutlinedIcon className='fs-5 me-1' />Profile
+                                                            </Link>
+                                                        </MenuItem>
+                                                        <MenuItem onClick={Logout}><LogoutIcon className='fs-5 me-1' />Logout</MenuItem>
+                                                    </Menu>
+                                                </>
+                                        }
                                     </div>
                             }
                         </li>
-
                     </ul>
                 </div>
             </nav>
 
-            <ToastContainer position='bottom-right' theme='colored' />
         </div>
     )
 }

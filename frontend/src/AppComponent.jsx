@@ -62,7 +62,18 @@ export default function AppComponent() {
             </div>
             <Footer />
 
-            <ToastContainer position='bottom-right' theme='colored' />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     )
 }

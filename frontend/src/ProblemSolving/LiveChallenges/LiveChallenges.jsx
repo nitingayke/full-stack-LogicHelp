@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import CurrentChallenges from './CurrentChallenges';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Tooltip from '@mui/material/Tooltip';
 import axios from 'axios';
 import Button from '@mui/material/Button';
@@ -309,8 +309,6 @@ export default function LiveChallenges({ loginUser }) {
                     </DialogActions>
                 </div>
             </Dialog>
-
-            <ToastContainer position='bottom-right' theme='colored' />
         </div>
     )
 }

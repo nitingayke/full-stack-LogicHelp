@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
@@ -108,8 +108,6 @@ export default function CreateNewChallenge({ loginUser }) {
 
                 </div>
             </div>
-
-            <ToastContainer position='bottom-right' theme='colored' />
         </div>
     )
 }

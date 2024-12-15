@@ -3,7 +3,7 @@ import Contest from './Contest';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ContestQuestions from './ContestQuestions';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function VirtualContest() {
     const { id } = useParams();
@@ -39,19 +39,6 @@ export default function VirtualContest() {
 
                 <ContestQuestions questions={contestQuestions} />
             </section>
-
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
         </div>
     )
 }

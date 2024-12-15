@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
@@ -110,7 +110,7 @@ export default function Login({ handleLoginUser }) {
                     </Link>
                 </p>
             </div>
-            <ToastContainer theme='colored' position="bottom-right" autoClose={5000} />
+
             <Backdrop
                 sx={(theme) => ({ color: '#7cf140', zIndex: theme.zIndex.drawer + 1 })}
                 open={isLoading}

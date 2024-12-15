@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
@@ -107,18 +107,7 @@ export default function Signup({ handleLoginUser }) {
                     </Link>
                 </p>
             </div>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
+         
             <Backdrop
                 sx={(theme) => ({ color: '#7cf140', zIndex: theme.zIndex.drawer + 1 })}
                 open={isLoading}

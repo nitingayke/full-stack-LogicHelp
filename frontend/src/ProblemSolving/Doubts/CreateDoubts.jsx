@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import LiveHelpOutlinedIcon from '@mui/icons-material/LiveHelpOutlined';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 const socket = io('https://loginhelp-backend.onrender.com');
@@ -107,8 +107,6 @@ export default function CreateDoubts({ loginUser }) {
 
                 </div>
             </div>
-
-            <ToastContainer position='bottom-right' theme='colored' />
         </div>
     )
 }

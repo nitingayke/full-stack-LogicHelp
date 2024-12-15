@@ -7,7 +7,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -269,8 +269,6 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
                         </div>
                     </div>
                 )}
-
-                <ToastContainer position='bottom-right' theme='colored' />
             </div>
             <Dialog
                 open={editBoxopen}
