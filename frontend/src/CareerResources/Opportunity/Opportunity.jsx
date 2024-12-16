@@ -17,11 +17,10 @@ export default function Opportunity() {
         setInputValue((prevValues) => ({ ...prevValues, [name]: value }));
     };
 
-    // Fetch jobs from the backend
     const fetchJobs = async () => {
         try {
             setIsLoading(true);
-            setError(null); // Reset error before fetching
+            setError(null); 
 
             const { query, location } = inputValue;
             const response = await axios.post('https://logichelp-backend.onrender.com/api/find-posted-jobs', {
@@ -29,7 +28,7 @@ export default function Opportunity() {
                 location: location || 'India',
             });
 
-            if (response.success && response.data.jobs) {
+            if (response.status === 200 && response.data.jobs) {
                 setTotalJobs(response.data.jobs);
             } else {
                 setTotalJobs([]);
@@ -41,7 +40,6 @@ export default function Opportunity() {
         }
     };
 
-    // Fetch jobs on component mount
     useEffect(() => {
         fetchJobs();
     }, []);
@@ -58,7 +56,6 @@ export default function Opportunity() {
         setInputValue({ query: "", location: "" });
     };
 
-    // JSX for search UI
     const searchForm = (
         <div className='position-absolute bottom-0 start-0 py-2 px-3 w-100 bg-dark rounded-2 text-light search-z-index'>
             <div className='d-flex justify-content-between align-items-center mb-2'>

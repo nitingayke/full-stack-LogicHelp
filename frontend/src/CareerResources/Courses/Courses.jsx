@@ -12,7 +12,7 @@ export default function Courses() {
             try {
                 const response = await axios.get("https://logichelp-backend.onrender.com/api/total-courses");
 
-                if (response.success && response?.data?.totalCourses?.length > 0) {
+                if (response?.data?.totalCourses?.length > 0) {
                     setTotalCourses(response.data.totalCourses);
                 }
             } catch (error) {

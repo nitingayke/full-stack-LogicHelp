@@ -65,6 +65,7 @@ export default function ProblemList({ questionsList, loginUser }) {
         let end = start + noOfQuestions;
         setTotalQuestions(filteredQuestions.slice(start, end));
     }
+
     const handleTotalQuestions = (num) => {
         setNoOfQuestions(num);
         setTotalQuestions(filteredQuestions.slice(0, num));
@@ -72,18 +73,15 @@ export default function ProblemList({ questionsList, loginUser }) {
 
     const handlePickRandomQuestion = () => {
         let id = questionsList[Math.floor(Math.random() * questionsList.length)]._id;
-        navigate(`/problem-solving/problem/${id}`)
+        navigate(`/problem-solving/problem/${id}`);
     }
 
     const trendingCompanies = companies.filter((currCompany) => (currCompany.toLowerCase()).includes(searchCompany.toLowerCase()));
 
-
     return (
         <div className='col-12 d-flex flex-wrap'>
-
             <div className='my-3 py-3 fs-16 col-12 col-md-8 col-lg-9 px-2'>
-
-                {/* topics list*/}
+                
                 <div className='pb-3'>
                     <Accordion className='bg-transparent bg-dark-gray'>
                         <AccordionSummary
@@ -102,19 +100,9 @@ export default function ProblemList({ questionsList, loginUser }) {
                     </Accordion>
                 </div>
 
-                {/* functionality */}
+                { /* functionality */ }
                 <ul className='list-unstyled d-flex flex-wrap fs-16'>
-                    <li className='pe-2 py-1'>
-                        <button type="button" className="btn text-light dropdown-toggle fs-16 bg-dark-gray border-0" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span className='me-3'>List</span>
-                        </button>
-                        <ul className="dropdown-menu fs-16 bg-dark-gray text-light question-search-option">
-                            <li><button type='button'>LogicHelp Advanced Questions</button></li>
-                            <li><button type='button'>Top Interview Questions</button></li>
-                            <li><button type='button'>SQL Questions</button></li>
-                            <li><button type='button'>Favorite</button></li>
-                        </ul>
-                    </li>
+
                     <li className='pe-2 py-1'>
                         <button type="button" className="btn text-light dropdown-toggle fs-16 bg-dark-gray border-0" data-bs-toggle="dropdown" aria-expanded="false">
                             <span className='me-3'>{!selectedCategory ? "Category" : selectedCategory}</span>
