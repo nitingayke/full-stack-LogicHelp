@@ -20,7 +20,7 @@ import Slide from '@mui/material/Slide';
 import LinearProgress from '@mui/material/LinearProgress';
 import { io } from 'socket.io-client';
 import { Link } from 'react-router-dom';
-const socket = io('https://loginhelp-backend.onrender.com');
+const socket = io('https://logichelp-backend.onrender.com');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -46,7 +46,7 @@ export default function LiveChallenges({ loginUser }) {
         const getLiveStreamComments = async () => {
             try {
                 setIsStreamLoading(true);
-                const res = await axios.get('https://loginhelp-backend.onrender.com/doubts/live-stream-message');
+                const res = await axios.get('https://logichelp-backend.onrender.com/doubts/live-stream-message');
                 if (res.status === 200) {
                     setLiveStream(res.data.streamMessage);
                 }
@@ -61,7 +61,7 @@ export default function LiveChallenges({ loginUser }) {
         const getChallenges = async () => {
             try {
                 setChallengeLoading(true);
-                const res = await axios.get('https://loginhelp-backend.onrender.com/doubts/all-challenges');
+                const res = await axios.get('https://logichelp-backend.onrender.com/doubts/all-challenges');
                 if (res.status === 200) {
                     setChallenges(res.data.totalChallenges);
                 }

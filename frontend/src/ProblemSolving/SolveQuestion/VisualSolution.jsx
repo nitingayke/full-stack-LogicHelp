@@ -12,7 +12,7 @@ export default function VisualSolution({ query, language }) {
 
     useEffect(() => {
         const fetchVideoSolution = async () => {
-            const response = await axios.post("https://loginhelp-backend.onrender.com/api/youtube-video", {
+            const response = await axios.post("https://logichelp-backend.onrender.com/api/youtube-video", {
                 searchQuery: query
             });
             

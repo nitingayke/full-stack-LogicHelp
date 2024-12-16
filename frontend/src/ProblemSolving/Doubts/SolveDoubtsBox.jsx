@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 import { useNavigate, Link } from 'react-router-dom';
 
 import { io } from 'socket.io-client';
-const socket = io('https://loginhelp-backend.onrender.com');
+const socket = io('https://logichelp-backend.onrender.com');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;

@@ -8,7 +8,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-const socket = io('https://loginhelp-backend.onrender.com');
+const socket = io('https://logichelp-backend.onrender.com');
 
 export default function CreateDoubts({ loginUser }) {
 

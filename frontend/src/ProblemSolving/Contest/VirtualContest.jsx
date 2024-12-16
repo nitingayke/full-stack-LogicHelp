@@ -13,7 +13,7 @@ export default function VirtualContest() {
 
         const getVirtualContestQuestions = async () => {
             try {
-                const res = await axios.get(`https://loginhelp-backend.onrender.com/contest/virtual-contest/${id}`);
+                const res = await axios.get(`https://logichelp-backend.onrender.com/contest/virtual-contest/${id}`);
 
                 if (res.status === 200) {
                     setContestsQuestions(res.data.contestQuestions);

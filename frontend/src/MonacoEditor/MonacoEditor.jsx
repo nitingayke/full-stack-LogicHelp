@@ -44,7 +44,7 @@ export default function MonacoEditor() {
         try {
             setIsLoading(true);
 
-            const response = await axios.post("https://loginhelp-backend.onrender.com/api/execute-code", {
+            const response = await axios.post("https://logichelp-backend.onrender.com/api/execute-code", {
                 language: selectedLanguage,
                 sourceCode: sourceCode
             });

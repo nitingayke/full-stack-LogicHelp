@@ -33,7 +33,7 @@ export default function LandingComponent() {
     useEffect(() => {
         const getTotalFeedback = async () => {
             try {
-                const { data } = await axios.get("https://loginhelp-backend.onrender.com/user/total-feedback");
+                const { data } = await axios.get("https://logichelp-backend.onrender.com/user/total-feedback");
                 const { success, feedbacks } = data;
 
                 if (success) {

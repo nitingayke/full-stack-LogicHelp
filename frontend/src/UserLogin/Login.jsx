@@ -43,7 +43,7 @@ export default function Login({ handleLoginUser }) {
         try {
             setIsLoading(true);
             const { data } = await axios.post(
-                "https://loginhelp-backend.onrender.com/login",
+                "https://logichelp-backend.onrender.com/login",
                 {
                     email,
                     password,

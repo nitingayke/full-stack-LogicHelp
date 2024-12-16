@@ -13,7 +13,7 @@ export default function WatchProfile({ loginUser }) {
         const findUserById = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get(`https://loginhelp-backend.onrender.com/user/get-user/${id}`);
+                const response = await axios.get(`https://logichelp-backend.onrender.com/user/get-user/${id}`);
 
                 if (response.data.user) {
                     setCurrUser(response.data.user);

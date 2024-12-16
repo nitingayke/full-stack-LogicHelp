@@ -39,7 +39,7 @@ export default function UserProfile({ loginUser, currUser }) {
 
         try {
             setIsLoading(true);
-            const response = await axios.post(`https://loginhelp-backend.onrender.com/user/upload/profile-image/${loginUser?._id}`, formData, {
+            const response = await axios.post(`https://logichelp-backend.onrender.com/user/upload/profile-image/${loginUser?._id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

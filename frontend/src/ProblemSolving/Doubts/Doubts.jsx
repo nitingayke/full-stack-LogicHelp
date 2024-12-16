@@ -14,7 +14,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { io } from 'socket.io-client';
-const socket = io('https://loginhelp-backend.onrender.com');
+const socket = io('https://logichelp-backend.onrender.com');
 
 export default function Doubts({ loginUser }) {
     const [doubts, setDoubts] = useState(null);
@@ -122,7 +122,7 @@ export default function Doubts({ loginUser }) {
         const getAllDoubts = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get('https://loginhelp-backend.onrender.com/doubts/all-doubts');
+                const res = await axios.get('https://logichelp-backend.onrender.com/doubts/all-doubts');
 
                 if (res.status === 200) {
                     setAllDoubts(res.data.allDoubts);

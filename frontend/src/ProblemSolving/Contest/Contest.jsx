@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CompletedContestList from './CompletedContestList';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { Link } from 'react-router-dom';
 
 export default function Contest() {
     const [time, setTime] = useState("");

@@ -38,7 +38,7 @@ export default function ProblemDescription({ problem, loginUser }) {
 
         try {
             setIsLoading(true);
-            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/question-like/${problem?._id}/user/${loginUser?._id}`);
+            const res = await axios.put(`https://logichelp-backend.onrender.com/questions/question-like/${problem?._id}/user/${loginUser?._id}`);
 
             if (res.status === 200) {
                 setLocalProblem((prev) =>  ({
@@ -75,7 +75,7 @@ export default function ProblemDescription({ problem, loginUser }) {
 
         try {
 
-            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/comment/${problem?._id}/user/${loginUser?._id}`, {
+            const res = await axios.put(`https://logichelp-backend.onrender.com/questions/comment/${problem?._id}/user/${loginUser?._id}`, {
                 comment: commentText,
             });
 
@@ -111,7 +111,7 @@ export default function ProblemDescription({ problem, loginUser }) {
         }
 
         try {
-            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/comment/support-point/${comment_id}/user/${loginUser?._id}`);
+            const res = await axios.put(`https://logichelp-backend.onrender.com/questions/comment/support-point/${comment_id}/user/${loginUser?._id}`);
 
             if (res.status === 200) {
 
@@ -143,7 +143,7 @@ export default function ProblemDescription({ problem, loginUser }) {
     const deleteUserComment = async (comment_id) => {
 
         try {
-            const res = await axios.delete(`https://loginhelp-backend.onrender.com/questions/${problem?._id}/delete-comment/${comment_id}/user/${loginUser?._id}`);
+            const res = await axios.delete(`https://logichelp-backend.onrender.com/questions/${problem?._id}/delete-comment/${comment_id}/user/${loginUser?._id}`);
 
             if (res.status == 200) {
                 const commentFilter = localProblem.comments.filter((c) => c?._id !== comment_id);
@@ -162,7 +162,7 @@ export default function ProblemDescription({ problem, loginUser }) {
     const addFavoriteQuestion = async() => {
    
         try {
-            const res = await axios.put(`https://loginhelp-backend.onrender.com/questions/add-favorite/${problem?._id}/user/${loginUser?._id}`);
+            const res = await axios.put(`https://logichelp-backend.onrender.com/questions/add-favorite/${problem?._id}/user/${loginUser?._id}`);
             
             toast.success(res.data.message);
         } catch (error) {

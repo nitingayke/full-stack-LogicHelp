@@ -14,7 +14,7 @@ import WatchProfile from './UserProfile/WatchProfile.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { io } from 'socket.io-client';
-const socket = io('https://loginhelp-backend.onrender.com');
+const socket = io('https://logichelp-backend.onrender.com');
 
 
 export default function AppComponent() {

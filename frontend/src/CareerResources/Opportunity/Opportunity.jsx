@@ -24,7 +24,7 @@ export default function Opportunity() {
             setError(null); // Reset error before fetching
 
             const { query, location } = inputValue;
-            const response = await axios.post('https://loginhelp-backend.onrender.com/api/find-posted-jobs', {
+            const response = await axios.post('https://logichelp-backend.onrender.com/api/find-posted-jobs', {
                 query: query || 'Software Engineer Jobs',
                 location: location || 'India',
             });

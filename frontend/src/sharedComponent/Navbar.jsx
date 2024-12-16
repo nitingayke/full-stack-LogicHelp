@@ -35,7 +35,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
             const publicRoutes = ["/signup", "/login", "/logout"];
             try {
                 const { data } = await axios.post(
-                    "https://loginhelp-backend.onrender.com",
+                    "https://logichelp-backend.onrender.com",
                     {},
                     { withCredentials: true }
                 );
@@ -66,7 +66,7 @@ export default function Navbar({ loginUser, handleLoginUser }) {
         try {
 
             setIsLoading(true);
-            const { data } = await axios.post("https://loginhelp-backend.onrender.com/user-logout", {}, { withCredentials: true });
+            const { data } = await axios.post("https://logichelp-backend.onrender.com/user-logout", {}, { withCredentials: true });
 
             if (data?.success) {
                 handleLoginUser(null);

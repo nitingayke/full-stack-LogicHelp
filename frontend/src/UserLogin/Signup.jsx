@@ -37,7 +37,7 @@ export default function Signup({ handleLoginUser }) {
         try {
             setIsLoading(true);
             const { data } = await axios.post(
-                "https://loginhelp-backend.onrender.com/signup",
+                "https://logichelp-backend.onrender.com/signup",
                 userSignup,
                 { withCredentials: true }
             );
