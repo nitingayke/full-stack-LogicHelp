@@ -51,8 +51,8 @@ module.exports.userProfileUpload = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: false, error: 'File upload failed. Please try again.' });
     }
-    
-    if(!currUser)
+
+    if (!currUser)
         return res.status(404).json({ success: false, error: 'User not found' });
 
     const fileUrl = req.file.path;
@@ -62,8 +62,8 @@ module.exports.userProfileUpload = async (req, res) => {
     return res.status(200).json({ success: true, message: 'Profile image uploaded successfully', url: fileUrl });
 }
 
-module.exports.userFeedback = async(req, res) => {
-    
+module.exports.userFeedback = async (req, res) => {
+
     const { id } = req.params;
     const { rating, reviewMessage, working } = req.body;
 
@@ -86,7 +86,12 @@ module.exports.userFeedback = async(req, res) => {
     return res.status(200).json({ success: true, message: "Feedback submitted successfully" });
 }
 
-module.exports.getTotalFeedbacks = async(req, res) => {
-    const feedbacks = await Feedback.find({});
+module.exports.getTotalFeedbacks = async (req, res) => {
+    const feedbacks = await Feedback.find({})
+        .populate({
+            path: 'user',
+            select: 'username _id country image',
+        });
+
     return res.status(200).json({ success: true, feedbacks });
 }

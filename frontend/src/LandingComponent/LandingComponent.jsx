@@ -8,6 +8,7 @@ import MonacoEditor from '../MonacoEditor/MonacoEditor';
 import Rating from '@mui/material/Rating';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
+import Avatar from '@mui/material/Avatar';
 
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
@@ -30,12 +31,12 @@ export default function LandingComponent() {
 
     const [feedbacks, setFeedbacks] = useState();
     useEffect(() => {
-        const getTotalFeedback = async() => {
-            try {  
+        const getTotalFeedback = async () => {
+            try {
                 const { data } = await axios.get("https://loginhelp-backend.onrender.com/user/total-feedback");
                 const { success, feedbacks } = data;
-              
-                if(success){
+
+                if (success) {
                     setFeedbacks(feedbacks);
                 }
             } catch (error) {
@@ -124,28 +125,41 @@ export default function LandingComponent() {
                     {feedbacks.map((feedback, index) =>
                         <div key={index} className='col-md-6 col-lg-5 col-12 py-3'>
                             <div className='m-3 feedback-box'>
-                                <h5 className='fw-semibold p-3 pb-0'>{feedback.name} - <span>{feedback.branch}</span></h5 >
-                                <p className='px-3 mb-0'><Rating name="read-only" className='feedback-rating px-2' value={feedback.star} readOnly /></p>
-                                <p className='m-0 fs-16 px-3 pt-2 feedback-description'>{feedback.description}</p>
-                                <p className='p-3 pt-2 m-0 col-12 d-flex justify-content-end text-secondary fst-italic'>{feedback.company}</p>
+                                <div className='d-flex align-items-center'>
+                                    <Avatar alt={feedback?.user?.username} src={feedback?.user?.image} />
+                                    <h5 className='fw-semibold m-0 ps-2'>{feedback?.user?.username}</h5>
+                                </div>
+
+                                <p className='m-0 pt-2 ps-4 ms-3'>
+                                    <Rating name="read-only" className='feedback-rating px-2' value={feedback?.rating} readOnly />
+                                </p>
+                                <p className='m-0 fs-16 pt-2 feedback-description'>{feedback?.reviewMessage}</p>
+                                <p className='p-3 pt-2 m-0 col-12 d-flex justify-content-end text-secondary fst-italic'>{feedback?.working}</p>
                             </div>
                         </div>
                     )}
                 </div>
 
                 <div className="slider-container d-none d-md-block">
-                    <Slider {...settings}>
-                        {feedbacks.map((feedback, index) =>
+                    <Slider {...settings} className='d-flex'>
+                        {feedbacks.map((feedback, index) => (
                             <div key={index} className='col-md-6 col-lg-5 col-12 py-3'>
                                 <div className='m-3 feedback-box'>
-                                    <h5 className='fw-semibold p-3 pb-0'>{feedback.name} - <span>{feedback.branch}</span></h5 >
-                                    <p className='px-3 mb-0'><Rating name="read-only" className='feedback-rating px-2' value={feedback.star} readOnly /></p>
-                                    <p className='m-0 fs-16 px-3 pt-2 feedback-description'>{feedback.description}</p>
-                                    <p className='p-3 pt-2 m-0 col-12 d-flex justify-content-end text-secondary fst-italic'>{feedback.company}</p>
+                                    <div className='d-flex align-items-center'>
+                                        <Avatar alt={feedback?.user?.username} src={feedback?.user?.image} />
+                                        <h5 className='fw-semibold m-0 ps-2'>{feedback?.user?.username}</h5>
+                                    </div>
+
+                                    <p className='m-0 pt-2 ps-4 ms-3'>
+                                        <Rating name="read-only" className='feedback-rating px-2' value={feedback?.rating} readOnly />
+                                    </p>
+                                    <p className='m-0 fs-16 pt-2 feedback-description'>{feedback?.reviewMessage}</p>
+                                    <p className='p-3 pt-2 m-0 col-12 d-flex justify-content-end text-secondary fst-italic'>{feedback?.working}</p>
                                 </div>
                             </div>
-                        )}
+                        ))}
                     </Slider>
+
                 </div>
 
 
