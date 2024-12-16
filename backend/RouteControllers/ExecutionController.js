@@ -36,7 +36,7 @@ module.exports.codeExecution = async (req, res) => {
     const { language, sourceCode } = req.body;
 
     if (!language || !sourceCode) {
-        return res.status(400).json({ error: "Missing required fields: language or sourceCode" });
+        return res.status(400).json({ success: false, error: "Missing required fields: language or sourceCode" });
     }
 
     const result = await executeCode(language, sourceCode);
@@ -81,7 +81,7 @@ module.exports.youtubeVideo = async (req, res) => {
     if (result && result.length > 0) {
         return res.json(result);
     } else {
-        return res.status(404).json({ message: "No videos found matching the query." });
+        return res.status(404).json({ success: false, message: "No videos found matching the query." });
     }
 }
 
@@ -89,7 +89,7 @@ module.exports.executeUserBug = async (req, res) => {
     const { userDoubt } = req.body;
 
     if (!userDoubt) {
-        return res.status(400).json({ error: "userDoubt is required." });
+        return res.status(400).json({  success: false, error: "userDoubt is required." });
     }
 
     const completion = await openai.chat.completions.create({
@@ -103,10 +103,10 @@ module.exports.executeUserBug = async (req, res) => {
     const api_response = completion.choices[0].message;
 
     if (!api_response) {
-        return res.status(500).json({ error: "No response from OpenAI API." });
+        return res.status(500).json({ success: false, error: "No response from OpenAI API." });
     }
 
-    return res.json({ response: api_response });
+    return res.json({ success: true, response: api_response });
 }
 
 module.exports.postedIT_Jobs = async (req, res) => {

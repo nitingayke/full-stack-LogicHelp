@@ -17,6 +17,7 @@ module.exports.getAllDoubts = async (req, res) => {
         });
 
     return res.status(200).json({
+        success: true,
         message: "Doubts fetched successfully.",
         allDoubts: totalDoubts,
     });
@@ -31,7 +32,7 @@ module.exports.getTotalStreamMessage = async (req, res) => {
             select: 'username _id country image',
         });
 
-    return res.status(200).json({ streamMessage: totalStreamMessage });
+    return res.status(200).json({ success: true, streamMessage: totalStreamMessage });
 }
 
 module.exports.getAllChallenges = async (req, res) => {
@@ -48,5 +49,5 @@ module.exports.getAllChallenges = async (req, res) => {
 
         });
 
-    return res.status(200).json({ totalChallenges });
+    return res.status(200).json({ success: true, totalChallenges });
 }

@@ -7,10 +7,10 @@ module.exports.editProfile = async (req, res) => {
     const currUser = await User.findById(id);
 
     if (!currUser) {
-        return res.status(404).json({ message: "user not found" });
+        return res.status(404).json({ success: false, message: "user not found" });
     }
     if (!fullName || !about) {
-        return res.status(400).json({ message: 'name and about are required.' });
+        return res.status(400).json({ success: false, message: 'name and about are required.' });
     }
 
     currUser.name = fullName;
@@ -19,7 +19,7 @@ module.exports.editProfile = async (req, res) => {
 
     await currUser.save();
 
-    return res.status(200).json({ message: 'user profile updated successfully' });
+    return res.status(200).json({ success: true, message: 'user profile updated successfully' });
 }
 
 module.exports.getUserById = async (req, res) => {
@@ -39,7 +39,7 @@ module.exports.getUserById = async (req, res) => {
             model: "Question",
         });
 
-    return res.json({ user: currUser });
+    return res.json({ success: true, user: currUser });
 }
 
 module.exports.userProfileUpload = async (req, res) => {
@@ -48,15 +48,15 @@ module.exports.userProfileUpload = async (req, res) => {
     const currUser = await User.findById(id);
 
     if (!req.file) {
-        return res.status(400).json({ error: 'File upload failed. Please try again.' });
+        return res.status(400).json({ success: false, error: 'File upload failed. Please try again.' });
     }
     
     if(!currUser)
-        return res.status(404).json({ error: 'User not found' });
+        return res.status(404).json({ success: false, error: 'User not found' });
 
     const fileUrl = req.file.path;
     currUser.image = fileUrl;
     await currUser.save();
 
-    return res.status(200).json({ message: 'Profile image uploaded successfully', url: fileUrl });
+    return res.status(200).json({ success: true, message: 'Profile image uploaded successfully', url: fileUrl });
 }

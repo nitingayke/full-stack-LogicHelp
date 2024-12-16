@@ -13,14 +13,14 @@ module.exports.addComments = async (req, res) => {
     const { comment: userComment } = req.body;
 
     if (!userComment) {
-        return res.status(400).json({ message: "Comment content is required." });
+        return res.status(400).json({ success: false, message: "Comment content is required." });
     }
 
     const question = await Question.findById(question_id);
     const user = await User.findById(user_id);
 
     if (!question || !user) {
-        return res.status(404).json({ message: "Question or User not found." });
+        return res.status(404).json({ success: false, message: "Question or User not found." });
     }
 
     const newComment = new Comment({
@@ -33,7 +33,7 @@ module.exports.addComments = async (req, res) => {
     question.comments.push(commentRes._id);
     await question.save();
 
-    return res.status(200).json({});
+    return res.status(200).json({ success: true,});
 };
 
 module.exports.getQuestion = async (req, res) => {
@@ -116,13 +116,13 @@ module.exports.questionLike = async (req, res) => {
     const user = await User.findById(user_id);
 
     if (!question || !user) {
-        return res.status(404).json({ message: "Question not found" })
+        return res.status(404).json({ success: false, message: "Question not found" })
     }
 
     question.likes.push(user_id);
     await question.save();
 
-    return res.status(200).json({ message: "Question liked successfully" });
+    return res.status(200).json({ success: true, message: "Question liked successfully" });
 }
 
 module.exports.addSupportPoint = async (req, res) => {
@@ -153,19 +153,19 @@ module.exports.deleteComment = async (req, res) => {
     const { problem_id, comment_id, user_id } = req.params;
 
     if (!problem_id || !comment_id || !user_id) {
-        return res.status(400).json({ message: "Missing required parameters" });
+        return res.status(400).json({ success: false, message: "Missing required parameters" });
     }
 
     const currComment = await Comment.findById(comment_id);
     const currQuestion = await Question.findById(problem_id);
 
     if (!currComment || !currQuestion) {
-        return res.status(404).json({ message: "Comment or Question not found" });
+        return res.status(404).json({ success: false, message: "Comment or Question not found" });
     }
 
     const isCommentInQuestion = currQuestion.comments.includes(comment_id);
     if (!isCommentInQuestion) {
-        return res.status(400).json({ message: "Comment does not belong to the specified question" });
+        return res.status(400).json({ success: false, message: "Comment does not belong to the specified question" });
     }
 
     await Comment.findByIdAndDelete(comment_id);
@@ -175,29 +175,29 @@ module.exports.deleteComment = async (req, res) => {
     );
     await currQuestion.save();
 
-    return res.status(200).json({ message: "Comment deleted successfully" });
+    return res.status(200).json({ success: true, message: "Comment deleted successfully" });
 }
 
 module.exports.addFavoriteQuestion = async (req, res) => {
     const { problem_id, user_id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(problem_id) || !mongoose.Types.ObjectId.isValid(user_id)) {
-        return res.status(400).json({ message: "Invalid problem or user ID." });
+        return res.status(400).json({ success: false, message: "Invalid problem or user ID." });
     }
 
     const currProblem = await Question.findById(problem_id);
     const currUser = await User.findById(user_id);
 
     if (!currProblem || !currUser) {
-        return res.status(404).json({ message: "Problem or user not found." });
+        return res.status(404).json({ success: false, message: "Problem or user not found." });
     }
 
     if (currUser.userProgress.favoriteQuestion.includes(problem_id)) {
-        return res.status(200).json({ message: "Problem already in favorites." });
+        return res.status(200).json({ success: true, message: "Problem already in favorites." });
     }
 
     currUser.userProgress.favoriteQuestion.push(problem_id);
     await currUser.save();
 
-    return res.status(200).json({ message: "Problem added to favorites successfully." });
+    return res.status(200).json({ success: true, message: "Problem added to favorites successfully." });
 }

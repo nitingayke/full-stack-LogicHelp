@@ -29,7 +29,7 @@ export default function Opportunity() {
                 location: location || 'India',
             });
 
-            if (response.data.jobs) {
+            if (response.success && response.data.jobs) {
                 setTotalJobs(response.data.jobs);
             } else {
                 setTotalJobs([]);

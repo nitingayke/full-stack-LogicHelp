@@ -11,7 +11,7 @@ module.exports.vertualContestQuestions = async (req, res) => {
     const { id } = req.params;
 
     if (!id) {
-        return res.status(400).json({ error: 'Contest ID is required.' });
+        return res.status(400).json({  success: false, error: 'Contest ID is required.' });
     }
 
     const contestQuestions = await PastContest.findById(id)
