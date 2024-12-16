@@ -225,7 +225,7 @@ export default function LiveChallenges({ loginUser }) {
                     </div>
                 </div>
 
-                <div className='d-none d-md-block col-md-4 ps-2'>
+                <div className='col-12 d-md-block col-md-4 ps-md-2'>
                     <div className='bg-dark-gray p-2 rounded'>
                         <div className='d-flex justify-content-between align-items-center border-bottom'>
                             <h4 className='fw-semibold m-0 p-1'>Live Stream</h4>
