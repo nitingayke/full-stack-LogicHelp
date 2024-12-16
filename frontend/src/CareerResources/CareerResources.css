@@ -11,3 +11,7 @@
 .search-z-index{
     z-index: 5000;
 }
+.hover-bg-dark:hover{
+    background-color: rgba(48, 47, 47, 0.256) !important;
+    transform: scale(1.01);
+}

@@ -55,7 +55,7 @@ export default function Signup({ handleLoginUser }) {
                 toast.error("User already exists.");
             } else if (error.response?.status === 500) {
                 toast.error("Server error. Please try again later.");
-            } else {
+            } else { 
                 toast.error("Failed to sign up. Check your connection and try again.");
             }
         } finally {
@@ -98,7 +98,7 @@ export default function Signup({ handleLoginUser }) {
                     />
 
                     <br />
-                    <Button variant="contained" className='mb-4' onClick={handleSubmitbutton}>Signup</Button>
+                    <Button variant="contained" className='mb-4' onClick={handleSubmitButton}>Signup</Button>
                 </div>
 
                 <p className='pb-3'>

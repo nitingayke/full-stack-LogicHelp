@@ -53,18 +53,16 @@ export default function Courses() {
                             rel="noopener noreferrer"
                             className="text-decoration-none"
                         >
-                            <div className="card h-100 bg-light rounded p-2">
-                                <div>
-                                    <img
-                                        src={course.snippet?.thumbnails?.medium?.url}
-                                        alt={course.snippet?.title}
-                                        className="col-12 img-fluid rounded col-12"
-                                    />
-                                </div>
+                            <div className="card h-100 bg-transparent border border-dark rounded p-2 hover-bg-dark">
+                                <img
+                                    src={course.snippet?.thumbnails?.medium?.url}
+                                    alt={course.snippet?.title}
+                                    className="col-12 img-fluid rounded col-12"
+                                />
 
-                                <h5 className="m-0 fw-semibold text-break pt-2">{course.snippet?.title}</h5>
-                                <p className="m-0 pt-1 fs-16 text-break flex-1">{course.snippet?.description}</p>
-                                <p className="mb-1 fs-16 text-muted text-break">Published: {timeSlince(course.snippet?.publishedAt)} ago</p>
+                                <h5 className="m-0 fw-semibold text-light text-break pt-2">{course.snippet?.title}</h5>
+                                <p className="m-0 pt-1 text-light fs-16 text-break flex-1">{course.snippet?.description}</p>
+                                <p className="mb-1 fs-16 text-light-secondary text-break ms-auto">Published: {timeSlince(course.snippet?.publishedAt)} ago</p>
                             </div>
                         </a>
                     </div>

@@ -120,19 +120,21 @@ export default function Opportunity() {
             <div className='d-flex flex-wrap'>
                 {totalJobs.length > 0 ? (
                     totalJobs.map((job, index) => (
-                        <div key={index} className='p-1 col-md-6 col-lg-4'>
-                            <div className='card h-100 border p-2 bg-light text-dark rounded-2'>
-                                <p className='fs-16 color-green mb-2'>
+                        <div key={index} className='p-2 col-md-6 col-lg-4'>
+                            <div className='card h-100 bg-transparent hover-bg-dark border border-dark p-2 rounded-2'>
+                                <p className='fs-16 text-secondary mb-2'>
                                     <SignpostIcon className='fs-16' />
                                     <span> posted on: {timeSlince(job.created)} ago</span>
                                 </p>
-                                <div className='bg-secondary flex-1 p-1 rounded'>
-                                    <h2 className='fw-semibold text-muted fs-2'>{job.title}</h2>
-                                    <p className='m-0 fs-16 mb-2 pre-wrap-space text-light truncate-text'>
-                                        <span className='text-dark'>Job Description:</span> {job.description || "N/A"}
+                                <div className='flex-1 p-1 rounded'>
+                                    <h2 className='fw-semibold text-orange pacity-75 fs-2'>{job.title}</h2>
+                                    
+                                    <p className='m-0 fs-16 mb-2 pre-wrap-space text-secondary truncate-text'>
+                                        <span className='text-light-secondary'>Job Description:</span> {job.description || "N/A"}
                                     </p>
-                                    <p className='fs-16 text-info m-0 d-flex align-items-center'>
-                                        <span className='text-dark'>Location: </span>{job.location?.display_name}
+
+                                    <p className='fs-16 text-secondary m-0 d-flex align-items-center'>
+                                        <span className='text-light-secondary me-1'>Location: </span>{job.location?.display_name}
                                         <a
                                             href={`https://www.google.com/maps?q=${job.latitude},${job.longitude}`}
                                             target="_blank"
@@ -141,19 +143,20 @@ export default function Opportunity() {
                                             <LocationOnOutlinedIcon className='fs-6' />
                                         </a>
                                     </p>
-                                    <p className='fs-16 m-0 text-warning'>
-                                        <span className='text-dark'>Stipend:</span> {job.salary_max || "N/A"} &#8377;
+                                    <p className='fs-16 m-0 text-secondary'>
+                                        <span className='text-light-secondary'>Stipend:</span> {job.salary_max || "N/A"} &#8377;
                                     </p>
                                 </div>
+                                <hr className='m-0 text-light my-2' />
                                 <div className='d-flex pt-2 justify-content-between'>
-                                    <strong className='text-muted fs-5'>{job.company.display_name}</strong>
+                                    <strong className='text-light-secondary fs-5 text-break'>{job.company.display_name}</strong>
                                     <a
                                         href={job.redirect_url || "#"}
                                         target='_blank'
                                         rel="noopener noreferrer"
-                                        className='text-decoration-none fs-16 d-flex align-items-center px-3 py-1 rounded-4 bg-dark text-light hover-orange'
+                                        className='text-decoration-none'
                                     >
-                                        View
+                                        <button type="button" className="fs-16 px-3 py-1 btn rounded-4 border border-orange text-orange btn-outline-warning h-fit-content">View</button>
                                     </a>
                                 </div>
                             </div>
