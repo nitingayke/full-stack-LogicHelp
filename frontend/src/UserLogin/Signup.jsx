@@ -24,8 +24,9 @@ export default function Signup({ handleLoginUser }) {
             return;
         }
 
-        if (!isValidEmail(email)) {
-            toast.error("Invalid email address");
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            toast.error("Please enter a valid email address");
             return;
         }
 
@@ -35,13 +36,13 @@ export default function Signup({ handleLoginUser }) {
         }
 
         try {
-            setIsLoading(true);
+            setIsLoading(true); 
             const { data } = await axios.post(
                 "https://logichelp-backend.onrender.com/signup",
-                userSignup,
+                { email, username, password },
                 { withCredentials: true }
             );
-
+      
             const { success, message, user } = data;
 
             if (success) {
@@ -51,11 +52,12 @@ export default function Signup({ handleLoginUser }) {
                 toast.error(message || "Signup failed. Please try again.");
             }
         } catch (error) {
+
             if (error.response?.status === 400) {
                 toast.error("User already exists.");
             } else if (error.response?.status === 500) {
                 toast.error("Server error. Please try again later.");
-            } else { 
+            } else {
                 toast.error("Failed to sign up. Check your connection and try again.");
             }
         } finally {
@@ -107,7 +109,7 @@ export default function Signup({ handleLoginUser }) {
                     </Link>
                 </p>
             </div>
-         
+
             <Backdrop
                 sx={(theme) => ({ color: '#7cf140', zIndex: theme.zIndex.drawer + 1 })}
                 open={isLoading}
