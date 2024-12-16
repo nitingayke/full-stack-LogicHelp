@@ -31,8 +31,8 @@ export default function LandingComponent() {
     const [feedbacks, setFeedbacks] = useState();
     useEffect(() => {
         const getTotalFeedback = async() => {
-            try {
-                const { data } = await axios.get("https://loginhelp.onrender.com/user/total-feedback");
+            try {  
+                const { data } = await axios.get("https://loginhelp-backend.onrender.com/user/total-feedback");
                 const { success, feedbacks } = data;
               
                 if(success){
