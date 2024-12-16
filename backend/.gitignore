@@ -1,5 +1,4 @@
 node_modules
 .env
 
-backend/Models/Helper.js
-Models/Helper
+Models/Helper.js
