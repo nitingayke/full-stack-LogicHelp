@@ -60,7 +60,7 @@ export default function AppComponent() {
                 </Routes>
 
             </div>
-            <Footer />
+            <Footer loginUser={loginUser} />
 
             <ToastContainer
                 position="bottom-right"

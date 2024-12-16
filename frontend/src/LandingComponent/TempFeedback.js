@@ -7,13 +7,6 @@ export const feedbacks = [
         company: "Tech Solutions Inc.",
     },
     {
-        name: "Rahul M.",
-        branch: "Software Engineering",
-        star: 4,
-        description: "I landed my internship thanks to the mock interviews and personalized feedback provided by LogicHelp. It was instrumental in my preparation.",
-        company: "Innovatech",
-    },
-    {
         name: "Sneha P.",
         branch: "Data Science",
         star: 5,

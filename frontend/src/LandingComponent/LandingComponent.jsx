@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./LandingComponent.css";
 import BookIcon from '@mui/icons-material/Book';
 import SchoolIcon from '@mui/icons-material/School';
 import PeopleIcon from '@mui/icons-material/People';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import MonacoEditor from '../MonacoEditor/MonacoEditor';
-import { feedbacks } from './TempFeedback';
 import Rating from '@mui/material/Rating';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
@@ -13,6 +12,7 @@ import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from 'axios';
 
 
 
@@ -27,6 +27,23 @@ export default function LandingComponent() {
         autoplaySpeed: 2000,
         cssEase: "linear"
     };
+
+    const [feedbacks, setFeedbacks] = useState();
+    useEffect(() => {
+        const getTotalFeedback = async() => {
+            try {
+                const { data } = await axios.get("https://loginhelp.onrender.com/user/total-feedback");
+                const { success, feedbacks } = data;
+              
+                if(success){
+                    setFeedbacks(feedbacks);
+                }
+            } catch (error) {
+                setFeedbacks();
+            }
+        }
+        getTotalFeedback();
+    }, []);
 
     return (
         <div className='col-12 col-md-10 px-2 mx-auto py-4'>
@@ -100,8 +117,8 @@ export default function LandingComponent() {
                 </ol>
             </section>
 
-            <section className='pt-5 pb-4 col-12'>
-                <h3><span className="landingpage-section-header fw-semibold m-0">Feedback: </span><span className='fs-5 fw-normal text-secondary'>What Our Users Are Saying</span></h3>
+            {feedbacks?.length > 0 && <section className='pt-5 pb-4 col-12'>
+                <h3 className="landingpage-section-header p-0 fw-semibold m-0">Feedback:</h3>
 
                 <div className='users-feedback align-items-center d-md-none'>
                     {feedbacks.map((feedback, index) =>
@@ -132,7 +149,7 @@ export default function LandingComponent() {
                 </div>
 
 
-            </section>
+            </section>}
         </div>
     )
 }

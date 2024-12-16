@@ -28,4 +28,8 @@ Router.put('/update-profile/:id', wrapAsync(listingController.editProfile));
 
 Router.get('/get-user/:id', wrapAsync(listingController.getUserById));
 
+Router.post('/feedback/:id', wrapAsync(listingController.userFeedback));
+
+Router.get("/total-feedback", wrapAsync(listingController.getTotalFeedbacks));
+
 module.exports = Router;

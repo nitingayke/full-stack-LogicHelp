@@ -1,4 +1,5 @@
 const User = require("../Models/UserModel");
+const Feedback = require("../Models/Feedback");
 
 module.exports.editProfile = async (req, res) => {
     const { id } = req.params;
@@ -59,4 +60,33 @@ module.exports.userProfileUpload = async (req, res) => {
     await currUser.save();
 
     return res.status(200).json({ success: true, message: 'Profile image uploaded successfully', url: fileUrl });
+}
+
+module.exports.userFeedback = async(req, res) => {
+    
+    const { id } = req.params;
+    const { rating, reviewMessage, working } = req.body;
+
+    if (!id || !reviewMessage || !working || !rating) {
+        return res.status(400).json({ success: false, message: "Required fields are missing" });
+    }
+
+    if (reviewMessage.length > 250 || working.length > 50) {
+        return res.status(400).json({ success: false, message: "Your message or profession is too long." });
+    }
+
+    const newFeedback = new Feedback({
+        user: id,
+        rating,
+        reviewMessage,
+        working,
+    });
+
+    await newFeedback.save();
+    return res.status(200).json({ success: true, message: "Feedback submitted successfully" });
+}
+
+module.exports.getTotalFeedbacks = async(req, res) => {
+    const feedbacks = await Feedback.find({});
+    return res.status(200).json({ success: true, feedbacks });
 }

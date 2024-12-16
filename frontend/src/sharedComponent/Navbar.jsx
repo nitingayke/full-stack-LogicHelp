@@ -69,8 +69,8 @@ export default function Navbar({ loginUser, handleLoginUser }) {
             const { data } = await axios.post("https://loginhelp-backend.onrender.com/user-logout", {}, { withCredentials: true });
 
             if (data?.success) {
-                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 handleLoginUser(null);
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 navigate("/logout");
             } else {
                 toast.error("Logout failed. Please try again.");
