@@ -26,7 +26,6 @@ module.exports.getAllDoubts = async (req, res) => {
 module.exports.getTotalStreamMessage = async (req, res) => {
 
     const totalStreamMessage = await LiveStream.find({})
-        .sort({ createdAt: -1 })
         .populate({
             path: 'user',
             select: 'username _id country image',

@@ -34,7 +34,7 @@ export default function WatchProfile({ loginUser }) {
         return (
             <div className='col-12 py-5 text-center d-flex align-items-center justify-content-center'>
                 <h3 className='opacity-75 m-0 me-3'>Loading</h3>
-                <div class="spinner-border text-light"></div>
+                <div className="spinner-border text-light"></div>
             </div>
         )
     }
