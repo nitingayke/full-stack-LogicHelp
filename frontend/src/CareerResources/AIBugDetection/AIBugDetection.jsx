@@ -6,7 +6,7 @@ export default function AIBugDetection() {
 
     const [userInput, setUserInput] = useState("");
     const [bugOutput, setBugOutput] = useState();
-
+    const [error, setError] = useState();
     const [question, setQuestion] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -18,12 +18,18 @@ export default function AIBugDetection() {
 
         try {
             setIsLoading(true);
-            const response = await axios.post('https://logichelp-backend.onrender.com/api/execute-user-bug', {
+            const { data } = await axios.post('https://logichelp-backend.onrender.com/api/execute-user-bug', {
                 userDoubt: userInput,
             });
-            setBugOutput(response.data.response);
+            const { response, success} = data;
+            console.log(response);
+            if (success) {
+                setError(null);
+                setBugOutput(response?.content || 'No content available');
+            }
         } catch (error) {
-            setBugOutput(error?.response?.data?.error?.message || error?.response?.data.error || 'An error occurred while fetching the response.');
+            setBugOutput(null);
+            setError(error?.response?.data?.error?.message || error?.response?.data.error || 'An error occurred while fetching the response.');
         } finally {
             setUserInput("");
             setIsLoading(false);
@@ -48,19 +54,16 @@ export default function AIBugDetection() {
                     </div>
                 }
                 {
-                    bugOutput &&
-                    (
-                        (bugOutput || "")?.includes("429")
-                            ? (
-                                <p className='m-0 pre-wrap-space text-danger fs-6 p-2 rounded-bottom rounded-end w-fit-content border border-danger bg-light-red text-break'>
-                                    {bugOutput}
-                                </p>
-                            ) : (
-                                <p className='text-light-secondary pre-wrap-space fs-6 p-2 rounded-bottom rounded-end bg-dark w-fit-content text-break'>
-                                    {bugOutput}
-                                </p>
-                            )
-                    )
+                    error?.length > 0 &&
+                    <p className='m-0 pre-wrap-space text-danger fs-6 p-2 rounded-bottom rounded-end w-fit-content border border-danger bg-light-red text-break'>
+                        {error}
+                    </p>
+                }
+
+                {
+                    bugOutput?.length > 0 && <p className='text-light-secondary pre-wrap-space fs-6 p-2 rounded-bottom rounded-end bg-dark w-fit-content text-break'>
+                        {bugOutput}
+                    </p>
                 }
 
 
@@ -90,4 +93,4 @@ export default function AIBugDetection() {
         </div>
 
     )
-}
+} 
