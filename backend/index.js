@@ -134,7 +134,7 @@ io.on("connection", (socket) => {
             await newDoubt.save();
             await newDoubt.populate({
                 path: 'user',
-                select: 'username country _id',
+                select: 'username country _id image',
             });
 
             io.emit("added-new-doubt", { newDoubt });

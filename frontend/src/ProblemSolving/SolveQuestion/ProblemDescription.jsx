@@ -86,6 +86,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                     user: {
                         country: loginUser.country,
                         username: loginUser.username,
+                        image: loginUser.image,
                         _id: loginUser?._id,
                     }
                 }
