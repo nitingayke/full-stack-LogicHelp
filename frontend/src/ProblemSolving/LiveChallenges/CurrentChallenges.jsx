@@ -126,20 +126,18 @@ export default function CurrentChallenges({ challenges, loginUser }) {
     }
 
     useEffect(() => {
- 
         socket.on('live-challenge-results-success', (data) => {
-
-            if(data?.challenge_id === selectedChallenge?._id){
+            if (selectedChallenge && data?.challenge_id === selectedChallenge?._id) {
                 setSelectedChallenge((prev) => ({
                     ...prev,
                     result: [...prev.result, data.result],
                 }));
             }
         });
-
+    
         socket.on('edited-live-challenge', (data) => {
             const { challenge_id, title, textMessage, imageURL } = data;
-
+    
             if (selectedChallenge?._id === challenge_id) {
                 setSelectedChallenge((prev) => ({
                     ...prev,
@@ -149,9 +147,8 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                 }));
             }
         });
-
+    
         socket.on('deleted-selected-challenge-comment', ({ challenge_id, comment_id }) => {
-            
             if (selectedChallenge?._id === challenge_id) {
                 setSelectedChallenge((prev) => ({
                     ...prev,
@@ -159,21 +156,20 @@ export default function CurrentChallenges({ challenges, loginUser }) {
                 }));
             }
         });
-
+    
         socket.on('deleted-selected-challenge', ({ challenge_id }) => {
-            
-            if(challenge_id === selectedChallenge?._id){
+            if (challenge_id === selectedChallenge?._id) {
                 setSelectedChallenge(null);
             }
         });
-
+    
         return () => {
             socket.off('deleted-selected-challenge');
             socket.off('live-challenge-results-success');
             socket.off('edited-live-challenge');
             socket.off('deleted-selected-challenge-comment');
         }
-    }, [loginUser]);
+    }, [selectedChallenge]);  
 
     const isImageLink = (url) => {
         return /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(url);
