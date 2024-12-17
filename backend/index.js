@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: ["https://logichelp.onrender.com"],
+        origin: ["https://logichelp.onrender.com", "http://localhost:3000"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     })
@@ -38,7 +38,7 @@ mongoose
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://logichelp.onrender.com"],
+        origin: ["https://logichelp.onrender.com", "http://localhost:3000"],
         methods: ["GET", "POST"],
         allowedHeaders: ["Content-Type"],
         credentials: true,

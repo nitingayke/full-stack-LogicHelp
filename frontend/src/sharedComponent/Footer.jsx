@@ -43,10 +43,7 @@ export default function Footer({ loginUser }) {
             setError("All fields are required.");
             return;
         }
-        if (reviewMessage.length > 250 || working.length > 50) {
-            setError("Your message or profession is too long.");
-            return;
-        }
+       
         if (!loginUser) {
             setError("You must log in to review the application.");
             return;
@@ -54,7 +51,7 @@ export default function Footer({ loginUser }) {
 
         try {
             setIsLoading(true);
-            const { data } = await axios.post(`https://loginhelp.onrender.com/user/feedback/${loginUser?._id}`, {
+            const { data } = await axios.post(`https://logichelp.onrender.com/user/feedback/${loginUser?._id}`, {
                 reviewMessage,
                 rating,
                 working
