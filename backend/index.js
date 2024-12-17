@@ -233,19 +233,25 @@ io.on("connection", (socket) => {
                 createdAt: new Date(),
             }
             challenge.result.push(result);
+
             user.userProgress.coins += 5;
             await user.save();
-
             await challenge.save();
 
-            result.user = {
-                username: user.username,
-                _id: user._id,
-                image: user.image,
-                country: user.country,
-            }
+            const { deployLink, message, _id } = challenge.result[challenge.result.length - 1];
+            const responseResult = {
+                message,
+                deployLink,
+                _id,
+                user: {
+                    username: user.username,
+                    _id: user._id,
+                    image: user.image,
+                    country: user.country,
+                }
+            };
 
-            io.emit('live-challenge-results-success', { result, challenge_id });
+            io.emit('live-challenge-results-success', { result: responseResult, challenge_id });
         } catch (error) {
             socket.emit('error', { message: "unable to add user solution." });
         }

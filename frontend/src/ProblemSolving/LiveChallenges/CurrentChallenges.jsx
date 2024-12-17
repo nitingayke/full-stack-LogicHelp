@@ -49,56 +49,6 @@ export default function CurrentChallenges({ challenges, loginUser }) {
         });
     }, [selectedChallenge]);
 
-    useEffect(() => {
-        socket.on('live-challenge-results-success', (data) => {
-
-            if(data?.challenge_id === selectedChallenge?._id){
-                setSelectedChallenge((prev) => ({
-                    ...prev,
-                    result: [...prev.result, data.result],
-                }));
-            }
-        });
-
-        socket.on('edited-live-challenge', (data) => {
-            const { challenge_id, title, textMessage, imageURL } = data;
-
-            if (selectedChallenge?._id === challenge_id) {
-                setSelectedChallenge((prev) => ({
-                    ...prev,
-                    title,
-                    textMessage,
-                    imageURL
-                }));
-            }
-        });
-
-        socket.on('deleted-selected-challenge-comment', ({ challenge_id, comment_id }) => {
-     
-            if (selectedChallenge?._id === challenge_id) {
-                setSelectedChallenge((prev) => ({
-                    ...prev,
-                    result: prev.result.filter((comment) => comment._id !== comment_id)
-                }));
-            }
-        });
-
-        socket.on('deleted-selected-challenge', ({ challenge_id }) => {
-            
-            if(challenge_id === selectedChallenge?._id){
-                setSelectedChallenge(null);
-            }
-        });
-
-        return () => {
-            socket.off('deleted-selected-challenge');
-            socket.off('live-challenge-results-success');
-            socket.off('edited-live-challenge');
-            socket.off('deleted-selected-challenge-comment');
-        }
-
-    }, [loginUser]);
-
     const handleChallengeInputValue = (e) => {
         const { name, value } = e.target;
         setEditInputValues((prevValues) => ({
@@ -130,7 +80,7 @@ export default function CurrentChallenges({ challenges, loginUser }) {
 
         socket.emit('live-challenge-results', {
             user_id: loginUser?._id,
-            challenge_id: selectedChallenge._id,
+            challenge_id: selectedChallenge?._id,
             challengeSolution,
             projectDeployLink,
         });
@@ -156,7 +106,6 @@ export default function CurrentChallenges({ challenges, loginUser }) {
             return;
         }
 
-        setSelectedChallenge(null);
         socket.emit('delete-selected-challenge', {
             challenge_id: selectedChallenge._id,
         });
@@ -175,6 +124,56 @@ export default function CurrentChallenges({ challenges, loginUser }) {
             comment_id,
         });
     }
+
+    useEffect(() => {
+ 
+        socket.on('live-challenge-results-success', (data) => {
+
+            if(data?.challenge_id === selectedChallenge?._id){
+                setSelectedChallenge((prev) => ({
+                    ...prev,
+                    result: [...prev.result, data.result],
+                }));
+            }
+        });
+
+        socket.on('edited-live-challenge', (data) => {
+            const { challenge_id, title, textMessage, imageURL } = data;
+
+            if (selectedChallenge?._id === challenge_id) {
+                setSelectedChallenge((prev) => ({
+                    ...prev,
+                    title,
+                    textMessage,
+                    imageURL
+                }));
+            }
+        });
+
+        socket.on('deleted-selected-challenge-comment', ({ challenge_id, comment_id }) => {
+            
+            if (selectedChallenge?._id === challenge_id) {
+                setSelectedChallenge((prev) => ({
+                    ...prev,
+                    result: prev.result.filter((comment) => comment._id !== comment_id)
+                }));
+            }
+        });
+
+        socket.on('deleted-selected-challenge', ({ challenge_id }) => {
+            
+            if(challenge_id === selectedChallenge?._id){
+                setSelectedChallenge(null);
+            }
+        });
+
+        return () => {
+            socket.off('deleted-selected-challenge');
+            socket.off('live-challenge-results-success');
+            socket.off('edited-live-challenge');
+            socket.off('deleted-selected-challenge-comment');
+        }
+    }, [loginUser]);
 
     const isImageLink = (url) => {
         return /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(url);

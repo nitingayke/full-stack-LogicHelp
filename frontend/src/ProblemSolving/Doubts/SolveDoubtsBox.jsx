@@ -59,35 +59,6 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         setLocalDoubts(doubts);
     }, [doubts]);
 
-    useEffect(() => {
-        const handleUpdateComments = (data) => {
-            if (data && localDoubts?._id === data?.doubt_id) {
-                setLocalDoubts((prevDoubts) => ({
-                    ...prevDoubts,
-                    comments: [...prevDoubts.comments, data.newComment],
-                }));
-            }
-        };
-
-        const handleDoubtSolved = (data) => {
-            if (data?.status && localDoubts?._id === data?.doubt_id) {
-                setLocalDoubts((prevDoubt) => ({
-                    ...prevDoubt,
-                    isSolve: true,
-                }));
-                toast.success('Doubt has been solved!');
-            }
-        }
-
-        socket.on('update-comments', handleUpdateComments);
-        socket.on('doubt-solved', handleDoubtSolved);
-
-        return () => {
-            socket.off('update-comments', handleUpdateComments);
-            socket.off('doubt-solved', handleDoubtSolved);
-        };
-    }, [doubts?._id]);
-
     const handleReplyEvent = async () => {
 
         if (!loginUser || typeof loginUser?._id === 'undefined' || !loginUser._id) {
@@ -149,6 +120,35 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         });
         setEditCommentOpen(false);
     }
+
+    useEffect(() => {
+        const handleUpdateComments = (data) => {
+            if (data && localDoubts?._id === data?.doubt_id) {
+                setLocalDoubts((prevDoubts) => ({
+                    ...prevDoubts,
+                    comments: [...prevDoubts.comments, data.newComment],
+                }));
+            }
+        };
+
+        const handleDoubtSolved = (data) => {
+            if (data?.status && localDoubts?._id === data?.doubt_id) {
+                setLocalDoubts((prevDoubt) => ({
+                    ...prevDoubt,
+                    isSolve: true,
+                }));
+                toast.success('Doubt has been solved!');
+            }
+        }
+
+        socket.on('update-comments', handleUpdateComments);
+        socket.on('doubt-solved', handleDoubtSolved);
+
+        return () => {
+            socket.off('update-comments', handleUpdateComments);
+            socket.off('doubt-solved', handleDoubtSolved);
+        };
+    }, [doubts?._id]);
 
     return (
         <>

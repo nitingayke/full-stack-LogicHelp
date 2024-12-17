@@ -20,6 +20,7 @@ import Slide from '@mui/material/Slide';
 import LinearProgress from '@mui/material/LinearProgress';
 import { io } from 'socket.io-client';
 import { Link } from 'react-router-dom';
+
 const socket = io('https://logichelp-backend.onrender.com');
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -42,6 +43,7 @@ export default function LiveChallenges({ loginUser }) {
         setLiveStreamComment(liveStream.find((e) => e._id === id)?.message || "");
         setIsDialogOpen(true);
     }
+    
     useEffect(() => {
         const getLiveStreamComments = async () => {
             try {
