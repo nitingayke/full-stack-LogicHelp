@@ -37,13 +37,12 @@ export default function EditProfile({ loginUser }) {
         }
         
         if(formData.about.length > 65){
-
             toast.error(`About must be under 65 characters.`);
             return ;
         }
 
         try {
-            const res = await axios.put(`http://localhost:9658/user/update-profile/${loginUser._id}`, {
+            const res = await axios.put(`https://logichelp-backend.onrender.com/user/update-profile/${loginUser?._id}`, {
                 userData: formData
             });
 

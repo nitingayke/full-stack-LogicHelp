@@ -52,11 +52,11 @@ export default function AIBugDetection() {
                     (
                         bugOutput.includes("429")
                             ? (
-                                <p className='m-0 pre-wrap-space text-danger fs-6 p-2 rounded-bottom rounded-end w-fit-content border border-danger bg-light-red'>
+                                <p className='m-0 pre-wrap-space text-danger fs-6 p-2 rounded-bottom rounded-end w-fit-content border border-danger bg-light-red text-break'>
                                     {bugOutput}
                                 </p>
                             ) : (
-                                <p className='text-light-secondary pre-wrap-space fs-6 p-2 rounded-bottom rounded-end bg-dark w-fit-content'>
+                                <p className='text-light-secondary pre-wrap-space fs-6 p-2 rounded-bottom rounded-end bg-dark w-fit-content text-break'>
                                     {bugOutput}
                                 </p>
                             )

@@ -140,7 +140,7 @@ export default function Footer({ loginUser }) {
 
                 <div className='d-flex'>
                     <ul className='d-flex list-unstyled align-items-center mb-0 fs-16'>
-                        <li className='px-1'><a href="/about" className='footer-link'>About Us</a></li>
+                        <li className='px-1'><a href="/logout" className='footer-link'>About Us</a></li>
                         <li className='px-1'><a href="/privacy" className='footer-link'>Privacy Policy</a></li>
                         <li className='px-1'><a href="/terms" className='footer-link'>Terms of Service</a></li>
 

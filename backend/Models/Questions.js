@@ -8,7 +8,7 @@ const questionSchema = new mongoose.Schema({
     description: [{ type: String, required: true }],
     examples: [{
         input: { type: String, required: true },
-        output: { type: String, required: true },
+        output: { type: String },
         description: { type: String },
         image: { type: String },
         _id: false 

@@ -206,7 +206,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                 </li>
             </ul>
             <ul className='mb-5 list-unstyled'>
-                {localProblem.description.map((description, idx) => <li key={idx}><p className='fs-16'>{description}</p></li>)}
+                {localProblem.description.map((description, idx) => <li key={idx}><p className='fs-16 pre-wrap-space'>{description}</p></li>)}
                 <li>{localProblem.image && <img src={localProblem.image} alt="" className='py-3 img-fluid' />}</li>
             </ul>
             <div>
@@ -215,20 +215,20 @@ export default function ProblemDescription({ problem, loginUser }) {
                         <h6 className='mb-2'>Examples: {idx + 1}</h6>
                         <div className='fs-16'>
                             {example.image && <img src={example.image} alt="" className='py-3 img-fluid' />}
-                            <p className='m-1'>Input: {example.input}</p>
-                            <p className='m-1'>Output: {example.output}</p>
-                            <p className='m-1 text-light-secondary'>Description: {example.description}</p>
+                            <p className='m-1 pre-wrap-space'>Input: {example.input}</p>
+                            <p className='m-1 pre-wrap-space'>Output: {example.output}</p>
+                            <p className='m-1 text-light-secondary pre-wrap-space'>Description: {example.description}</p>
                         </div>
                     </div>
                 )}
             </div>
             {localProblem.followUp && <div className='py-3'>
-                <h6 className='fs-16 fw-bold'>Follow Up:</h6>
-                {localProblem.followUp.map((followUp, idx) => <p key={idx} className='fs-16 ps-2 mb-2'>{followUp}</p>)}
+                <h6 className='fs-16 fw-bold pre-wrap-space'>Follow Up:</h6>
+                {localProblem.followUp.map((followUp, idx) => <p key={idx} className='fs-16 ps-2 mb-2 pre-wrap-space'>{followUp}</p>)}
             </div>}
             <div className='py-3'>
                 <h6>Constraints:</h6>
-                {localProblem.constraints.map((constraint, idx) => <p key={idx} className='fs-16 border-0 w-fit-content px-2 rounded bg-dark mb-1 text-light-secondary'>{constraint}</p>)}
+                {localProblem.constraints.map((constraint, idx) => <p key={idx} className='fs-16 border-0 w-fit-content px-2 rounded bg-dark mb-1 text-light-secondary pre-wrap-space'>{constraint}</p>)}
             </div>
 
             <ul className='list-unstyled fs-14 d-flex flex-wrap text-light-secondary border-bottom border-top border-secondary py-2'>
@@ -287,7 +287,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                     </div>
                 </AccordionSummary>
                 <AccordionDetails className='pe-0 fs-16'>
-                    {localProblem.hint.map((hint, idx) => <p className='m-0' key={idx}>{hint}</p>)}
+                    {localProblem.hint.map((hint, idx) => <p className='m-0 pre-wrap-space bg-dark my-2 p-2' key={idx}>{idx+1}. {hint}</p>)}
                 </AccordionDetails>
             </Accordion>}
 
@@ -328,7 +328,7 @@ export default function ProblemDescription({ problem, loginUser }) {
                                 <p className='m-0 ms-auto fs-14 opacity-25'>{timeSlince(comment?.createdAt)}</p>
                             </div>
 
-                            <p className='m-0 text-light-secondary' style={{ whiteSpace: 'pre-wrap' }}>{comment?.content}</p>
+                            <p className='m-0 text-light-secondary pre-wrap-space'>{comment?.content}</p>
 
                             <ul className='list-unstyled m-0 pt-3 text-secondary d-flex align-items-center'>
                                 <li className='px-1 d-flex align-items-center pe-3'>

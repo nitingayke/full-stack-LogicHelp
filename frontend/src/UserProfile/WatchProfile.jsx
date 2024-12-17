@@ -30,7 +30,6 @@ export default function WatchProfile({ loginUser }) {
         }
     }, [id])
 
-
     if (isLoading) {
         return (
             <div className='col-12 py-5 text-center d-flex align-items-center justify-content-center'>

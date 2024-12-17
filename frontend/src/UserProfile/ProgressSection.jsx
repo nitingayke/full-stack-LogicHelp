@@ -12,7 +12,7 @@ export default function ProgressSection({ categoryCounts, currUser }) {
 
         const getTotalQuestions = async () => {
             try {
-                const res = await axios.get("http://localhost:9658/questions/total-questions");
+                const res = await axios.get("https://logichelp-backend.onrender.com/questions/total-questions");
                 if (res?.data) {
                     setQuestions(res.data);
                 }

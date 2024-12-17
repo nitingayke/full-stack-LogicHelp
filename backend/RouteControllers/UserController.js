@@ -4,7 +4,11 @@ const Feedback = require("../Models/Feedback");
 module.exports.editProfile = async (req, res) => {
     const { id } = req.params;
     const { fullName, about, linkedin, github, portfolio } = req.body.userData;
-
+    
+    if (!id) {
+        return res.status(400).json({ success: false, message: "User ID is required." });
+    }
+    
     const currUser = await User.findById(id);
 
     if (!currUser) {
@@ -15,8 +19,8 @@ module.exports.editProfile = async (req, res) => {
     }
 
     currUser.name = fullName;
-    currUser.about = about,
-        currUser.socialLink = { linkedIn: linkedin, github: github, portFolio: portfolio };
+    currUser.about = about;
+    currUser.socialLink = { linkedIn: linkedin, github: github, portFolio: portfolio };
 
     await currUser.save();
 
