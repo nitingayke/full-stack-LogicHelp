@@ -140,6 +140,22 @@ export default function LiveChallenges({ loginUser }) {
             );
         });
 
+        socket.on('live-challenge-results-success', (data) => {
+            const { result, challenge_id } = data;
+            setChallenges((prevChallenges) => 
+                prevChallenges.map((currChallenge) => {
+                    if (currChallenge._id === challenge_id) {
+                        return {
+                            ...currChallenge,
+                            result: [...currChallenge.result, result],
+                        };
+                    }
+                    return currChallenge;
+                })
+            );
+        });
+        
+
         return () => {
             socket.off('added-livestream-message');
             socket.off('created-new-live-challenge');
@@ -147,6 +163,7 @@ export default function LiveChallenges({ loginUser }) {
             socket.off('deleted-live-stream-comment');
             socket.off('deleted-selected-challenge');
             socket.off('deleted-selected-challenge-comment');
+            socket.off('live-challenge-results-success');
         }
     }, [loginUser]);
 
