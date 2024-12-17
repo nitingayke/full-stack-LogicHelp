@@ -181,7 +181,7 @@ export default function Doubts({ loginUser }) {
                                                     </div>
                                                 }
                                                 secondary={
-                                                    <div className='d-flex'>
+                                                    <div className='d-flex flex-wrap'>
                                                         <span className='m-0 text-light-secondary fs-14 pe-2'>{doubtData?.tag}</span>
                                                         {
                                                             (doubtData.isSolve)
