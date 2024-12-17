@@ -51,10 +51,12 @@ export default function CurrentChallenges({ challenges, loginUser }) {
 
     useEffect(() => {
         socket.on('live-challenge-results-success', (data) => {
-            setSelectedChallenge((prev) => ({
-                ...prev,
-                result: [...prev.result, data.result],
-            }));
+            if(data?.result?.challenge_id === selectedChallenge?._id){
+                setSelectedChallenge((prev) => ({
+                    ...prev,
+                    result: [...prev.result, data.result],
+                }));
+            }
         });
 
         socket.on('edited-live-challenge', (data) => {
@@ -80,7 +82,15 @@ export default function CurrentChallenges({ challenges, loginUser }) {
             }
         });
 
+        socket.on('deleted-selected-challenge', ({ challenge_id }) => {
+            
+            if(challenge_id === selectedChallenge?._id){
+                setSelectedChallenge(null);
+            }
+        });
+
         return () => {
+            socket.off('deleted-selected-challenge');
             socket.off('live-challenge-results-success');
             socket.off('edited-live-challenge');
             socket.off('deleted-selected-challenge-comment');

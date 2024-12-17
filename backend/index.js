@@ -79,6 +79,7 @@ io.on("connection", (socket) => {
                 username: currUser.username,
                 image: currUser.image,
                 _id: user_id,
+                doubt_id
             }
 
             io.emit("update-comments", { newComment });
@@ -101,7 +102,7 @@ io.on("connection", (socket) => {
                 { new: true }
             );
 
-            io.emit("doubt-solved", { status: true });
+            io.emit("doubt-solved", { status: true, doubt_id });
         } catch (error) {
             socket.emit("error", { message: "unable to mark solve doubt." });
         }
@@ -241,7 +242,8 @@ io.on("connection", (socket) => {
                 username: user.username,
                 _id: user._id,
                 image: user.image,
-                country: user.country
+                country: user.country,
+                challenge_id
             }
 
             io.emit('live-challenge-results-success', { result });

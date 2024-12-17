@@ -76,7 +76,7 @@ export default function LiveChallenges({ loginUser }) {
         socket.on('added-livestream-message', (data) => {
             setLiveStream((prev) => {
                 const newStream = [...prev, data.newMessage];
-                return newStream.length > 100 ? newStream.slice(-100) : newStream;
+                return newStream.length > 50 ? newStream.slice(-50) : newStream;
             });
 
         });
@@ -137,7 +137,6 @@ export default function LiveChallenges({ loginUser }) {
                 })
             );
         });
-
 
         return () => {
             socket.off('added-livestream-message');

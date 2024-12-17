@@ -47,7 +47,6 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         }
     }, [doubts]);
 
-
     const handleInputValues = (e) => {
         const { name, value } = e.target;
         setEditDoubt((prev) => ({
@@ -62,7 +61,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
 
     useEffect(() => {
         const handleUpdateComments = (data) => {
-            if (data) {
+            if (data && localDoubts?._id === data?.doubt_id) {
                 setLocalDoubts((prevDoubts) => ({
                     ...prevDoubts,
                     comments: [...prevDoubts.comments, data.newComment],
@@ -71,7 +70,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
         };
 
         const handleDoubtSolved = (data) => {
-            if (data.status) {
+            if (data?.status && localDoubts?._id === data?.doubt_id) {
                 setLocalDoubts((prevDoubt) => ({
                     ...prevDoubt,
                     isSolve: true,
