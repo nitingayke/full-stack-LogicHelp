@@ -233,7 +233,7 @@ io.on("connection", (socket) => {
                 createdAt: new Date(),
             }
             challenge.result.push(result);
-            user.userProgress.coins += 7;
+            user.userProgress.coins += 5;
             await user.save();
 
             await challenge.save();
@@ -243,10 +243,9 @@ io.on("connection", (socket) => {
                 _id: user._id,
                 image: user.image,
                 country: user.country,
-                challenge_id
             }
 
-            io.emit('live-challenge-results-success', { result });
+            io.emit('live-challenge-results-success', { result, challenge_id });
         } catch (error) {
             socket.emit('error', { message: "unable to add user solution." });
         }
@@ -448,7 +447,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on('delete-selected-challenge-comment', async (data) => {
-        const { challenge_id, comment_id } = data;
+        const { challenge_id, comment_id, user_id } = data;
 
         if (!challenge_id || !comment_id) {
             socket.emit('error', { message: 'Challenge ID and Comment ID are required.' });
@@ -456,6 +455,7 @@ io.on("connection", (socket) => {
         }
 
         try {
+
             const updatedChallenge = await LiveChallenge.findOneAndUpdate(
                 { _id: challenge_id },
                 { $pull: { result: { _id: comment_id } } },
@@ -466,6 +466,10 @@ io.on("connection", (socket) => {
                 socket.emit('error', { message: 'Challenge not found.' });
                 return;
             }
+
+            const currUser = await User.findById(user_id);
+            currUser.userProgress.coins -= 5;
+            await currUser.save();
 
             io.emit('deleted-selected-challenge-comment', { challenge_id, comment_id });
         } catch (error) {
