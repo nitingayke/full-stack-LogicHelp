@@ -91,9 +91,8 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
 
     const handleReplyEvent = async () => {
 
-        if (!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
+        if (!loginUser || typeof loginUser?._id === 'undefined' || !loginUser._id) {
             toast.error('You need to login to reply.');
-            // navigate('/login');
             return;
         }
 
@@ -227,7 +226,7 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
                                                     <span className='fs-14 text-secondary'>{timeSlince(comment?.createdAt)}</span>
                                                 </div>
                                             }
-                                            secondary={<p className='m-0 text-light-secondary bg-dark p-2 rounded-bottom rounded-end border border-secondary'>{comment.message}</p>}
+                                            secondary={<p className='m-0 text-light-secondary bg-dark p-2 rounded-bottom rounded-end border border-secondary pre-wrap-space'>{comment.message}</p>}
                                         />
                                     </ListItemButton>
                                     {
@@ -249,13 +248,14 @@ export default function SolveDoubtsBox({ doubts, loginUser }) {
                             {localDoubts?.isSolve ? (
                                 <span className="p-0 form-control bg-transparent border border-secondary p-1 fs-16 rounded-0 text-danger">This doubt has been closed.</span>
                             ) : (
-                                <input
+                                <textarea
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     className="p-0 form-control bg-transparent border border-secondary p-1 fs-16 text-light rounded-0"
-                                    placeholder={`Reply to: ${doubts.title}`}
-                                />
+                                    placeholder={`Reply to: ${doubts?.title}`}
+                                    
+                                ></ textarea>
                             )}
                             {
                                 ((inputValue || "").length > 0)
