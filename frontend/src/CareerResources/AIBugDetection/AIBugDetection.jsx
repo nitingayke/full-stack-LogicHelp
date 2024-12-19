@@ -17,14 +17,16 @@ export default function AIBugDetection() {
         setQuestion(userInput);
 
         try {
+            setError(null);
+            setBugOutput(null);
+            
             setIsLoading(true);
             const { data } = await axios.post('https://logichelp-backend.onrender.com/api/execute-user-bug', {
                 userDoubt: userInput,
             });
             const { response, success} = data;
-            console.log(response);
+           
             if (success) {
-                setError(null);
                 setBugOutput(response?.content || 'No content available');
             }
         } catch (error) {
