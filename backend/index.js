@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: ["https://logichelp.onrender.com", "http://localhost:3000"],
+        origin: ["https://logichelp.onrender.com", "http://localhost:3000", "https://logic-help.vercel.app"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     })
