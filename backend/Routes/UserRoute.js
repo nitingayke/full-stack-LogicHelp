@@ -22,6 +22,7 @@ const storage = new CloudinaryStorage({
     },
 });
 const upload = multer({ storage });
+
 Router.post('/upload/profile-image/:id', upload.single('userImage'), wrapAsync(listingController.userProfileUpload));
 
 Router.put('/update-profile/:id', wrapAsync(listingController.editProfile));
