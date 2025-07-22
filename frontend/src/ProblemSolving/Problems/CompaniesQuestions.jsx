@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useParams, useLocation  } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import ShareIcon from '@mui/icons-material/Share';
 import StarBorderPurple500Icon from '@mui/icons-material/StarBorderPurple500';
@@ -31,14 +31,15 @@ export default function CompaniesQuestions({ questionsList, loginUser }) {
             )
         );
         setFilteredQuestions(filtered);
-    }, [id]);
+    }, [questionsList, id]);
 
     const handleShareLink = () => {
-        const shareText = `Check out ${id} ask questions `;
-        const shareURL = `https://logichelp.onrender.com${location.pathname}` || `https://logichelp.onrender.com/problem-solving/company/${id}`;
-        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(shareText + shareURL)}`;
+        const currentURL = window.location.href; // ✅ Gets the full current URL
+        const shareText = `Check out this problem and ask questions: `;
+        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(shareText + currentURL)}`;
         window.open(whatsappURL, '_blank');
-    }
+    };
+
 
     return (
         <div className='col-12 col-lg-10 mx-auto p-1 d-flex flex-wrap'>

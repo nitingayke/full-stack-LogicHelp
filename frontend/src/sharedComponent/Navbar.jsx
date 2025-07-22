@@ -18,7 +18,6 @@ import "./SharedComponent.css";
 export default function Navbar({ loginUser, handleLoginUser }) {
 
     const navigate = useNavigate();
-    const location = useLocation();
     const [anchorEl, setAnchorEl] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const open = Boolean(anchorEl);
@@ -32,7 +31,6 @@ export default function Navbar({ loginUser, handleLoginUser }) {
 
     useEffect(() => {
         const verifyUserLogin = async () => {
-            const publicRoutes = ["/signup", "/login", "/logout"];
             try {
                 const { data } = await axios.post(
                     "https://logichelp-backend.onrender.com",
@@ -47,13 +45,13 @@ export default function Navbar({ loginUser, handleLoginUser }) {
                     handleLoginUser(null);
                 }
             } catch (error) {
-                
+                console.log("error", error);
             }
         };
 
         verifyUserLogin();
 
-    }, [location.pathname, navigate]);
+    }, [handleLoginUser]);
 
     const Logout = async () => {
 
