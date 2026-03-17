@@ -27,7 +27,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function LiveChallenges({ loginUser }) {
 
-    const socketRef = useRef(null); 
+    const socketRef = useRef(null);
 
     const [open, setOpen] = useState(true);
     const [liveStream, setLiveStream] = useState([]);
@@ -77,35 +77,33 @@ export default function LiveChallenges({ loginUser }) {
         const socket = socketRef.current;
         if (!socket) return;
 
-        socket.on('added-livestream-message', (data) => {
+        const handleAddMessage = (data) => {
             setLiveStream((prev) => {
                 const updated = [...prev, data.newMessage];
                 return updated.slice(-50);
             });
-        });
+        };
 
-        socket.on('created-new-live-challenge', (data) => {
+        const handleNewChallenge = (data) => {
             setChallenges((prev) => [data.newChallenge, ...prev]);
-        });
+        };
 
-        socket.on('edited-live-stream-comment', ({ comment_id, message }) => {
+        const handleEditComment = ({ comment_id, message }) => {
             setLiveStream((prev) =>
                 prev.map((s) =>
                     s._id === comment_id ? { ...s, message } : s
                 )
             );
             setIsDialogOpen(false);
-        });
+        };
 
-        socket.on('deleted-live-stream-comment', ({ comment_id }) => {
+        const handleDeleteComment = ({ comment_id }) => {
             setLiveStream((prev) =>
                 prev.filter((s) => s._id !== comment_id)
             );
-        });
+        };
 
-        socket.on('edited-live-challenge', (data) => {
-            const { challenge_id, title, textMessage, imageURL } = data;
-
+        const handleEditChallenge = ({ challenge_id, title, textMessage, imageURL }) => {
             setChallenges((prev) =>
                 prev.map((c) =>
                     c._id === challenge_id
@@ -113,15 +111,15 @@ export default function LiveChallenges({ loginUser }) {
                         : c
                 )
             );
-        });
+        };
 
-        socket.on('deleted-selected-challenge', ({ challenge_id }) => {
+        const handleDeleteChallenge = ({ challenge_id }) => {
             setChallenges((prev) =>
                 prev.filter((c) => c._id !== challenge_id)
             );
-        });
+        };
 
-        socket.on('deleted-selected-challenge-comment', ({ challenge_id, comment_id }) => {
+        const handleDeleteChallengeComment = ({ challenge_id, comment_id }) => {
             setChallenges((prev) =>
                 prev.map((c) =>
                     c._id === challenge_id
@@ -132,9 +130,9 @@ export default function LiveChallenges({ loginUser }) {
                         : c
                 )
             );
-        });
+        };
 
-        socket.on('live-challenge-results-success', ({ result, challenge_id }) => {
+        const handleChallengeResult = ({ result, challenge_id }) => {
             setChallenges((prev) =>
                 prev.map((c) =>
                     c._id === challenge_id
@@ -142,11 +140,28 @@ export default function LiveChallenges({ loginUser }) {
                         : c
                 )
             );
-        });
+        };
+
+        socket.on('added-livestream-message', handleAddMessage);
+        socket.on('created-new-live-challenge', handleNewChallenge);
+        socket.on('edited-live-stream-comment', handleEditComment);
+        socket.on('deleted-live-stream-comment', handleDeleteComment);
+        socket.on('edited-live-challenge', handleEditChallenge);
+        socket.on('deleted-selected-challenge', handleDeleteChallenge);
+        socket.on('deleted-selected-challenge-comment', handleDeleteChallengeComment);
+        socket.on('live-challenge-results-success', handleChallengeResult);
 
         return () => {
-            socket.off(); 
+            socket.off('added-livestream-message', handleAddMessage);
+            socket.off('created-new-live-challenge', handleNewChallenge);
+            socket.off('edited-live-stream-comment', handleEditComment);
+            socket.off('deleted-live-stream-comment', handleDeleteComment);
+            socket.off('edited-live-challenge', handleEditChallenge);
+            socket.off('deleted-selected-challenge', handleDeleteChallenge);
+            socket.off('deleted-selected-challenge-comment', handleDeleteChallengeComment);
+            socket.off('live-challenge-results-success', handleChallengeResult);
         };
+
     }, []);
 
     const handleStreamMessage = () => {
