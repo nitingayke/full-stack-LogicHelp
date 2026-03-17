@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CreateNewChallenge from './CreateNewChallenge';
 import { timeSlince } from '../../functions';
 import List from '@mui/material/List';
 import SendIcon from '@mui/icons-material/Send';
 import Avatar from '@mui/material/Avatar';
-import { deepOrange, deepPurple } from '@mui/material/colors';
+import { deepPurple } from '@mui/material/colors';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import CurrentChallenges from './CurrentChallenges';
 import { toast } from 'react-toastify';
@@ -21,13 +21,14 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { io } from 'socket.io-client';
 import { Link } from 'react-router-dom';
 
-const socket = io('https://logichelp-backend.onrender.com');
-
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function LiveChallenges({ loginUser }) {
+
+    const socketRef = useRef(null); 
+
     const [open, setOpen] = useState(true);
     const [liveStream, setLiveStream] = useState([]);
     const [streamMessage, setStreamMessage] = useState("");
@@ -38,166 +39,155 @@ export default function LiveChallenges({ loginUser }) {
     const [liveStreamComment, setLiveStreamComment] = useState("");
     const [challengeLoading, setChallengeLoading] = useState(false);
 
-    const handleTemporaryData = (id) => {
-        setTempData(id);
-        setLiveStreamComment(liveStream.find((e) => e._id === id)?.message || "");
-        setIsDialogOpen(true);
-    }
-    
+
     useEffect(() => {
-        const getLiveStreamComments = async () => {
+        const fetchData = async () => {
             try {
                 setIsStreamLoading(true);
-                const res = await axios.get('https://logichelp-backend.onrender.com/doubts/live-stream-message');
-                if (res.status === 200) {
-                    setLiveStream(res.data.streamMessage);
-                }
+                setChallengeLoading(true);
+
+                const [streamRes, challengeRes] = await Promise.all([
+                    axios.get('https://logichelp-backend.onrender.com/doubts/live-stream-message'),
+                    axios.get('https://logichelp-backend.onrender.com/doubts/all-challenges')
+                ]);
+
+                setLiveStream(streamRes.data.streamMessage || []);
+                setChallenges(challengeRes.data.totalChallenges || []);
+
             } catch (error) {
-                toast.error(error.message || 'An error occurred while featching stream message.');
+                toast.error(error.message);
             } finally {
                 setIsStreamLoading(false);
-            }
-        }
-        getLiveStreamComments();
-
-        const getChallenges = async () => {
-            try {
-                setChallengeLoading(true);
-                const res = await axios.get('https://logichelp-backend.onrender.com/doubts/all-challenges');
-                if (res.status === 200) {
-                    setChallenges(res.data.totalChallenges);
-                }
-            } catch (error) {
-                toast.error(error.message || 'An error occurred while featching challenges.');
-            } finally {
                 setChallengeLoading(false);
             }
-        }
-        getChallenges();
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        socketRef.current = io('https://logichelp-backend.onrender.com');
+
+        return () => {
+            socketRef.current.disconnect();
+        };
+    }, []);
+
+    useEffect(() => {
+        const socket = socketRef.current;
+        if (!socket) return;
 
         socket.on('added-livestream-message', (data) => {
             setLiveStream((prev) => {
-                const newStream = [...prev, data.newMessage];
-                return newStream.length > 50 ? newStream.slice(-50) : newStream;
+                const updated = [...prev, data.newMessage];
+                return updated.slice(-50);
             });
-
         });
 
         socket.on('created-new-live-challenge', (data) => {
             setChallenges((prev) => [data.newChallenge, ...prev]);
-        })
+        });
 
-        socket.on('edited-live-stream-comment', (data) => {
-            const { comment_id, message } = data;
+        socket.on('edited-live-stream-comment', ({ comment_id, message }) => {
             setLiveStream((prev) =>
-                prev.map((stream) =>
-                    stream._id === comment_id ? { ...stream, message } : stream
+                prev.map((s) =>
+                    s._id === comment_id ? { ...s, message } : s
                 )
             );
             setIsDialogOpen(false);
         });
 
-        socket.on('deleted-live-stream-comment', (data) => {
-            const { comment_id } = data;
-            setLiveStream((prev) => {
-                return prev.filter((stream) => stream._id !== comment_id);
-            });
+        socket.on('deleted-live-stream-comment', ({ comment_id }) => {
+            setLiveStream((prev) =>
+                prev.filter((s) => s._id !== comment_id)
+            );
         });
 
         socket.on('edited-live-challenge', (data) => {
             const { challenge_id, title, textMessage, imageURL } = data;
 
             setChallenges((prev) =>
-                prev.map((challenge) => {
-                    if (challenge._id === challenge_id) {
-                        return {
-                            ...challenge,
-                            title: title,
-                            textMessage: textMessage,
-                            imageURL: imageURL,
-                        }
-                    }
-                    return challenge;
-                })
+                prev.map((c) =>
+                    c._id === challenge_id
+                        ? { ...c, title, textMessage, imageURL }
+                        : c
+                )
             );
         });
 
         socket.on('deleted-selected-challenge', ({ challenge_id }) => {
-            setChallenges((prev) => prev.filter((challenge) => challenge._id !== challenge_id));
+            setChallenges((prev) =>
+                prev.filter((c) => c._id !== challenge_id)
+            );
         });
 
         socket.on('deleted-selected-challenge-comment', ({ challenge_id, comment_id }) => {
-            setChallenges((prevChallenges) =>
-                prevChallenges.map((challenge) => {
-                    if (challenge._id === challenge_id) {
-                        return {
-                            ...challenge,
-                            result: challenge.result.filter((comment) => comment._id !== comment_id)
-                        };
-                    }
-                    return challenge;
-                })
+            setChallenges((prev) =>
+                prev.map((c) =>
+                    c._id === challenge_id
+                        ? {
+                            ...c,
+                            result: c.result.filter((r) => r._id !== comment_id),
+                        }
+                        : c
+                )
             );
         });
 
-        socket.on('live-challenge-results-success', (data) => {
-            const { result, challenge_id } = data;
-            setChallenges((prevChallenges) => 
-                prevChallenges.map((currChallenge) => {
-                    if (currChallenge._id === challenge_id) {
-                        return {
-                            ...currChallenge,
-                            result: [...currChallenge.result, result],
-                        };
-                    }
-                    return currChallenge;
-                })
+        socket.on('live-challenge-results-success', ({ result, challenge_id }) => {
+            setChallenges((prev) =>
+                prev.map((c) =>
+                    c._id === challenge_id
+                        ? { ...c, result: [...c.result, result] }
+                        : c
+                )
             );
         });
-        
 
         return () => {
-            socket.off('added-livestream-message');
-            socket.off('created-new-live-challenge');
-            socket.off('edited-live-stream-comment');
-            socket.off('deleted-live-stream-comment');
-            socket.off('deleted-selected-challenge');
-            socket.off('deleted-selected-challenge-comment');
-            socket.off('live-challenge-results-success');
-        }
-    }, [loginUser]);
+            socket.off(); 
+        };
+    }, []);
 
     const handleStreamMessage = () => {
-
-        if (!loginUser || typeof loginUser._id === 'undefined' || !loginUser._id) {
-            toast.error('You need to login to submit your solution.');
+        if (!loginUser?._id) {
+            toast.error('Login required');
             return;
         }
 
-        if (!streamMessage) {
-            toast.error('please enter message.');
-            return
+        if (!streamMessage.trim()) {
+            toast.error('Enter message');
+            return;
         }
 
-        socket.emit('livestream-message', {
-            user_id: loginUser?._id,
+        socketRef.current.emit('livestream-message', {
+            user_id: loginUser._id,
             message: streamMessage,
         });
+
         setStreamMessage('');
-    }
+    };
+
+    const handleTemporaryData = (id) => {
+        setTempData(id);
+        setLiveStreamComment(
+            liveStream.find((e) => e._id === id)?.message || ""
+        );
+        setIsDialogOpen(true);
+    };
 
     const handleLiveStreamEditComment = () => {
-        socket.emit('edit-live-stream-comment', {
+        socketRef.current.emit('edit-live-stream-comment', {
             comment_id: tempData,
             message: liveStreamComment,
         });
-    }
+    };
 
     const handleLiveStreamDeleteComment = (comment_id) => {
-        socket.emit('delete-live-stream-comment', {
+        socketRef.current.emit('delete-live-stream-comment', {
             comment_id,
         });
-    }
+    };
 
     return (
         <div className='col-12 col-lg-10 mx-auto'>
